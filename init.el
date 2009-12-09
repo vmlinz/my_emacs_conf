@@ -5,6 +5,8 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(tool-bar-mode nil)
+ '(inhibit-startup-screen t)
+ '(inhibit-splash-screen t)
  '(show-paren-mode t)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
@@ -16,7 +18,6 @@
  )
 
 (defun my-c-mode-hook ()
-  (no-case-fold-search)
   (c-set-style "linux")
   )
 (add-hook 'c-mode-hook 'my-c-mode-hook)
