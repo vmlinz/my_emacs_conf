@@ -1,3 +1,5 @@
+;; Time-stamp: <2009-12-09 16:01:33 vmlinz>
+;; #################### 00 custom ####################
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -16,7 +18,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;; #################### end 00 ####################
 
+(add-hook 'before-save-hook 'time-stamp)
 (defun my-c-mode-hook ()
   (c-set-style "linux")
   )
@@ -24,5 +28,5 @@
 
 (defun my-c++-mode-hook ()
   (c-set-style "stroustrup")
-)
+  )
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
