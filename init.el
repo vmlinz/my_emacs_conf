@@ -1,4 +1,8 @@
-;; Time-stamp: <2009-12-09 16:01:33 vmlinz>
+;; Time-stamp: <2009-12-09 22:50:59 vmlinz>
+
+;; #################### 01 localization ####################
+
+;; #################### end 01 ####################
 ;; #################### 00 custom ####################
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -30,3 +34,7 @@
   (c-set-style "stroustrup")
   )
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+;; only start emacs server when it's not started, I hate warnings.
+(setq server-socket-file "/tmp/emacs1000/server")
+(unless (file-exists-p server-socket-file)
+  (server-start))
