@@ -1,6 +1,40 @@
-;; Time-stamp: <2009-12-09 22:50:59 vmlinz>
+;; Time-stamp: <2009-12-10 22:59:09 vmlinz>
 
 ;; #################### 01 localization ####################
+(defun my-set-frame-font ()
+  (interactive)
+  ;; default ansi code font
+  (set-default-font "DejaVu Sans Mono-12")
+  ;; font for other scripts
+  (set-fontset-font t
+		    nil '("DejaVu Sans Mono-12" . "unicode-bmp"))
+  (set-fontset-font "fontset-startup"
+		    'han '("WenQuanYi Bitmap Song" . "unicode-bmp")
+		    prepend)
+  (set-fontset-font "fontset-startup"
+		    'cjk-misc '("WenQuanYi Bitmap Song" . "unicode-bmp")
+		    prepend)
+  (set-fontset-font "fontset-startup"
+		    'kana '("WenQuanYi Bitmap Song" . "unicode-bmp")
+		    prepend)
+  (set-fontset-font "fontset-startup"
+		    'symbol '("WenQuanYi Bitmap Song" . "unicode-bmp")
+		    prepend)
+  (set-face-font 'tooltip "DejaVu Sans Mono-12")
+  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-12"))
+  )
+(add-hook 'after-make-frame-hook 'my-set-frame-font)
+;; locales
+(prefer-coding-system 'chinese-gbk)
+(prefer-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-clipboard-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-file-name-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8 'utf-8)
+'(set-buffer-process-coding-system 'utf-8 'utf-8)
+(modify-coding-system-alist 'process "*" 'utf-8)
+(setq default-process-coding-system '(utf-8 . utf-8))
 
 ;; #################### end 01 ####################
 ;; #################### 00 custom ####################
@@ -38,3 +72,37 @@
 (setq server-socket-file "/tmp/emacs1000/server")
 (unless (file-exists-p server-socket-file)
   (server-start))
+;; exit emacs client
+(defun exit-emacs-client ()
+  "consistent exit emacsclient.
+   if not in emacs client, echo a message in minibuffer, don't exit emacs.
+   if in server mode
+      and editing file, do C-x # server-edit
+      else do C-x 5 0 delete-frame"
+  (interactive)
+  (if server-buffer-clients
+      (server-edit)
+    (delete-frame)))
+
+(global-set-key (kbd "C-c q") 'exit-emacs-client)
+(fset 'yes-or-no-p 'y-or-n-p)
+(display-time)
+
+;; ########## expand function ##########
+(setq hippie-expand-try-functions-list
+      '(try-expand-line
+        try-expand-dabbrev
+        try-expand-line-all-buffers
+        try-expand-list
+        try-expand-list-all-buffers
+        try-expand-dabbrev-visible
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill
+        try-complete-file-name
+        try-complete-file-name-partially
+        try-complete-lisp-symbol
+        try-complete-lisp-symbol-partially
+        try-expand-whole-kill))
+(global-set-key (kbd "M-/") 'hippie-expand)
+(global-set-key (kbd "M-;") 'dabbrev-expand)
+;;########## end ##########
