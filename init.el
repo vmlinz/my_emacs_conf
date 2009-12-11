@@ -1,13 +1,13 @@
-;; Time-stamp: <2009-12-10 22:59:09 vmlinz>
+;; Time-stamp: <2009-12-11 11:03:00 vmlinz>
 
 ;; #################### 01 localization ####################
 (defun my-set-frame-font ()
   (interactive)
   ;; default ansi code font
-  (set-default-font "DejaVu Sans Mono-12")
+  (set-default-font "Inconsolata-16")
   ;; font for other scripts
   (set-fontset-font t
-		    nil '("DejaVu Sans Mono-12" . "unicode-bmp"))
+		    nil '("Inconsolata-16" . "unicode-bmp"))
   (set-fontset-font "fontset-startup"
 		    'han '("WenQuanYi Bitmap Song" . "unicode-bmp")
 		    prepend)
@@ -35,7 +35,8 @@
 '(set-buffer-process-coding-system 'utf-8 'utf-8)
 (modify-coding-system-alist 'process "*" 'utf-8)
 (setq default-process-coding-system '(utf-8 . utf-8))
-
+;; emacs shell color encoding
+(ansi-color-for-comint-mode-on)
 ;; #################### end 01 ####################
 ;; #################### 00 custom ####################
 (custom-set-variables
@@ -105,4 +106,10 @@
         try-expand-whole-kill))
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "M-;") 'dabbrev-expand)
+;;########## end ##########
+
+;;########## key bindings ##########
+;; buffer switching
+(global-set-key (kbd "C-x p") 'previous-buffer)
+(global-set-key (kbd "C-x n") 'next-buffer)
 ;;########## end ##########
