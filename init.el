@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-11 11:03:00 vmlinz>
+;; Time-stamp: <2009-12-11 17:07:42 vmlinz>
 
 ;; #################### 01 localization ####################
 (defun my-set-frame-font ()
@@ -112,4 +112,5 @@
 ;; buffer switching
 (global-set-key (kbd "C-x p") 'previous-buffer)
 (global-set-key (kbd "C-x n") 'next-buffer)
+(global-set-key (kbd "C-c C-c") 'comment-dwim)
 ;;########## end ##########
