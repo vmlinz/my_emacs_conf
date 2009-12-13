@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-11 17:07:42 vmlinz>
+;; Time-stamp: <2009-12-13 23:32:13 vmlinz>
 
 ;; #################### 01 localization ####################
 (defun my-set-frame-font ()
@@ -62,11 +62,13 @@
 (add-hook 'before-save-hook 'time-stamp)
 (defun my-c-mode-hook ()
   (c-set-style "linux")
+  (local-set-key "\C-c\C-c" 'comment-dwim)
   )
 (add-hook 'c-mode-hook 'my-c-mode-hook)
 
 (defun my-c++-mode-hook ()
   (c-set-style "stroustrup")
+  (local-set-key "\C-c\C-c" 'comment-dwim)
   )
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 ;; only start emacs server when it's not started, I hate warnings.
@@ -112,5 +114,41 @@
 ;; buffer switching
 (global-set-key (kbd "C-x p") 'previous-buffer)
 (global-set-key (kbd "C-x n") 'next-buffer)
-(global-set-key (kbd "C-c C-c") 'comment-dwim)
-;;########## end ##########
+(global-set-key "\C-c\C-c" 'comment-dwim)
+;; ########## end ##########
+
+;; ########## auctex ##########
+;; default to xelatex
+(add-hook 'LaTeX-mode-hook (lambda()
+			     (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+			     (setq TeX-command-default "XeLaTeX")
+			     (setq TeX-save-query nil)
+			     (setq TeX-show-compilation t)
+			     (setq Tex-master nil)
+			     ))
+;; set preview application and preview style
+(eval-after-load "tex"
+  '(progn
+     (TeX-global-PDF-mode t)
+     (setq TeX-output-view-style
+	   (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
+	   )))
+;; minor modes
+(autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
+(autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
+(autoload 'reftex-citation "reftex-cite" "Make citation" nil)  
+(autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
+(add-hook 'TeX-mode-hook
+          (lambda ()
+            (turn-on-reftex)
+            (auto-fill-mode)
+            (outline-minor-mode)
+            (flyspell-mode)))
+(add-hook 'LaTeX-mode-hook
+          (lambda ()
+            (LaTeX-math-mode)
+            (turn-on-reftex)
+            (auto-fill-mode)
+            (outline-minor-mode)
+            (flyspell-mode)))
+;; ########## end ##########
