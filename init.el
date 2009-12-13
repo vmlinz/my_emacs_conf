@@ -1,4 +1,5 @@
-;; Time-stamp: <2009-12-13 23:32:13 vmlinz>
+;; Time-stamp: <2009-12-14 00:04:13 vmlinz>
+;; Brand new emacs configuration for TeXing and c/c++ programming
 
 ;; #################### 01 localization ####################
 (defun my-set-frame-font ()
@@ -63,6 +64,14 @@
 (defun my-c-mode-hook ()
   (c-set-style "linux")
   (local-set-key "\C-c\C-c" 'comment-dwim)
+  (define-key c-mode-base-map [(return)] 'newline-and-indent)
+  (define-key c-mode-base-map [(f7)] 'compile)
+  (define-key c-mode-base-map [(meta \')] 'c-indent-command)
+  ;; c preprocessing
+  (setq c-macro-shrink-window-flag t)
+  (setq c-macro-preprocessor "cpp")
+  (setq c-macro-cppflags " ")
+  (setq c-macro-prompt-flag t)
   )
 (add-hook 'c-mode-hook 'my-c-mode-hook)
 
@@ -151,4 +160,26 @@
             (auto-fill-mode)
             (outline-minor-mode)
             (flyspell-mode)))
+;; ########## end ##########
+
+;; ########## backup ##########
+(setq backup-directory-alist '(("" . "~/emacs.d/backup")))
+(setq make-backup-files t)
+(setq kept-old-versions 2)
+(setq kept-new-versions 10)
+(setq delete-old-versions t)
+(setq backup-by-copying t)
+(setq version-control t)
+;; ########## end ##########
+
+;; ########## gtags ##########
+(require 'gtags)
+(defun gtags-generate-files ()
+  "Generate gtags reference file for global."
+  (interactive)
+  (cd
+   (read-from-minibuffer
+    "directory: "
+    default-directory))
+  (shell-command "gtags --gtagslabel gtags"))
 ;; ########## end ##########
