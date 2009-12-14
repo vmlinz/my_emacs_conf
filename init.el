@@ -1,5 +1,6 @@
-;; Time-stamp: <2009-12-14 09:15:12 vmlinz>
+;; Time-stamp: <2009-12-14 09:28:13 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
+;; Let's keep it really simple and easy
 
 ;; #################### 01 localization ####################
 (defun my-set-frame-font ()
@@ -164,7 +165,7 @@
 ;; ########## end ##########
 
 ;; ########## backup ##########
-(setq backup-directory-alist '(("" . "~/emacs.d/backup")))
+(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
 (setq make-backup-files t)
 (setq kept-old-versions 2)
 (setq kept-new-versions 10)
@@ -174,6 +175,7 @@
 ;; ########## end ##########
 
 ;; ########## gtags ##########
+;; it works for me
 (defun my-tags-generate-files ()
   "Generate ctags reference file for emacs."
   (interactive)
