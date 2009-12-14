@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-14 00:04:13 vmlinz>
+;; Time-stamp: <2009-12-14 09:15:12 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 
 ;; #################### 01 localization ####################
@@ -23,6 +23,7 @@
 		    prepend)
   (set-face-font 'tooltip "DejaVu Sans Mono-12")
   (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-12"))
+  (tabbar-mode)
   )
 (add-hook 'after-make-frame-hook 'my-set-frame-font)
 ;; locales
@@ -173,13 +174,13 @@
 ;; ########## end ##########
 
 ;; ########## gtags ##########
-(require 'gtags)
-(defun gtags-generate-files ()
-  "Generate gtags reference file for global."
+(defun my-tags-generate-files ()
+  "Generate ctags reference file for emacs."
   (interactive)
   (cd
    (read-from-minibuffer
     "directory: "
     default-directory))
-  (shell-command "gtags --gtagslabel gtags"))
+  (shell-command "ctags -e -R"))
+(global-set-key "\C-c\C-t" 'my-tags-generate-files)
 ;; ########## end ##########
