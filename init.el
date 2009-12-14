@@ -1,8 +1,9 @@
-;; Time-stamp: <2009-12-14 23:07:14 vmlinz>
+;; Time-stamp: <2009-12-14 23:28:31 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
 ;; #################### 01 localization ####################
+;; needs further checking and practicing, read more on x resource and fonts
 (defun my-set-frame-font ()
   (interactive)
   ;; default ansi code font
@@ -27,7 +28,7 @@
   (add-to-list 'default-frame-alist '(font . "fontset-startup"))
   (tabbar-mode )
   )
-(add-hook 'after-make-frame-hook 'my-set-frame-font)
+(add-hook 'after-make-frame-functions 'my-set-frame-font)
 
 ;; locales
 (prefer-coding-system 'chinese-gbk)
