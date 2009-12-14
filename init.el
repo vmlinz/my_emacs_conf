@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-14 09:28:13 vmlinz>
+;; Time-stamp: <2009-12-14 23:07:14 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -11,22 +11,24 @@
   (set-fontset-font t
 		    nil '("Inconsolata-16" . "unicode-bmp"))
   (set-fontset-font "fontset-startup"
-		    'han '("WenQuanYi Bitmap Song" . "unicode-bmp")
-		    prepend)
+		    'han '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+		    'prepend)
   (set-fontset-font "fontset-startup"
-		    'cjk-misc '("WenQuanYi Bitmap Song" . "unicode-bmp")
-		    prepend)
+		    'cjk-misc '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+		    'prepend)
   (set-fontset-font "fontset-startup"
-		    'kana '("WenQuanYi Bitmap Song" . "unicode-bmp")
-		    prepend)
+		    'kana '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+		    'prepend)
   (set-fontset-font "fontset-startup"
-		    'symbol '("WenQuanYi Bitmap Song" . "unicode-bmp")
-		    prepend)
-  (set-face-font 'tooltip "DejaVu Sans Mono-12")
-  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-12"))
-  (tabbar-mode)
+		    'symbol '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+		    'prepend)
+  (set-face-font 'tooltip "fontset-startup")
+  (set-frame-font "fontset-startup")
+  (add-to-list 'default-frame-alist '(font . "fontset-startup"))
+  (tabbar-mode )
   )
 (add-hook 'after-make-frame-hook 'my-set-frame-font)
+
 ;; locales
 (prefer-coding-system 'chinese-gbk)
 (prefer-coding-system 'utf-8)
@@ -43,22 +45,23 @@
 ;; #################### end 01 ####################
 ;; #################### 00 custom ####################
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(tool-bar-mode nil)
+ '(diary-file "~/.emacs.d/diary")
  '(inhibit-startup-screen t)
- '(inhibit-splash-screen t)
+ '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
  '(show-paren-mode t)
+ '(tool-bar-mode nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  )
 ;; #################### end 00 ####################
 
