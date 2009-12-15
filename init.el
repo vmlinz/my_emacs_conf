@@ -1,9 +1,24 @@
-;; Time-stamp: <2009-12-15 11:32:20 vmlinz>
+;; Time-stamp: <2009-12-15 23:33:08 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
+;; add local elisp packages to load path
+(defun add-subdirs-to-load-path (dir)
+  "Recursive add directories to `load-path'."
+  (let ((default-directory (file-name-as-directory dir)))
+    (add-to-list 'load-path dir)
+    (normal-top-level-add-subdirs-to-load-path)))
+
+(add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
+;; local yasnippet settings, see the package doc
+(require 'yasnippet)
+(setq yas/root-directory "~/.emacs.d/snippets")
+(yas/load-directory yas/root-directory)
+
+
 ;; #################### 01 localization ####################
 ;; needs further checking and practicing, read more on x resource and fonts
+
 (defun my-set-frame-font ()
   (interactive)
   ;; default ansi code font
