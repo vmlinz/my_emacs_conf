@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-14 23:28:31 vmlinz>
+;; Time-stamp: <2009-12-15 11:32:20 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -28,7 +28,7 @@
   (add-to-list 'default-frame-alist '(font . "fontset-startup"))
   (tabbar-mode )
   )
-(add-hook 'after-make-frame-functions 'my-set-frame-font)
+(add-hook 'after-make-frame-hook 'my-set-frame-font)
 
 ;; locales
 (prefer-coding-system 'chinese-gbk)
@@ -55,7 +55,6 @@
  '(inhibit-startup-screen t)
  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
  '(show-paren-mode t)
- '(tool-bar-mode nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
 (custom-set-faces
