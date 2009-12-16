@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-15 23:33:08 vmlinz>
+;; Time-stamp: <2009-12-16 10:18:38 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -203,4 +203,11 @@
     default-directory))
   (shell-command "ctags -e -R"))
 (global-set-key "\C-c\C-t" 'my-tags-generate-files)
+;; ########## end ##########
+
+;; ########## org remember ##########
+(org-remember-insinuate)
+(setq org-directory "~/Documents/notes")
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+(define-key global-map "\C-cr" 'org-remember)
 ;; ########## end ##########
