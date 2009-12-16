@@ -1,0 +1,23 @@
+/*------------------------------------------------------------------------------
+** |
+** Module      :  ${1:Module Name}
+** Copyright   :  (c) ${2:vmlinz} 2009
+** License     :  GPL
+** 
+** Maintainer  :  ${3:vmlinz@gmail.com}
+** Stability   :  experimental
+**
+** ${4:Simple Describe}
+**
+** * Changlelog:
+**
+**      ${5:Today}
+**              First released.
+** 
+** * TODO
+**      
+**      $6
+** 
+**----------------------------------------------------------------------------*/
+
+$0

@@ -1,0 +1,30 @@
+;; -*- emacs-lisp -*- <09/12/12 23:51:23 /home/vmlinz/.emacs.d/tramp>
+;; Tramp connection history.  Don't change this file.
+;; You can delete it, forcing Tramp to reapply the checks.
+
+((["sudo" "root" "vmlinz-laptop" nil]
+  ("uname" "Linux 2.6.31-16-generic")
+  ("test" "test")
+  ("/bin" t)
+  ("/usr/bin" t)
+  ("/usr/sbin" t)
+  ("/usr/local/bin" t)
+  ("/local/bin" nil)
+  ("/local/freeware/bin" nil)
+  ("/local/gnu/bin" nil)
+  ("/usr/freeware/bin" nil)
+  ("/usr/pkg/bin" nil)
+  ("/usr/contrib/bin" nil)
+  ("remote-path"
+   ("/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin"))
+  ("remote-shell" "/bin/sh")
+  ("ls" "/bin/ls")
+  ("file-exists" "test -e")
+  ("stat" "\\stat")
+  ("id" "/usr/bin/id")
+  ("gid-integer" 0)
+  ("uid-integer" 0)
+  ("local-encoding" base64-encode-region)
+  ("local-decoding" base64-decode-region)
+  ("remote-encoding" "base64")
+  ("remote-decoding" "base64 -d")))
