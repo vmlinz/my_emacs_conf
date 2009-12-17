@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-16 10:20:03 vmlinz>
+;; Time-stamp: <2009-12-17 15:57:29 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -10,11 +10,12 @@
     (normal-top-level-add-subdirs-to-load-path)))
 
 (add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
+
 ;; local yasnippet settings, see the package doc
 (require 'yasnippet)
 (setq yas/root-directory "~/.emacs.d/snippets")
 (yas/load-directory yas/root-directory)
-
+(define-key global-map [(tab)] 'yas/expand)
 
 ;; #################### 01 localization ####################
 ;; needs further checking and practicing, read more on x resource and fonts
