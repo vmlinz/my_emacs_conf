@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-17 16:04:14 vmlinz>
+;; Time-stamp: <2009-12-17 16:15:14 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -15,7 +15,6 @@
 (require 'yasnippet)
 (setq yas/root-directory "~/.emacs.d/snippets")
 (yas/load-directory yas/root-directory)
-(yas/global-mode t)
 
 ;; #################### 01 localization ####################
 ;; needs further checking and practicing, read more on x resource and fonts
