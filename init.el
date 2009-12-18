@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-17 16:15:14 vmlinz>
+;; Time-stamp: <2009-12-18 10:39:32 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -70,7 +70,8 @@
  '(inhibit-startup-screen t)
  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
  '(show-paren-mode t)
- '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+ '(vc-handled-backends (quote (GIT CVS SVN SCCS Bzr RCS Hg Mtn Arch))))
 
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
@@ -211,3 +212,8 @@
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (define-key global-map "\C-cr" 'org-remember)
 ;; ########## end ##########
+
+;; ########## git ##########
+(require 'git)
+(require 'git-blame)
+;; ########## end #########
