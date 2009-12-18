@@ -2,21 +2,21 @@
 ** |
 ** Module      :  ${1:Module Name}
 ** Copyright   :  (c) ${2:vmlinz} 2009
-** License     :  GPL
+** License     :  $3
 ** 
-** Maintainer  :  ${3:vmlinz@gmail.com}
+** Maintainer  :  ${4:vmlinz@gmail.com}
 ** Stability   :  experimental
 **
-** ${4:Simple Describe}
+** ${5:Simple Describe}
 **
-** * Changlelog:
+** * Changelog:
 **
-**      ${5:Today}
+**      ${6:Today}
 **              First released.
 ** 
 ** * TODO
 **      
-**      $6
+**      $7
 ** 
 **----------------------------------------------------------------------------*/
 
