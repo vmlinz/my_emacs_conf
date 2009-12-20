@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-20 21:42:15 vmlinz>
+;; Time-stamp: <2009-12-20 22:03:22 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
