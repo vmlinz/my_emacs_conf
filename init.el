@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-20 23:36:58 vmlinz>
+;; Time-stamp: <2009-12-20 23:55:50 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -305,5 +305,5 @@
 (autoload 'markdown-mode "markdown-mode.el"
    "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
-   (cons '("\\.text" . markdown-mode) auto-mode-alist))
+      (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
 ;; ########## end ##########
