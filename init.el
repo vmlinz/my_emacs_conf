@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-18 10:40:20 vmlinz>
+;; Time-stamp: <2009-12-20 21:42:15 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -12,9 +12,6 @@
 (add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
 
 ;; local yasnippet settings, see the package doc
-(require 'yasnippet)
-(setq yas/root-directory "~/.emacs.d/snippets")
-(yas/load-directory yas/root-directory)
 
 ;; #################### 01 localization ####################
 ;; needs further checking and practicing, read more on x resource and fonts
@@ -81,13 +78,89 @@
  )
 ;; #################### end 00 ####################
 
-(add-hook 'before-save-hook 'time-stamp)
-(defun my-c-mode-hook ()
-  (c-set-style "linux")
+;; ########## yasnppet ##########
+;; yasnippet
+(require 'yasnippet)
+(setq yas/root-directory "~/.emacs.d/snippets")
+(yas/load-directory yas/root-directory)
+;; ########## end ##########
+
+;; ########## cc-mode ##########
+;; c mode common hook
+(defun my-c-mode-common-hook()
+  (add-hook 'compilation-finish-functions
+            (lambda (buf str)
+              (if (string-match "exited abnormally" str) 
+                  (next-error)
+                ;;no errors, make the compilation window go away in a few seconds
+                (run-at-time "2 sec" nil 'delete-windows-on (get-buffer-create "*compilation*"))
+                (message "No Compilation Errors!")
+                )
+              ))
+
+  (add-hook 'c-mode-common-hook 
+            (lambda ()
+              (which-function-mode t)))
+
+  (defun do-compile()
+    (interactive)
+    (compile (make-command))
+    )
+
+  (defun do-lint()
+    (interactive)
+    (set (make-local-variable 'compile-command)
+         (let ((file (file-name-nondirectory buffer-file-name)))
+           (format "%s %s %s"
+                   "splint"
+                   "+single-include -strict -compdef -nullpass -preproc +matchanyintegral -internalglobs -I/usr/include/gtk-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/cairo/"
+                   file
+                   )))
+    (message compile-command)
+    (compile compile-command)
+    )
+
+  (defun do-cdecl () 
+    (interactive)
+    (shell-command
+     (concat "cdecl explain \"" (buffer-substring (region-beginning)
+                                                  (region-end)) "\""))
+    )
+
+  (setq compilation-window-height 16)
+  (setq compilation-scroll-output t)
+  (setq gdb-show-main t)  
+  (setq gdb-many-windows t)
+
+  (require 'xcscope)
+
+  (eval-after-load `xcscope
+    `(progn
+       ;; cscope databases
+       (setq cscope-database-regexps
+             '(
+               ( "/home/Projects/libc"
+                 (t)
+                 ("/usr/src/linux/include")
+                 )
+               ))
+       
+       (setq cscope-do-not-update-database t)
+       (setq cscope-display-cscope-buffer nil)
+       (setq cscope-edit-single-match nil)))
+
+  (yas/minor-mode t)
+  
+  ;; major key bindings for c-modes
   (local-set-key "\C-c\C-c" 'comment-dwim)
   (define-key c-mode-base-map [(return)] 'newline-and-indent)
   (define-key c-mode-base-map [(f7)] 'compile)
   (define-key c-mode-base-map [(meta \')] 'c-indent-command)
+)
+(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+
+(defun my-c-mode-hook ()
+  (c-set-style "linux")
   ;; c preprocessing
   (setq c-macro-shrink-window-flag t)
   (setq c-macro-preprocessor "cpp")
@@ -98,9 +171,11 @@
 
 (defun my-c++-mode-hook ()
   (c-set-style "stroustrup")
-  (local-set-key "\C-c\C-c" 'comment-dwim)
   )
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+;; ########## end ##########
+
+;; ########## emacs server ##########
 ;; only start emacs server when it's not started, I hate warnings.
 (setq server-socket-file "/tmp/emacs1000/server")
 (unless (file-exists-p server-socket-file)
@@ -116,10 +191,12 @@
   (if server-buffer-clients
       (server-edit)
     (delete-frame)))
-
 (global-set-key (kbd "C-c q") 'exit-emacs-client)
+;; ########## end ##########
+
 (fset 'yes-or-no-p 'y-or-n-p)
 (display-time)
+(add-hook 'before-save-hook 'time-stamp)
 
 ;; ########## expand function ##########
 (setq hippie-expand-try-functions-list
@@ -214,6 +291,11 @@
 ;; ########## end ##########
 
 ;; ########## git ##########
+;; git contrib, various git controls
 (require 'git)
 (require 'git-blame)
 ;; ########## end #########
+
+;; ########## emms ##########
+;; now just ignore it, for programming and daily use come first
+;; ########## end ##########
