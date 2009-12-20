@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-20 22:03:22 vmlinz>
+;; Time-stamp: <2009-12-20 23:36:58 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -298,4 +298,12 @@
 
 ;; ########## emms ##########
 ;; now just ignore it, for programming and daily use come first
+;; ########## end ##########
+
+;; ########## markdown ##########
+;; markdown-mode for translating Pro Git
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\\.text" . markdown-mode) auto-mode-alist))
 ;; ########## end ##########
