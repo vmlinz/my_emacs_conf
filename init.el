@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-20 23:55:50 vmlinz>
+;; Time-stamp: <2009-12-21 16:43:29 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -97,10 +97,6 @@
                 (message "No Compilation Errors!")
                 )
               ))
-
-  (add-hook 'c-mode-common-hook 
-            (lambda ()
-              (which-function-mode t)))
 
   (defun do-compile()
     (interactive)
