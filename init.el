@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-21 16:43:29 vmlinz>
+;; Time-stamp: <2009-12-21 21:34:29 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -68,6 +68,7 @@
  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
  '(show-paren-mode t)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+ ;; git is my favourate version control system
  '(vc-handled-backends (quote (GIT CVS SVN SCCS Bzr RCS Hg Mtn Arch))))
 
 (custom-set-faces
@@ -98,10 +99,10 @@
                 )
               ))
 
-  (defun do-compile()
-    (interactive)
-    (compile (make-command))
-    )
+  ;; (defun do-compile()
+  ;;   (interactive)
+  ;;   (compile (make-command))
+  ;;   )
 
   (defun do-lint()
     (interactive)
@@ -288,6 +289,7 @@
 
 ;; ########## git ##########
 ;; git contrib, various git controls
+;; git.el, git-blame.el and magit.el give me git support
 (require 'git)
 (require 'git-blame)
 ;; ########## end #########
