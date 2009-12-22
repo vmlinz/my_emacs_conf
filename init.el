@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-21 21:34:29 vmlinz>
+;; Time-stamp: <2009-12-22 22:00:50 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -194,7 +194,13 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (display-time)
 (add-hook 'before-save-hook 'time-stamp)
-
+;; ########## scrollbar ##########
+(set-scroll-bar-mode 'right)
+(setq
+  scroll-margin 0                  
+  scroll-conservatively 100000
+  scroll-preserve-screen-position 1)
+;; ########## end ##########
 ;; ########## expand function ##########
 (setq hippie-expand-try-functions-list
       '(try-expand-line
@@ -304,4 +310,24 @@
    "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
       (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
+;; ########## end ##########
+
+;; ########## notify ##########
+;; use libnotify and mplayer for sound
+(defun my-notify-send (title msg &optional icon sound)
+  "Show a popup if we're on X, or echo it otherwise; TITLE is the title
+of the message, MSG is the context. Optionally, you can provide an ICON and
+a sound to be played"
+
+  (interactive)
+  (when sound (shell-command
+                (concat "mplayer -really-quiet " sound " 2> /dev/null")))
+  (if (eq window-system 'x)
+    (shell-command (concat "notify-send "
+
+                     (if icon (concat "-i " icon) "")
+                     " '" title "' '" msg "'"))
+    ;; text only version
+
+    (message (concat title ": " msg))))
 ;; ########## end ##########
