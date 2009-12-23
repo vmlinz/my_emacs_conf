@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-23 22:48:29 vmlinz>
+;; Time-stamp: <2009-12-23 22:53:22 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -195,9 +195,13 @@
 (global-set-key (kbd "C-c q") 'exit-emacs-client)
 ;; ########## end ##########
 
+;; ########## various ##########
 (fset 'yes-or-no-p 'y-or-n-p)
 (display-time)
 (add-hook 'before-save-hook 'time-stamp)
+(setq x-select-enable-clipboard t)
+;; ########## end ##########
+
 ;; ########## scrollbar ##########
 (set-scroll-bar-mode 'right)
 (setq
