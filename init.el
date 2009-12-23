@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-22 22:00:50 vmlinz>
+;; Time-stamp: <2009-12-23 22:28:30 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -10,6 +10,10 @@
     (normal-top-level-add-subdirs-to-load-path)))
 
 (add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
+
+;; exec-path for texlive2009
+
+(add-to-list 'exec-path "/usr/local/texlive/2009/bin/x86_64-linux")
 
 ;; local yasnippet settings, see the package doc
 
@@ -63,7 +67,7 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(diary-file "~/.emacs.d/diary")
+ '(diary-file "~/.emacs.d/diary.gpg")
  '(inhibit-startup-screen t)
  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
  '(show-paren-mode t)
