@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-23 22:28:30 vmlinz>
+;; Time-stamp: <2009-12-23 22:48:29 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -300,8 +300,13 @@
 ;; ########## git ##########
 ;; git contrib, various git controls
 ;; git.el, git-blame.el and magit.el give me git support
+;; I installed maigt from debian apt
 (require 'git)
 (require 'git-blame)
+(eval-after-load 'magit
+  '(progn
+     (set-face-foreground 'magit-diff-add "green3")
+     (set-face-foreground 'magit-diff-del "red3")))
 ;; ########## end #########
 
 ;; ########## emms ##########
@@ -334,4 +339,13 @@ a sound to be played"
     ;; text only version
 
     (message (concat title ": " msg))))
+;; ########## end ##########
+
+;; ########## ido ##########
+(ido-mode t)
+(setq ido-enable-prefix nil
+      ido-enable-flex-matching t
+      ido-create-new-buffer 'always
+      ido-use-filename-at-point 'guess
+      ido-max-prospects 10)
 ;; ########## end ##########
