@@ -1,3 +1,0 @@
-Dec 15, 2009 
-    emacs bug? emacsclient c-mode seem not setting (return) to 'new-line-indent
-    using "\C-hS" to search various symbols in the system manual, great doc
