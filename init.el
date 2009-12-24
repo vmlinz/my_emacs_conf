@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-24 21:01:06 vmlinz>
+;; Time-stamp: <2009-12-24 23:18:29 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -66,6 +66,7 @@
  '(calendar-chinese-all-holidays-flag t)
  '(column-number-mode t)
  '(diary-file "~/.emacs.d/diary.gpg")
+ '(font-latex-fontify-sectioning (quote color))
  '(inhibit-startup-screen t)
  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
  '(show-paren-mode t)
