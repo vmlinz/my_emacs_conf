@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-23 22:53:22 vmlinz>
+;; Time-stamp: <2009-12-24 21:01:06 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -11,9 +11,6 @@
 
 (add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
 
-;; exec-path for texlive2009
-
-(add-to-list 'exec-path "/usr/local/texlive/2009/bin/x86_64-linux")
 
 ;; local yasnippet settings, see the package doc
 
@@ -66,13 +63,13 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+ '(calendar-chinese-all-holidays-flag t)
  '(column-number-mode t)
  '(diary-file "~/.emacs.d/diary.gpg")
  '(inhibit-startup-screen t)
  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
  '(show-paren-mode t)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
- ;; git is my favourate version control system
  '(vc-handled-backends (quote (GIT CVS SVN SCCS Bzr RCS Hg Mtn Arch))))
 
 (custom-set-faces
@@ -200,6 +197,8 @@
 (display-time)
 (add-hook 'before-save-hook 'time-stamp)
 (setq x-select-enable-clipboard t)
+(global-set-key "\C-cc" 'calendar)
+(global-set-key "\C-ca" 'org-agenda)
 ;; ########## end ##########
 
 ;; ########## scrollbar ##########
@@ -237,6 +236,9 @@
 
 ;; ########## auctex ##########
 ;; default to xelatex
+;; exec-path for texlive2009
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2009/bin/x86_64-linux/"))
+(add-to-list 'exec-path "/usr/local/texlive/2009/bin/x86_64-linux/")
 (add-hook 'LaTeX-mode-hook (lambda()
 			     (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 			     (setq TeX-command-default "XeLaTeX")
