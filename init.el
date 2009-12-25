@@ -1,6 +1,7 @@
-;; Time-stamp: <2009-12-25 17:17:56 vmlinz>
-;; Brand new emacs configuration for TeXing and c/c++ programming
-;; Let's keep it really simple and easy
+;; Time-stamp: <2009-12-25 17:24:50 vmlinz>
+;; 1.Brand new emacs configuration for TeXing and c/c++ programming
+;; 2.Let's keep it really simple and easy
+;; 3.Maybe I will restruct these code to get it more structured and maitainable
 
 ;; add local elisp packages to load path
 (defun add-subdirs-to-load-path (dir)
@@ -10,9 +11,6 @@
     (normal-top-level-add-subdirs-to-load-path)))
 
 (add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
-
-
-;; local yasnippet settings, see the package doc
 
 ;; #################### 01 localization ####################
 ;; needs further checking and practicing, read more on x resource and fonts
