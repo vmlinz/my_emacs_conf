@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-24 23:18:29 vmlinz>
+;; Time-stamp: <2009-12-25 17:17:56 vmlinz>
 ;; Brand new emacs configuration for TeXing and c/c++ programming
 ;; Let's keep it really simple and easy
 
@@ -198,6 +198,8 @@
 (display-time)
 (add-hook 'before-save-hook 'time-stamp)
 (setq x-select-enable-clipboard t)
+(setq use-dialog-box nil)
+(auto-image-file-mode t)
 (global-set-key "\C-cc" 'calendar)
 (global-set-key "\C-ca" 'org-agenda)
 ;; ########## end ##########
@@ -301,6 +303,10 @@
 (org-remember-insinuate)
 (setq org-directory "~/Documents/notes")
 (setq org-default-notes-file (concat org-directory "/notes.org"))
+(setq org-log-done '(done))
+(setq remember-annotation-functions '(org-remember-annotation))
+(setq remember-handler-functions '(org-remember-handler))
+(add-hook 'remember-mode-hook 'org-remember-apply-template)
 (define-key global-map "\C-cr" 'org-remember)
 ;; ########## end ##########
 
@@ -355,4 +361,18 @@ a sound to be played"
       ido-create-new-buffer 'always
       ido-use-filename-at-point 'guess
       ido-max-prospects 10)
+;; ########## end ##########
+
+;; ########## org ##########
+;;custome commands for the use of GTD.
+(setq org-agenda-custom-commands
+      '(("w" todo "WAITING" nil)
+	("n" todo "NEXT" nil)
+	("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
+      )
+;;function gtd
+(defun my-gtd ()
+  (interactive)
+  (find-file "~/Documents/notes/dailylife.org")
+  )
 ;; ########## end ##########
