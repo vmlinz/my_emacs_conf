@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-25 17:24:50 vmlinz>
+;; Time-stamp: <2009-12-27 17:23:04 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -373,4 +373,20 @@ a sound to be played"
   (interactive)
   (find-file "~/Documents/notes/dailylife.org")
   )
+;; ########## end ##########
+
+;; ########## autocomplete ##########
+;; this package is good to use and easy to config
+(require 'auto-complete)
+(require 'auto-complete-config)
+(global-auto-complete-mode t)
+(set-face-background 'ac-candidate-face "lightgray")                     
+(set-face-underline 'ac-candidate-face "darkgray")                       
+(set-face-background 'ac-selection-face "steelblue")                     
+(define-key ac-completing-map "\M-n" 'ac-next)                           
+(define-key ac-completing-map "\M-p" 'ac-previous)                       
+(setq ac-dwim t)                                                         
+(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+;;start completion when entered 3 characters                            
+(setq ac-auto-start 3)
 ;; ########## end ##########
