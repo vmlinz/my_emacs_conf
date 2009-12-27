@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-27 20:45:06 vmlinz>
+;; Time-stamp: <2009-12-28 00:53:51 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -380,6 +380,11 @@ a sound to be played"
 ;; now without cedet semantic support, it will be add next
 (require 'auto-complete)
 (require 'auto-complete-config)
+
+(ac-gtags-initialize)
+(ac-yasnippet-initialize)
+(ac-emacs-lisp-features-initialize)
+
 (global-auto-complete-mode t)
 (set-face-background 'ac-candidate-face "lightgray")                     
 (set-face-underline 'ac-candidate-face "darkgray")                       
@@ -391,6 +396,7 @@ a sound to be played"
 ;;start completion when entered 3 characters                            
 (setq ac-auto-start 3)
 ;; ########## end ##########
+
 ;; ########## fullscreen ##########
 (defun my-fullscreen (&optional f)
   (interactive)
