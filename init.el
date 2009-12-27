@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-27 17:23:04 vmlinz>
+;; Time-stamp: <2009-12-27 20:45:06 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -377,6 +377,7 @@ a sound to be played"
 
 ;; ########## autocomplete ##########
 ;; this package is good to use and easy to config
+;; now without cedet semantic support, it will be add next
 (require 'auto-complete)
 (require 'auto-complete-config)
 (global-auto-complete-mode t)
@@ -389,4 +390,12 @@ a sound to be played"
 (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 ;;start completion when entered 3 characters                            
 (setq ac-auto-start 3)
+;; ########## end ##########
+;; ########## fullscreen ##########
+(defun my-fullscreen (&optional f)
+  (interactive)
+  (set-frame-parameter f 'fullscreen
+		       (if (frame-parameter f 'fullscreen) nil 'fullboth)))
+
+(global-set-key [f11] 'my-fullscreen)
 ;; ########## end ##########
