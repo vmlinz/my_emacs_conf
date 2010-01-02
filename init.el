@@ -1,4 +1,4 @@
-;; Time-stamp: <2009-12-28 00:55:37 vmlinz>
+;; Time-stamp: <2010-01-03 00:02:53 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -84,6 +84,16 @@
 (require 'yasnippet)
 (setq yas/root-directory "~/.emacs.d/snippets")
 (yas/load-directory yas/root-directory)
+;; ########## end ##########
+
+;; ########## semantic ##########
+;; semantic modes function, emacs version 23.1.90+
+(defun my-semantic-hook ()
+  ;;(ac-semantic-initialize)
+  (semantic-highlight-func-mode 1)
+  (semantic-show-unmatched-syntax-mode 1)
+  )
+(add-hook 'semantic-init-hook 'my-semantic-hook)
 ;; ########## end ##########
 
 ;; ########## cc-mode ##########
