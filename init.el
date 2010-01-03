@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-03 00:02:53 vmlinz>
+;; Time-stamp: <2010-01-03 15:25:44 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -88,6 +88,8 @@
 
 ;; ########## semantic ##########
 ;; semantic modes function, emacs version 23.1.90+
+;; it seems the integrited cedet is quite different from the cvs version
+;; so I will try to configure it some time later
 (defun my-semantic-hook ()
   ;;(ac-semantic-initialize)
   (semantic-highlight-func-mode 1)
@@ -203,7 +205,11 @@
 
 ;; ########## various ##########
 (fset 'yes-or-no-p 'y-or-n-p)
+;; time format
+(setq display-time-24hr-format t)
+(setq display-time-day-and-date t)
 (display-time)
+
 (add-hook 'before-save-hook 'time-stamp)
 (setq x-select-enable-clipboard t)
 (setq use-dialog-box nil)
