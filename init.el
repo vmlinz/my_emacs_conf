@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-03 15:25:44 vmlinz>
+;; Time-stamp: <2010-01-05 19:03:35 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -207,7 +207,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; time format
 (setq display-time-24hr-format t)
-(setq display-time-day-and-date t)
+;; (setq display-time-day-and-date t)
 (display-time)
 
 (add-hook 'before-save-hook 'time-stamp)
