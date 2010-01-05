@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-05 19:03:35 vmlinz>
+;; Time-stamp: <2010-01-05 19:26:25 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -420,4 +420,11 @@ a sound to be played"
 		       (if (frame-parameter f 'fullscreen) nil 'fullboth)))
 
 (global-set-key [f11] 'my-fullscreen)
+;; ########## end ##########
+
+;; ########## turn off menu-bar ##########
+(if (not (eq (window-system) 'x))
+    (menu-bar-mode -1)
+  nil
+  )
 ;; ########## end ##########
