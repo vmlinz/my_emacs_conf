@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-09 15:43:50 vmlinz>
+;; Time-stamp: <2010-01-09 16:08:30 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -432,13 +432,14 @@ a sound to be played"
 ;; ########## end ##########
 
 ;; ########## cedet ##########
-;; cedet configured for c/c++ programming
+;; cedet frome cvs configured for c/c++ programming
+;; cedet' basic functions is going to be integrited in emacs 23.2
 (add-to-list 'load-path (expand-file-name "/home/vmlinz/Projects/emacs/site-lisp/cedet/common"))
 (require 'cedet)
 (semantic-load-enable-code-helpers)
 ;; toggle on yasnippet semantic support
 ;; settings for semantic and yasnippet are dirty, need more tweaking
-(ac-semantic-initialize)
+(require 'semantic-ia)
 (require 'semantic-gcc)
 (global-ede-mode t)
 
