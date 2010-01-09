@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-10 00:03:22 vmlinz>
+;; Time-stamp: <2010-01-10 02:55:01 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -86,30 +86,18 @@
 (yas/load-directory yas/root-directory)
 ;; ########## end ##########
 
-;; ########## semantic ##########
-;; semantic modes function, emacs version 23.1.90+
-;; it seems the integrited cedet is quite different from the cvs version
-;; so I will try to configure it some time later
-(defun my-semantic-hook ()
-  ;;(ac-semantic-initialize)
-  (semantic-highlight-func-mode 1)
-  (semantic-show-unmatched-syntax-mode 1)
-  )
-(add-hook 'semantic-init-hook 'my-semantic-hook)
-;; ########## end ##########
-
 ;; ########## cc-mode ##########
 ;; c mode common hook
 (defun my-c-mode-common-hook()
   (add-hook 'compilation-finish-functions
-            (lambda (buf str)
-              (if (string-match "exited abnormally" str) 
-                  (next-error)
-                ;;no errors, make the compilation window go away in a few seconds
-                (run-at-time "2 sec" nil 'delete-windows-on (get-buffer-create "*compilation*"))
-                (message "No Compilation Errors!")
-                )
-              ))
+	    (lambda (buf str)
+	      (if (string-match "exited abnormally" str)
+		  (next-error)
+		;;no errors, make the compilation window go away in a few seconds
+		(run-at-time "2 sec" nil 'delete-windows-on (get-buffer-create "*compilation*"))
+		(message "No Compilation Errors!")
+		)
+	      ))
 
   ;; (defun do-compile()
   ;;   (interactive)
@@ -119,26 +107,26 @@
   (defun do-lint()
     (interactive)
     (set (make-local-variable 'compile-command)
-         (let ((file (file-name-nondirectory buffer-file-name)))
-           (format "%s %s %s"
-                   "splint"
-                   "+single-include -strict -compdef -nullpass -preproc +matchanyintegral -internalglobs -I/usr/include/gtk-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/cairo/"
-                   file
-                   )))
+	 (let ((file (file-name-nondirectory buffer-file-name)))
+	   (format "%s %s %s"
+		   "splint"
+		   "+single-include -strict -compdef -nullpass -preproc +matchanyintegral -internalglobs -I/usr/include/gtk-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/cairo/"
+		   file
+		   )))
     (message compile-command)
     (compile compile-command)
     )
 
-  (defun do-cdecl () 
+  (defun do-cdecl ()
     (interactive)
     (shell-command
      (concat "cdecl explain \"" (buffer-substring (region-beginning)
-                                                  (region-end)) "\""))
+						  (region-end)) "\""))
     )
 
   (setq compilation-window-height 16)
   (setq compilation-scroll-output t)
-  (setq gdb-show-main t)  
+  (setq gdb-show-main t)
   (setq gdb-many-windows t)
 
   (require 'xcscope)
@@ -147,19 +135,19 @@
     `(progn
        ;; cscope databases
        (setq cscope-database-regexps
-             '(
-               ( "/home/Projects/libc"
-                 (t)
-                 ("/usr/src/linux/include")
-                 )
-               ))
-       
+	     '(
+	       ( "/home/Projects/libc"
+		 (t)
+		 ("/usr/src/linux/include")
+		 )
+	       ))
+
        (setq cscope-do-not-update-database t)
        (setq cscope-display-cscope-buffer nil)
        (setq cscope-edit-single-match nil)))
 
   (yas/minor-mode t)
-  
+
   ;; major key bindings for c-modes
   (local-set-key "\C-c\C-c" 'comment-dwim)
   (define-key c-mode-base-map [(return)] 'newline-and-indent)
@@ -217,31 +205,31 @@
 (global-set-key "\C-cc" 'calendar)
 (global-set-key "\C-ca" 'org-agenda)
 ;; delete trailing whitespaces before save
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'whitespace-cleanup)
 ;; ########## end ##########
 
 ;; ########## scrollbar ##########
 (set-scroll-bar-mode 'right)
 (setq
-  scroll-margin 0                  
+  scroll-margin 0
   scroll-conservatively 100000
   scroll-preserve-screen-position 1)
 ;; ########## end ##########
 ;; ########## expand function ##########
 (setq hippie-expand-try-functions-list
       '(try-expand-line
-        try-expand-dabbrev
-        try-expand-line-all-buffers
-        try-expand-list
-        try-expand-list-all-buffers
-        try-expand-dabbrev-visible
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill
-        try-complete-file-name
-        try-complete-file-name-partially
-        try-complete-lisp-symbol
-        try-complete-lisp-symbol-partially
-        try-expand-whole-kill))
+	try-expand-dabbrev
+	try-expand-line-all-buffers
+	try-expand-list
+	try-expand-list-all-buffers
+	try-expand-dabbrev-visible
+	try-expand-dabbrev-all-buffers
+	try-expand-dabbrev-from-kill
+	try-complete-file-name
+	try-complete-file-name-partially
+	try-complete-lisp-symbol
+	try-complete-lisp-symbol-partially
+	try-expand-whole-kill))
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "M-;") 'dabbrev-expand)
 ;;########## end ##########
@@ -275,21 +263,21 @@
 ;; minor modes
 (autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
 (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
-(autoload 'reftex-citation "reftex-cite" "Make citation" nil)  
+(autoload 'reftex-citation "reftex-cite" "Make citation" nil)
 (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
 (add-hook 'TeX-mode-hook
-          (lambda ()
-            (turn-on-reftex)
-            (auto-fill-mode)
-            (outline-minor-mode)
-            (flyspell-mode)))
+	  (lambda ()
+	    (turn-on-reftex)
+	    (auto-fill-mode)
+	    (outline-minor-mode)
+	    (flyspell-mode)))
 (add-hook 'LaTeX-mode-hook
-          (lambda ()
-            (LaTeX-math-mode)
-            (turn-on-reftex)
-            (auto-fill-mode)
-            (outline-minor-mode)
-            (flyspell-mode)))
+	  (lambda ()
+	    (LaTeX-math-mode)
+	    (turn-on-reftex)
+	    (auto-fill-mode)
+	    (outline-minor-mode)
+	    (flyspell-mode)))
 ;; ########## end ##########
 
 ;; ########## backup ##########
@@ -359,12 +347,12 @@ a sound to be played"
 
   (interactive)
   (when sound (shell-command
-                (concat "mplayer -really-quiet " sound " 2> /dev/null")))
+		(concat "mplayer -really-quiet " sound " 2> /dev/null")))
   (if (eq window-system 'x)
     (shell-command (concat "notify-send "
 
-                     (if icon (concat "-i " icon) "")
-                     " '" title "' '" msg "'"))
+		     (if icon (concat "-i " icon) "")
+		     " '" title "' '" msg "'"))
     ;; text only version
 
     (message (concat title ": " msg))))
@@ -404,14 +392,14 @@ a sound to be played"
 (ac-emacs-lisp-features-initialize)
 
 (global-auto-complete-mode t)
-(set-face-background 'ac-candidate-face "lightgray")                     
-(set-face-underline 'ac-candidate-face "darkgray")                       
-(set-face-background 'ac-selection-face "steelblue")                     
-(define-key ac-completing-map "\M-n" 'ac-next)                           
-(define-key ac-completing-map "\M-p" 'ac-previous)                       
-(setq ac-dwim t)                                                         
+(set-face-background 'ac-candidate-face "lightgray")
+(set-face-underline 'ac-candidate-face "darkgray")
+(set-face-background 'ac-selection-face "steelblue")
+(define-key ac-completing-map "\M-n" 'ac-next)
+(define-key ac-completing-map "\M-p" 'ac-previous)
+(setq ac-dwim t)
 (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-;;start completion when entered 3 characters                            
+;;start completion when entered 3 characters
 (setq ac-auto-start 3)
 ;; ########## end ##########
 
@@ -438,21 +426,47 @@ a sound to be played"
 ;; cedet' basic functions is going to be integrited in emacs 23.2
 (add-to-list 'load-path (expand-file-name "/home/vmlinz/Projects/emacs/site-lisp/cedet/common"))
 (require 'cedet)
-(semantic-load-enable-code-helpers)
-;; toggle on yasnippet semantic support
-;; settings for semantic and yasnippet are dirty, need more tweaking
-(require 'semantic-ia)
-(require 'semantic-gcc)
 (global-ede-mode t)
 
+(require 'semantic-ia)
+(require 'semantic-gcc)
+
 (defun my-semantic-hook ()
-  (imenu-add-to-menubar "TAGS"))
+  (global-semantic-tag-folding-mode 1)
+  (imenu-add-to-menubar "TAGS")
+  (global-semantic-highlight-func-mode 1)
+  (global-semantic-show-unmatched-syntax-mode 1)
+  ;;(global-semantic-decoration-mode 1)
+  (semantic-load-enable-code-helpers)
+  ;;(semantic-load-enable-gaudy-code-helpers)
+  (semantic-load-enable-all-exuberent-ctags-support)
+)
 (add-hook 'semantic-init-hooks 'my-semantic-hook)
+
+(defun my-semantic-key-hook ()
+  (local-set-key [(control return)] 'semantic-ia-complete-symbol-menu)
+  (local-set-key "\C-c/" 'semantic-ia-complete-symbol)
+  ;;
+  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
+  (local-set-key "\C-c=" 'semantic-decoration-include-visit)
+
+  (local-set-key "\C-cj" 'semantic-ia-fast-jump)
+  (local-set-key "\C-cd" 'semantic-ia-show-doc)
+  (local-set-key "\C-cm" 'semantic-ia-show-summary)
+  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
+
+  (local-set-key "." 'semantic-complete-self-insert)
+  (local-set-key ">" 'semantic-complete-self-insert)
+  (local-set-key "\C-ct" 'eassist-switch-h-cpp)
+  (local-set-key "\C-ce" 'eassist-list-methods)
+  (local-set-key "\C-c\C-r" 'semantic-symref)
+  )
+(add-hook 'semantic-init-hooks 'my-semantic-key-hook)
 
 (require 'semanticdb)
 (global-semanticdb-minor-mode 1)
 (setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
-
+(setq semanticdb-search-system-databases t)
 
 (require 'semanticdb-global)
 (semanticdb-enable-gnu-global-databases 'c-mode)
@@ -466,10 +480,9 @@ a sound to be played"
 (add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qconfig-dist.h"))
 (add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qglobal.h"))
 
-;; enable support for ctags
-(semantic-load-enable-all-exuberent-ctags-support)
-
 (setq-mode-local c-mode semanticdb-find-default-throttle
+		 '(project unloaded system recursive))
+(setq-mode-local c++-mode semanticdb-find-default-throttle
 		 '(project unloaded system recursive))
 ;; ########## end ##########
 
