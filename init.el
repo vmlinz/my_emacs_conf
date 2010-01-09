@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-09 15:03:01 vmlinz>
+;; Time-stamp: <2010-01-09 15:43:50 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -436,4 +436,36 @@ a sound to be played"
 (add-to-list 'load-path (expand-file-name "/home/vmlinz/Projects/emacs/site-lisp/cedet/common"))
 (require 'cedet)
 (semantic-load-enable-code-helpers)
+;; toggle on yasnippet semantic support
+;; settings for semantic and yasnippet are dirty, need more tweaking
+(ac-semantic-initialize)
+(require 'semantic-gcc)
+(global-ede-mode t)
+
+(defun my-semantic-hook ()
+  (imenu-add-to-menubar "TAGS"))
+(add-hook 'semantic-init-hooks 'my-semantic-hook)
+
+(require 'semanticdb)
+(global-semanticdb-minor-mode 1)
+(setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
+
+
+(require 'semanticdb-global)
+(semanticdb-enable-gnu-global-databases 'c-mode)
+(semanticdb-enable-gnu-global-databases 'c++-mode)
+
+;; qt4 programming settings
+(setq qt4-base-dir "/usr/include/qt4")
+(semantic-add-system-include qt4-base-dir 'c++-mode)
+(add-to-list 'auto-mode-alist (cons qt4-base-dir 'c++-mode))
+(add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qconfig.h"))
+(add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qconfig-dist.h"))
+(add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qglobal.h"))
+
+;; enable support for ctags
+(semantic-load-enable-all-exuberent-ctags-support)
+
+(setq-mode-local c-mode semanticdb-find-default-throttle
+		 '(project unloaded system recursive))
 ;; ########## end ##########
