@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-09 16:08:30 vmlinz>
+;; Time-stamp: <2010-01-10 00:03:22 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -216,6 +216,8 @@
 (auto-image-file-mode t)
 (global-set-key "\C-cc" 'calendar)
 (global-set-key "\C-ca" 'org-agenda)
+;; delete trailing whitespaces before save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;; ########## end ##########
 
 ;; ########## scrollbar ##########
@@ -469,4 +471,15 @@ a sound to be played"
 
 (setq-mode-local c-mode semanticdb-find-default-throttle
 		 '(project unloaded system recursive))
+;; ########## end ##########
+
+;; ########## erc ##########
+;; erc auto join channels
+(add-hook 'erc-mode-hook
+	  '(lambda()
+	     (require 'erc-join)
+	     (erc-autojoin-mode 1)
+	     (setq erc-autojoin-channels-alist
+		   '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
+		   )))
 ;; ########## end ##########
