@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-10 02:55:01 vmlinz>
+;; Time-stamp: <2010-01-10 03:27:18 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -178,7 +178,7 @@
 (unless (file-exists-p server-socket-file)
   (server-start))
 ;; exit emacs client
-(defun exit-emacs-client ()
+(defun my-exit-emacs-client ()
   "consistent exit emacsclient.
    if not in emacs client, echo a message in minibuffer, don't exit emacs.
    if in server mode
@@ -188,7 +188,7 @@
   (if server-buffer-clients
       (server-edit)
     (delete-frame)))
-(global-set-key (kbd "C-c q") 'exit-emacs-client)
+(global-set-key (kbd "C-c q") 'my-exit-emacs-client)
 ;; ########## end ##########
 
 ;; ########## various ##########
@@ -424,6 +424,8 @@ a sound to be played"
 ;; ########## cedet ##########
 ;; cedet frome cvs configured for c/c++ programming
 ;; cedet' basic functions is going to be integrited in emacs 23.2
+;; NOTE: cedet from cvs has more functions than the integrited one
+;;
 (add-to-list 'load-path (expand-file-name "/home/vmlinz/Projects/emacs/site-lisp/cedet/common"))
 (require 'cedet)
 (global-ede-mode t)
