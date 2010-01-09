@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-05 19:26:25 vmlinz>
+;; Time-stamp: <2010-01-09 15:03:01 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -414,6 +414,7 @@ a sound to be played"
 ;; ########## end ##########
 
 ;; ########## fullscreen ##########
+;; fullscreen
 (defun my-fullscreen (&optional f)
   (interactive)
   (set-frame-parameter f 'fullscreen
@@ -423,8 +424,16 @@ a sound to be played"
 ;; ########## end ##########
 
 ;; ########## turn off menu-bar ##########
+;; turn off menu-bar when in terminal
 (if (not (eq (window-system) 'x))
     (menu-bar-mode -1)
   nil
   )
+;; ########## end ##########
+
+;; ########## cedet ##########
+;; cedet configured for c/c++ programming
+(add-to-list 'load-path (expand-file-name "/home/vmlinz/Projects/emacs/site-lisp/cedet/common"))
+(require 'cedet)
+(semantic-load-enable-code-helpers)
 ;; ########## end ##########
