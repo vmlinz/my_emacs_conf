@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-10 03:27:18 vmlinz>
+;; Time-stamp: <2010-01-10 20:58:35 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -237,7 +237,9 @@
 ;;########## key bindings ##########
 ;; buffer switching
 (global-set-key (kbd "C-x p") 'previous-buffer)
+(global-set-key [(XF86Back)] 'previous-buffer)
 (global-set-key (kbd "C-x n") 'next-buffer)
+(global-set-key [(XF86Forward)] 'next-buffer)
 (global-set-key "\C-c\C-c" 'comment-dwim)
 ;; ########## end ##########
 
