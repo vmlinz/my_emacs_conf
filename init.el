@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-10 20:58:35 vmlinz>
+;; Time-stamp: <2010-01-26 23:01:58 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -158,6 +158,7 @@
 
 (defun my-c-mode-hook ()
   (c-set-style "linux")
+  ;; (c-set-offset arglist-cont-nonempty +)
   ;; c preprocessing
   (setq c-macro-shrink-window-flag t)
   (setq c-macro-preprocessor "cpp")
