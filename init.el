@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-26 23:01:58 vmlinz>
+;; Time-stamp: <2010-01-31 15:13:16 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -437,6 +437,8 @@ a sound to be played"
 (require 'semantic-gcc)
 
 (defun my-semantic-hook ()
+  ;; srecode-minor-mode
+  (srecode-minor-mode 1)
   (global-semantic-tag-folding-mode 1)
   (imenu-add-to-menubar "TAGS")
   (global-semantic-highlight-func-mode 1)
@@ -500,4 +502,10 @@ a sound to be played"
 	     (setq erc-autojoin-channels-alist
 		   '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
 		   )))
+;; ########## end ##########
+
+;; ########## woman ##########
+;; settings for woman
+(setq woman-use-own-frame nil)
+(setq woman-fill-column 80)
 ;; ########## end ##########
