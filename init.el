@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-01-31 15:13:16 vmlinz>
+;; Time-stamp: <2010-02-04 21:13:49 vmlinz>
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
@@ -57,10 +57,10 @@
 ;; #################### end 01 ####################
 ;; #################### 00 custom ####################
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(calendar-chinese-all-holidays-flag t)
  '(column-number-mode t)
  '(diary-file "~/.emacs.d/diary.gpg")
@@ -72,10 +72,10 @@
  '(vc-handled-backends (quote (GIT CVS SVN SCCS Bzr RCS Hg Mtn Arch))))
 
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
 ;; #################### end 00 ####################
 
@@ -153,7 +153,7 @@
   (define-key c-mode-base-map [(return)] 'newline-and-indent)
   (define-key c-mode-base-map [(f7)] 'compile)
   (define-key c-mode-base-map [(meta \')] 'c-indent-command)
-)
+  )
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 
 (defun my-c-mode-hook ()
@@ -212,9 +212,9 @@
 ;; ########## scrollbar ##########
 (set-scroll-bar-mode 'right)
 (setq
-  scroll-margin 0
-  scroll-conservatively 100000
-  scroll-preserve-screen-position 1)
+ scroll-margin 0
+ scroll-conservatively 100000
+ scroll-preserve-screen-position 1)
 ;; ########## end ##########
 ;; ########## expand function ##########
 (setq hippie-expand-try-functions-list
@@ -336,7 +336,7 @@
 ;; ########## markdown ##########
 ;; markdown-mode for translating Pro Git
 (autoload 'markdown-mode "markdown-mode.el"
-   "Major mode for editing Markdown files" t)
+  "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
       (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
 ;; ########## end ##########
@@ -350,14 +350,12 @@ a sound to be played"
 
   (interactive)
   (when sound (shell-command
-		(concat "mplayer -really-quiet " sound " 2> /dev/null")))
+	       (concat "mplayer -really-quiet " sound " 2> /dev/null")))
   (if (eq window-system 'x)
-    (shell-command (concat "notify-send "
-
-		     (if icon (concat "-i " icon) "")
-		     " '" title "' '" msg "'"))
+      (shell-command (concat "notify-send "
+			     (if icon (concat "-i " icon) "")
+			     " '" title "' '" msg "'"))
     ;; text only version
-
     (message (concat title ": " msg))))
 ;; ########## end ##########
 
@@ -447,7 +445,7 @@ a sound to be played"
   (semantic-load-enable-code-helpers)
   ;;(semantic-load-enable-gaudy-code-helpers)
   (semantic-load-enable-all-exuberent-ctags-support)
-)
+  )
 (add-hook 'semantic-init-hooks 'my-semantic-hook)
 
 (defun my-semantic-key-hook ()
