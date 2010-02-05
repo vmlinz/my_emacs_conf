@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-02-05 14:15:15 vmlinz>
+;; Time-stamp: <2010-02-05 14:20:39 vmlinz>
 
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
@@ -202,13 +202,13 @@
 (display-time)
 
 (add-hook 'before-save-hook 'time-stamp)
+;; delete trailing whitespaces before save
+(add-hook 'before-save-hook 'whitespace-cleanup)
 (setq x-select-enable-clipboard t)
 (setq use-dialog-box nil)
 (auto-image-file-mode t)
 (global-set-key "\C-cc" 'calendar)
 (global-set-key "\C-ca" 'org-agenda)
-;; delete trailing whitespaces before save
-(add-hook 'before-save-hook 'whitespace-cleanup)
 ;; ########## end ##########
 
 ;; ########## scrollbar ##########
@@ -521,13 +521,4 @@ a sound to be played"
 	     (setq woman-use-own-frame nil)
 	     (setq woman-fill-column 80)
 	     ))
-;; ########## end ##########
-
-;; ########## gud ##########
-;; gud mode hook
-;; default to many windows
-(add-hook 'gud-mode-hook
-	  '(lambda()
-	     (setq gdb-many-windows t)
-	  ))
 ;; ########## end ##########
