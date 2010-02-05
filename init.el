@@ -1,4 +1,20 @@
-;; Time-stamp: <2010-02-05 22:34:14 vmlinz>
+;; This file is not part of gnu emacs
+;; Time-stamp: <2010-02-05 23:03:18 vmlinz>
+
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 2, or (at
+;; your option) any later version.
+
+;; This program is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program; see the file COPYING.  If not, write to
+;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
 
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
@@ -219,14 +235,15 @@
 ;; ########## end ##########
 ;; ########## expand function ##########
 (setq hippie-expand-try-functions-list
-      '(try-expand-line
+      '(
 	try-expand-dabbrev
-	try-expand-line-all-buffers
-	try-expand-list
-	try-expand-list-all-buffers
 	try-expand-dabbrev-visible
 	try-expand-dabbrev-all-buffers
 	try-expand-dabbrev-from-kill
+	try-expand-line
+	try-expand-line-all-buffers
+	try-expand-list
+	try-expand-list-all-buffers
 	try-complete-file-name
 	try-complete-file-name-partially
 	try-complete-lisp-symbol
