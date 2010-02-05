@@ -1,7 +1,9 @@
-;; Time-stamp: <2010-02-04 21:13:49 vmlinz>
+;; Time-stamp: <2010-02-05 14:15:15 vmlinz>
+
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
+;; 4.The emacs i use is debian specifical, maybe I have to customize it through ;; debian source code
 
 ;; add local elisp packages to load path
 (defun add-subdirs-to-load-path (dir)
@@ -425,16 +427,17 @@ a sound to be played"
 ;; ########## cedet ##########
 ;; cedet frome cvs configured for c/c++ programming
 ;; cedet' basic functions is going to be integrited in emacs 23.2
-;; NOTE: cedet from cvs has more functions than the integrited one
+;; NOTE: cedet from cvs has more functions than the integrited one but it's not ;; as clean as the one integrited
 ;;
 (add-to-list 'load-path (expand-file-name "/home/vmlinz/Projects/emacs/site-lisp/cedet/common"))
 (require 'cedet)
-(global-ede-mode t)
-
-(require 'semantic-ia)
-(require 'semantic-gcc)
 
 (defun my-semantic-hook ()
+  "feature setting hook for semantic"
+  (require 'semantic-ia)
+  (require 'semantic-gcc)
+
+  (global-ede-mode t)
   ;; srecode-minor-mode
   (srecode-minor-mode 1)
   (global-semantic-tag-folding-mode 1)
@@ -445,6 +448,11 @@ a sound to be played"
   (semantic-load-enable-code-helpers)
   ;;(semantic-load-enable-gaudy-code-helpers)
   (semantic-load-enable-all-exuberent-ctags-support)
+
+  (setq-mode-local c-mode semanticdb-find-default-throttle
+		   '(project unloaded system recursive))
+  (setq-mode-local c++-mode semanticdb-find-default-throttle
+		   '(project unloaded system recursive))
   )
 (add-hook 'semantic-init-hooks 'my-semantic-hook)
 
@@ -468,27 +476,31 @@ a sound to be played"
   )
 (add-hook 'semantic-init-hooks 'my-semantic-key-hook)
 
-(require 'semanticdb)
-(global-semanticdb-minor-mode 1)
-(setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
-(setq semanticdb-search-system-databases t)
+(defun my-semanticdb-hook ()
+  "semanticdb hook"
+  (require 'semanticdb)
+  (global-semanticdb-minor-mode 1)
+  (setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
+  (setq semanticdb-search-system-databases t)
 
-(require 'semanticdb-global)
-(semanticdb-enable-gnu-global-databases 'c-mode)
-(semanticdb-enable-gnu-global-databases 'c++-mode)
+  (require 'semanticdb-global)
+  (semanticdb-enable-gnu-global-databases 'c-mode)
+  (semanticdb-enable-gnu-global-databases 'c++-mode)
+  )
+(add-hook 'semantic-init-hooks 'my-semanticdb-hook)
 
-;; qt4 programming settings
-(setq qt4-base-dir "/usr/include/qt4")
-(semantic-add-system-include qt4-base-dir 'c++-mode)
-(add-to-list 'auto-mode-alist (cons qt4-base-dir 'c++-mode))
-(add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qconfig.h"))
-(add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qconfig-dist.h"))
-(add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qglobal.h"))
+(defun my-semantic-qt4-hook()
+  "qt4 setting hook for semantic"
+  ;; qt4 programming settings
+  (setq qt4-base-dir "/usr/include/qt4")
+  (semantic-add-system-include qt4-base-dir 'c++-mode)
+  (add-to-list 'auto-mode-alist (cons qt4-base-dir 'c++-mode))
+  (add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qconfig.h"))
+  (add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qconfig-dist.h"))
+  (add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qglobal.h"))
+  )
+(add-hook 'semantic-init-hooks 'my-semantic-qt4-hook)
 
-(setq-mode-local c-mode semanticdb-find-default-throttle
-		 '(project unloaded system recursive))
-(setq-mode-local c++-mode semanticdb-find-default-throttle
-		 '(project unloaded system recursive))
 ;; ########## end ##########
 
 ;; ########## erc ##########
@@ -504,6 +516,18 @@ a sound to be played"
 
 ;; ########## woman ##########
 ;; settings for woman
-(setq woman-use-own-frame nil)
-(setq woman-fill-column 80)
+(add-hook 'woman-pre-format-hook
+	  '(lambda()
+	     (setq woman-use-own-frame nil)
+	     (setq woman-fill-column 80)
+	     ))
+;; ########## end ##########
+
+;; ########## gud ##########
+;; gud mode hook
+;; default to many windows
+(add-hook 'gud-mode-hook
+	  '(lambda()
+	     (setq gdb-many-windows t)
+	  ))
 ;; ########## end ##########
