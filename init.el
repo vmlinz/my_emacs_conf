@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-02-05 23:03:18 vmlinz>
+;; Time-stamp: <2010-02-05 23:11:43 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -541,3 +541,5 @@ a sound to be played"
 	     (setq woman-fill-column 80)
 	     ))
 ;; ########## end ##########
+
+;;; init.el for emacs ends here
