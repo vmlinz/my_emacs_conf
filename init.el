@@ -1,4 +1,4 @@
-;; Time-stamp: <2010-02-05 14:25:16 vmlinz>
+;; Time-stamp: <2010-02-05 22:34:14 vmlinz>
 
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy
@@ -57,6 +57,7 @@
 ;; emacs shell color encoding
 (ansi-color-for-comint-mode-on)
 ;; #################### end 01 ####################
+
 ;; #################### 00 custom ####################
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -191,7 +192,7 @@
   (if server-buffer-clients
       (server-edit)
     (delete-frame)))
-(global-set-key (kbd "C-c q") 'my-exit-emacs-client)
+(global-set-key (kbd "C-c C-q") 'my-exit-emacs-client)
 ;; ########## end ##########
 
 ;; ########## various ##########
@@ -207,8 +208,6 @@
 (setq x-select-enable-clipboard t)
 (setq use-dialog-box nil)
 (auto-image-file-mode t)
-(global-set-key "\C-cc" 'calendar)
-(global-set-key "\C-ca" 'org-agenda)
 ;; ########## end ##########
 
 ;; ########## scrollbar ##########
@@ -249,9 +248,9 @@
 ;; ########## auctex ##########
 ;; default to xelatex
 ;; exec-path for texlive2009
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2009/bin/x86_64-linux/"))
-(add-to-list 'exec-path "/usr/local/texlive/2009/bin/x86_64-linux/")
 (add-hook 'LaTeX-mode-hook (lambda()
+			     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2009/bin/x86_64-linux/"))
+			     (add-to-list 'exec-path "/usr/local/texlive/2009/bin/x86_64-linux/")
 			     (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 			     (setq TeX-command-default "XeLaTeX")
 			     (setq TeX-save-query nil)
@@ -265,11 +264,6 @@
      (setq TeX-output-view-style
 	   (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
 	   )))
-;; minor modes
-(autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
-(autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
-(autoload 'reftex-citation "reftex-cite" "Make citation" nil)
-(autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
 (add-hook 'TeX-mode-hook
 	  (lambda ()
 	    (turn-on-reftex)
@@ -278,11 +272,17 @@
 	    (flyspell-mode)))
 (add-hook 'LaTeX-mode-hook
 	  (lambda ()
+	    ;; minor modes
+	    (autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
+	    (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
+	    (autoload 'reftex-citation "reftex-cite" "Make citation" nil)
+	    (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
 	    (LaTeX-math-mode)
 	    (turn-on-reftex)
 	    (auto-fill-mode)
 	    (outline-minor-mode)
-	    (flyspell-mode)))
+	    (flyspell-mode)
+))
 ;; ########## end ##########
 
 ;; ########## backup ##########
@@ -308,6 +308,20 @@
 (global-set-key "\C-c\C-t" 'my-tags-generate-files)
 ;; ########## end ##########
 
+;; ########## org ##########
+;;custome commands for the use of GTD.
+(setq org-agenda-custom-commands
+      '(("w" todo "WAITING" nil)
+	("n" todo "NEXT" nil)
+	("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
+      )
+;;function gtd
+(defun my-gtd ()
+  (interactive)
+  (find-file "~/Documents/notes/dailylife.org")
+  )
+;; ########## end ##########
+
 ;; ########## org remember ##########
 (org-remember-insinuate)
 (setq org-directory "~/Documents/notes")
@@ -316,7 +330,9 @@
 (setq remember-annotation-functions '(org-remember-annotation))
 (setq remember-handler-functions '(org-remember-handler))
 (add-hook 'remember-mode-hook 'org-remember-apply-template)
-(define-key global-map "\C-cr" 'org-remember)
+(global-set-key "\C-cr" 'org-remember)
+(global-set-key "\C-cc" 'calendar)
+(global-set-key "\C-ca" 'org-agenda)
 ;; ########## end ##########
 
 ;; ########## git ##########
@@ -368,20 +384,6 @@ a sound to be played"
       ido-create-new-buffer 'always
       ido-use-filename-at-point 'guess
       ido-max-prospects 10)
-;; ########## end ##########
-
-;; ########## org ##########
-;;custome commands for the use of GTD.
-(setq org-agenda-custom-commands
-      '(("w" todo "WAITING" nil)
-	("n" todo "NEXT" nil)
-	("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
-      )
-;;function gtd
-(defun my-gtd ()
-  (interactive)
-  (find-file "~/Documents/notes/dailylife.org")
-  )
 ;; ########## end ##########
 
 ;; ########## autocomplete ##########
