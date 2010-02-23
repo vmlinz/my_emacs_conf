@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-02-05 23:11:43 vmlinz>
+;; Time-stamp: <2010-02-23 23:27:37 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -81,6 +81,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(calendar-chinese-all-holidays-flag t)
+ '(calendar-view-diary-initially-flag nil)
  '(column-number-mode t)
  '(diary-file "~/.emacs.d/diary.gpg")
  '(font-latex-fontify-sectioning (quote color))
@@ -299,7 +300,7 @@
 	    (auto-fill-mode)
 	    (outline-minor-mode)
 	    (flyspell-mode)
-))
+	    ))
 ;; ########## end ##########
 
 ;; ########## backup ##########
@@ -535,7 +536,7 @@ a sound to be played"
 
 ;; ########## woman ##########
 ;; settings for woman
-(add-hook 'woman-pre-format-hook
+(add-hook 'after-init-hook
 	  '(lambda()
 	     (setq woman-use-own-frame nil)
 	     (setq woman-fill-column 80)
