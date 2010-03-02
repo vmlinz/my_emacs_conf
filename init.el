@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-02-23 23:27:37 vmlinz>
+;; Time-stamp: <2010-03-02 08:47:03 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -344,7 +344,7 @@
 (org-remember-insinuate)
 (setq org-directory "~/Documents/notes")
 (setq org-default-notes-file (concat org-directory "/notes.org"))
-(setq org-log-done '(done))
+(setq org-log-done 'note)
 (setq remember-annotation-functions '(org-remember-annotation))
 (setq remember-handler-functions '(org-remember-handler))
 (add-hook 'remember-mode-hook 'org-remember-apply-template)
@@ -457,16 +457,17 @@ a sound to be played"
   (require 'semantic-ia)
   (require 'semantic-gcc)
 
+  (imenu-add-to-menubar "TAGS")
   (global-ede-mode t)
   ;; srecode-minor-mode
   (srecode-minor-mode 1)
-  (global-semantic-tag-folding-mode 1)
-  (imenu-add-to-menubar "TAGS")
-  (global-semantic-highlight-func-mode 1)
-  (global-semantic-show-unmatched-syntax-mode 1)
-  ;;(global-semantic-decoration-mode 1)
   (semantic-load-enable-code-helpers)
   ;;(semantic-load-enable-gaudy-code-helpers)
+  (global-semantic-show-unmatched-syntax-mode -1)
+  (global-semantic-tag-folding-mode -1)
+  (global-semantic-highlight-func-mode 1)
+  ;;(global-semantic-decoration-mode 1)
+
   (semantic-load-enable-all-exuberent-ctags-support)
 
   (setq-mode-local c-mode semanticdb-find-default-throttle
