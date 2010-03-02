@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-02 15:35:55 vmlinz>
+;; Time-stamp: <2010-03-02 16:06:11 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -41,19 +41,19 @@
   (set-default-font "Inconsolata-16")
   ;; font for other scripts
   (set-fontset-font t
-		    nil '("Inconsolata-16" . "unicode-bmp"))
+    nil '("Inconsolata-16" . "unicode-bmp"))
   (set-fontset-font "fontset-startup"
-		    'han '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-		    'prepend)
+    'han '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+    'prepend)
   (set-fontset-font "fontset-startup"
-		    'cjk-misc '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-		    'prepend)
+    'cjk-misc '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+    'prepend)
   (set-fontset-font "fontset-startup"
-		    'kana '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-		    'prepend)
+    'kana '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+    'prepend)
   (set-fontset-font "fontset-startup"
-		    'symbol '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-		    'prepend)
+    'symbol '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+    'prepend)
   (set-face-font 'tooltip "fontset-startup")
   (set-frame-font "fontset-startup")
   (add-to-list 'default-frame-alist '(font . "fontset-startup"))
@@ -75,33 +75,33 @@
   (setq default-process-coding-system '(utf-8 . utf-8))
   ;; emacs shell color encoding
   (ansi-color-for-comint-mode-on)
-)
+  )
 (my-coding-system-init)
 ;; #################### end 01 ####################
 
 ;; #################### 00 custom ####################
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(calendar-chinese-all-holidays-flag t)
- '(calendar-view-diary-initially-flag nil)
- '(column-number-mode t)
- '(diary-file "~/.emacs.d/diary.gpg")
- '(font-latex-fontify-sectioning (quote color))
- '(inhibit-startup-screen t)
- '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
- '(show-paren-mode t)
- '(uniquify-buffer-name-style (quote forward) nil (uniquify))
- '(vc-handled-backends (quote (GIT CVS SVN SCCS Bzr RCS Hg Mtn Arch))))
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  '(calendar-chinese-all-holidays-flag t)
+  '(calendar-view-diary-initially-flag nil)
+  '(column-number-mode t)
+  '(diary-file "~/.emacs.d/diary.gpg")
+  '(font-latex-fontify-sectioning (quote color))
+  '(inhibit-startup-screen t)
+  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
+  '(show-paren-mode t)
+  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+  '(vc-handled-backends (quote (GIT CVS SVN SCCS Bzr RCS Hg Mtn Arch))))
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  )
 ;; #################### end 00 ####################
 
 
@@ -110,14 +110,14 @@
 (defun my-cc-mode-init()
   (defun my-c-mode-common-hook()
     (add-hook 'compilation-finish-functions
-	      (lambda (buf str)
-		(if (string-match "exited abnormally" str)
-		    (next-error)
-		  ;;no errors, make the compilation window go away in a few seconds
-		  (run-at-time "2 sec" nil 'delete-windows-on (get-buffer-create "*compilation*"))
-		  (message "No Compilation Errors!")
-		  )
-		))
+      '(lambda (buf str)
+	 (if (string-match "exited abnormally" str)
+	   (next-error)
+	   ;;no errors, make the compilation window go away in a few seconds
+	   (run-at-time "2 sec" nil 'delete-windows-on (get-buffer-create "*compilation*"))
+	   (message "No Compilation Errors!")
+	   )
+	 ))
 
     ;; (defun do-compile()
     ;;   (interactive)
@@ -127,12 +127,12 @@
     (defun do-lint()
       (interactive)
       (set (make-local-variable 'compile-command)
-	   (let ((file (file-name-nondirectory buffer-file-name)))
-	     (format "%s %s %s"
-		     "splint"
-		     "+single-include -strict -compdef -nullpass -preproc +matchanyintegral -internalglobs -I/usr/include/gtk-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/cairo/"
-		     file
-		     )))
+	(let ((file (file-name-nondirectory buffer-file-name)))
+	  (format "%s %s %s"
+	    "splint"
+	    "+single-include -strict -compdef -nullpass -preproc +matchanyintegral -internalglobs -I/usr/include/gtk-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/cairo/"
+	    file
+	    )))
       (message compile-command)
       (compile compile-command)
       )
@@ -140,8 +140,8 @@
     (defun do-cdecl ()
       (interactive)
       (shell-command
-       (concat "cdecl explain \"" (buffer-substring (region-beginning)
-						    (region-end)) "\""))
+	(concat "cdecl explain \"" (buffer-substring (region-beginning)
+				     (region-end)) "\""))
       )
 
     (setq compilation-window-height 16)
@@ -155,12 +155,12 @@
       `(progn
 	 ;; cscope databases
 	 (setq cscope-database-regexps
-	       '(
-		 ( "/home/Projects/libc"
-		   (t)
-		   ("/usr/src/linux/include")
-		   )
-		 ))
+	   '(
+	      ( "/home/Projects/libc"
+		(t)
+		("/usr/src/linux/include")
+		)
+	      ))
 
 	 (setq cscope-do-not-update-database t)
 	 (setq cscope-display-cscope-buffer nil)
@@ -191,7 +191,7 @@
     (c-set-style "stroustrup")
     )
   (add-hook 'c++-mode-hook 'my-c++-mode-hook)
-)
+  )
 ;; ########## end ##########
 
 ;; ########## emacs server ##########
@@ -209,10 +209,10 @@
       else do C-x 5 0 delete-frame"
     (interactive)
     (if server-buffer-clients
-	(server-edit)
+      (server-edit)
       (delete-frame)))
   (global-set-key (kbd "C-c C-q") 'my-exit-emacs-client)
-)
+  )
 (my-emacs-daemon-init)
 ;; ########## end ##########
 
@@ -234,34 +234,34 @@
   ;; ########## scrollbar ##########
   (set-scroll-bar-mode 'right)
   (setq
-   scroll-margin 0
-   scroll-conservatively 100000
-   scroll-preserve-screen-position 1)
+    scroll-margin 0
+    scroll-conservatively 100000
+    scroll-preserve-screen-position 1)
   ;; ########## end ##########
-)
+  )
 (my-misc-custom-init)
 ;; ########## end ##########
 
 ;; ########## expand function ##########
 (defun my-hippie-expand-init()
   (setq hippie-expand-try-functions-list
-	'(
-	  try-expand-dabbrev
-	  try-expand-dabbrev-visible
-	  try-expand-dabbrev-all-buffers
-	  try-expand-dabbrev-from-kill
-	  try-expand-line
-	  try-expand-line-all-buffers
-	  try-expand-list
-	  try-expand-list-all-buffers
-	  try-complete-file-name
-	  try-complete-file-name-partially
-	  try-complete-lisp-symbol
-	  try-complete-lisp-symbol-partially
-	  try-expand-whole-kill))
+    '(
+       try-expand-dabbrev
+       try-expand-dabbrev-visible
+       try-expand-dabbrev-all-buffers
+       try-expand-dabbrev-from-kill
+       try-expand-line
+       try-expand-line-all-buffers
+       try-expand-list
+       try-expand-list-all-buffers
+       try-complete-file-name
+       try-complete-file-name-partially
+       try-complete-lisp-symbol
+       try-complete-lisp-symbol-partially
+       try-expand-whole-kill))
   (global-set-key (kbd "M-/") 'hippie-expand)
   (global-set-key (kbd "M-;") 'dabbrev-expand)
-)
+  )
 (my-hippie-expand-init)
 ;;########## end ##########
 
@@ -273,7 +273,7 @@
   (global-set-key (kbd "C-x n") 'next-buffer)
   (global-set-key [(XF86Forward)] 'next-buffer)
   (global-set-key "\C-c\C-c" 'comment-dwim)
-)
+  )
 (my-key-init)
 ;; ########## end ##########
 
@@ -281,42 +281,44 @@
 ;; default to xelatex
 ;; exec-path for texlive2009
 (defun my-auctex-init()
-  (add-hook 'LaTeX-mode-hook (lambda()
-			       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2009/bin/x86_64-linux/"))
-			       (add-to-list 'exec-path "/usr/local/texlive/2009/bin/x86_64-linux/")
-			       (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-			       (setq TeX-command-default "XeLaTeX")
-			       (setq TeX-save-query nil)
-			       (setq TeX-show-compilation t)
-			       (setq Tex-master nil)
-			       ))
+  (add-hook 'LaTeX-mode-hook
+    '(lambda()
+       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2009/bin/x86_64-linux/"))
+       (add-to-list 'exec-path "/usr/local/texlive/2009/bin/x86_64-linux/")
+       (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+       (setq TeX-command-default "XeLaTeX")
+       (setq TeX-save-query nil)
+       (setq TeX-show-compilation t)
+       (setq Tex-master nil)
+       )
+    )
   ;; set preview application and preview style
   (eval-after-load "tex"
     '(progn
        (TeX-global-PDF-mode t)
        (setq TeX-output-view-style
-	     (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
-	     )))
+	 (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
+	 )))
   (add-hook 'TeX-mode-hook
-	    (lambda ()
-	      (turn-on-reftex)
-	      (auto-fill-mode)
-	      (outline-minor-mode)
-	      (flyspell-mode)))
+    '(lambda ()
+       (turn-on-reftex)
+       (auto-fill-mode)
+       (outline-minor-mode)
+       (flyspell-mode)))
   (add-hook 'LaTeX-mode-hook
-	    (lambda ()
-	      ;; minor modes
-	      (autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
-	      (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
-	      (autoload 'reftex-citation "reftex-cite" "Make citation" nil)
-	      (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
-	      (LaTeX-math-mode)
-	      (turn-on-reftex)
-	      (auto-fill-mode)
-	      (outline-minor-mode)
-	      (flyspell-mode)
-	      ))
-)
+    '(lambda ()
+       ;; minor modes
+       (autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
+       (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
+       (autoload 'reftex-citation "reftex-cite" "Make citation" nil)
+       (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
+       (LaTeX-math-mode)
+       (turn-on-reftex)
+       (auto-fill-mode)
+       (outline-minor-mode)
+       (flyspell-mode)
+       ))
+  )
 (my-auctex-init)
 ;; ########## end ##########
 
@@ -329,7 +331,7 @@
   (setq delete-old-versions t)
   (setq backup-by-copying t)
   (setq version-control t)
-)
+  )
 (my-backup-init)
 ;; ########## end ##########
 
@@ -339,9 +341,9 @@
   "Generate ctags reference file for emacs."
   (interactive)
   (cd
-   (read-from-minibuffer
-    "directory: "
-    default-directory))
+    (read-from-minibuffer
+      "directory: "
+      default-directory))
   (shell-command "ctags -e -R"))
 (global-set-key "\C-c\C-t" 'my-tags-generate-files)
 ;; ########## end ##########
@@ -364,15 +366,15 @@
   (setq remember-handler-functions '(org-remember-handler))
   ;;custome commands for the use of GTD.
   (setq org-agenda-custom-commands
-	'(("w" todo "WAITING" nil)
-	  ("n" todo "NEXT" nil)
-	  ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
-	)
+    '(("w" todo "WAITING" nil)
+       ("n" todo "NEXT" nil)
+       ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
+    )
   (add-hook 'remember-mode-hook 'org-remember-apply-template)
   (global-set-key "\C-cr" 'org-remember)
   (global-set-key "\C-cc" 'calendar)
   (global-set-key "\C-ca" 'org-agenda)
-)
+  )
 (my-org-mode-init)
 ;; ########## end ##########
 
@@ -388,7 +390,7 @@
     '(progn
        (set-face-foreground 'magit-diff-add "green3")
        (set-face-foreground 'magit-diff-del "red3")))
-)
+  )
 (my-git-init)
 ;; ########## end #########
 
@@ -402,8 +404,8 @@
   (autoload 'markdown-mode "markdown-mode.el"
     "Major mode for editing Markdown files" t)
   (setq auto-mode-alist
-	(cons '("\\.markdown" . markdown-mode) auto-mode-alist))
-)
+    (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
+  )
 ;; ########## end ##########
 
 ;; ########## notify ##########
@@ -415,11 +417,11 @@ a sound to be played"
 
   (interactive)
   (when sound (shell-command
-	       (concat "mplayer -really-quiet " sound " 2> /dev/null")))
+		(concat "mplayer -really-quiet " sound " 2> /dev/null")))
   (if (eq window-system 'x)
-      (shell-command (concat "notify-send "
-			     (if icon (concat "-i " icon) "")
-			     " '" title "' '" msg "'"))
+    (shell-command (concat "notify-send "
+		     (if icon (concat "-i " icon) "")
+		     " '" title "' '" msg "'"))
     ;; text only version
     (message (concat title ": " msg))))
 ;; ########## end ##########
@@ -427,10 +429,10 @@ a sound to be played"
 ;; ########## ido ##########
 (ido-mode t)
 (setq ido-enable-prefix nil
-      ido-enable-flex-matching t
-      ido-create-new-buffer 'always
-      ido-use-filename-at-point 'guess
-      ido-max-prospects 10)
+  ido-enable-flex-matching t
+  ido-create-new-buffer 'always
+  ido-use-filename-at-point 'guess
+  ido-max-prospects 10)
 ;; ########## end ##########
 
 ;; ########## fullscreen ##########
@@ -438,7 +440,7 @@ a sound to be played"
 (defun my-fullscreen (&optional f)
   (interactive)
   (set-frame-parameter f 'fullscreen
-		       (if (frame-parameter f 'fullscreen) nil 'fullboth)))
+    (if (frame-parameter f 'fullscreen) nil 'fullboth)))
 
 (global-set-key [f11] 'my-fullscreen)
 ;; ########## end ##########
@@ -446,7 +448,7 @@ a sound to be played"
 ;; ########## turn off menu-bar ##########
 ;; turn off menu-bar when in terminal
 (if (not (eq (window-system) 'x))
-    (menu-bar-mode -1)
+  (menu-bar-mode -1)
   nil
   )
 ;; ########## end ##########
@@ -479,9 +481,9 @@ a sound to be played"
   (semantic-load-enable-all-exuberent-ctags-support)
 
   (setq-mode-local c-mode semanticdb-find-default-throttle
-		   '(project unloaded system recursive))
+    '(project unloaded system recursive))
   (setq-mode-local c++-mode semanticdb-find-default-throttle
-		   '(project unloaded system recursive))
+    '(project unloaded system recursive))
   )
 (add-hook 'semantic-init-hooks 'my-semantic-hook)
 
@@ -539,7 +541,7 @@ a sound to be played"
   (require 'yasnippet)
   (setq yas/root-directory "~/.emacs.d/site-lisp/yasnippet/snippets")
   (yas/load-directory yas/root-directory)
-)
+  )
 (my-yasnippet-init)
 ;; ########## end ##########
 
@@ -562,28 +564,36 @@ a sound to be played"
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
   ;;start completion when entered 3 characters
   (setq ac-auto-start 3)
-)
+  )
 (my-auto-complete-init)
 ;; ########## end ##########
 
 ;; ########## woman ##########
 ;; settings for woman
 (add-hook 'after-init-hook
-	  '(lambda()
-	     (setq woman-use-own-frame nil)
-	     (setq woman-fill-column 80)
-	     ))
+  '(lambda()
+     (setq woman-use-own-frame nil)
+     (setq woman-fill-column 80)
+     ))
 ;; ########## end ##########
 
 ;; ########## erc ##########
 ;; erc auto join channels
 (add-hook 'erc-mode-hook
-	  '(lambda()
-	     (require 'erc-join)
-	     (erc-autojoin-mode 1)
-	     (setq erc-autojoin-channels-alist
-		   '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
-		   )))
+  '(lambda()
+     (require 'erc-join)
+     (erc-autojoin-mode 1)
+     (setq erc-autojoin-channels-alist
+       '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
+       )))
+;; ########## end ##########
+
+;; ########## lisp settings ##########
+;; lisp indent offset to 2
+(add-hook 'emacs-lisp-mode-hook
+  '(lambda()
+     (setq lisp-indent-offset 2))
+  )
 ;; ########## end ##########
 
 ;;; init.el for emacs ends here
