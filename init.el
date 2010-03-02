@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-02 09:00:23 vmlinz>
+;; Time-stamp: <2010-03-02 10:37:56 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -410,12 +410,9 @@ a sound to be played"
 ;; now without cedet semantic support, it will be add next
 (require 'auto-complete)
 (require 'auto-complete-config)
-
-(ac-gtags-initialize)
-(ac-yasnippet-initialize)
-(ac-emacs-lisp-features-initialize)
-
-(global-auto-complete-mode t)
+;; ac default configuration
+(ac-config-default)
+;; ac customizations
 (set-face-background 'ac-candidate-face "lightgray")
 (set-face-underline 'ac-candidate-face "darkgray")
 (set-face-background 'ac-selection-face "steelblue")
