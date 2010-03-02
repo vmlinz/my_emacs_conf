@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-02 15:11:43 vmlinz>
+;; Time-stamp: <2010-03-02 15:35:55 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -35,7 +35,6 @@
 
 ;; #################### 01 localization ####################
 ;; needs further checking and practicing, read more on x resource and fonts
-
 (defun my-set-frame-font ()
   (interactive)
   ;; default ansi code font
@@ -105,102 +104,94 @@
  )
 ;; #################### end 00 ####################
 
-;; ########## yasnppet ##########
-;; yasnippet
-(defun my-yasnippet-init()
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/yasnippet/")
-  (require 'yasnippet)
-  (setq yas/root-directory "~/.emacs.d/site-lisp/yasnippet/snippets")
-  (yas/load-directory yas/root-directory)
-)
-(my-yasnippet-init)
-;; ########## end ##########
 
 ;; ########## cc-mode ##########
 ;; c mode common hook
-(defun my-c-mode-common-hook()
-  (add-hook 'compilation-finish-functions
-	    (lambda (buf str)
-	      (if (string-match "exited abnormally" str)
-		  (next-error)
-		;;no errors, make the compilation window go away in a few seconds
-		(run-at-time "2 sec" nil 'delete-windows-on (get-buffer-create "*compilation*"))
-		(message "No Compilation Errors!")
-		)
-	      ))
+(defun my-cc-mode-init()
+  (defun my-c-mode-common-hook()
+    (add-hook 'compilation-finish-functions
+	      (lambda (buf str)
+		(if (string-match "exited abnormally" str)
+		    (next-error)
+		  ;;no errors, make the compilation window go away in a few seconds
+		  (run-at-time "2 sec" nil 'delete-windows-on (get-buffer-create "*compilation*"))
+		  (message "No Compilation Errors!")
+		  )
+		))
 
-  ;; (defun do-compile()
-  ;;   (interactive)
-  ;;   (compile (make-command))
-  ;;   )
+    ;; (defun do-compile()
+    ;;   (interactive)
+    ;;   (compile (make-command))
+    ;;   )
 
-  (defun do-lint()
-    (interactive)
-    (set (make-local-variable 'compile-command)
-	 (let ((file (file-name-nondirectory buffer-file-name)))
-	   (format "%s %s %s"
-		   "splint"
-		   "+single-include -strict -compdef -nullpass -preproc +matchanyintegral -internalglobs -I/usr/include/gtk-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/cairo/"
-		   file
-		   )))
-    (message compile-command)
-    (compile compile-command)
+    (defun do-lint()
+      (interactive)
+      (set (make-local-variable 'compile-command)
+	   (let ((file (file-name-nondirectory buffer-file-name)))
+	     (format "%s %s %s"
+		     "splint"
+		     "+single-include -strict -compdef -nullpass -preproc +matchanyintegral -internalglobs -I/usr/include/gtk-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/cairo/"
+		     file
+		     )))
+      (message compile-command)
+      (compile compile-command)
+      )
+
+    (defun do-cdecl ()
+      (interactive)
+      (shell-command
+       (concat "cdecl explain \"" (buffer-substring (region-beginning)
+						    (region-end)) "\""))
+      )
+
+    (setq compilation-window-height 16)
+    (setq compilation-scroll-output t)
+    (setq gdb-show-main t)
+    (setq gdb-many-windows t)
+
+    (require 'xcscope)
+
+    (eval-after-load `xcscope
+      `(progn
+	 ;; cscope databases
+	 (setq cscope-database-regexps
+	       '(
+		 ( "/home/Projects/libc"
+		   (t)
+		   ("/usr/src/linux/include")
+		   )
+		 ))
+
+	 (setq cscope-do-not-update-database t)
+	 (setq cscope-display-cscope-buffer nil)
+	 (setq cscope-edit-single-match nil)))
+
+    (yas/minor-mode t)
+
+    ;; major key bindings for c-modes
+    (local-set-key "\C-c\C-c" 'comment-dwim)
+    (define-key c-mode-base-map [(return)] 'newline-and-indent)
+    (define-key c-mode-base-map [(f7)] 'compile)
+    (define-key c-mode-base-map [(meta \')] 'c-indent-command)
     )
+  (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 
-  (defun do-cdecl ()
-    (interactive)
-    (shell-command
-     (concat "cdecl explain \"" (buffer-substring (region-beginning)
-						  (region-end)) "\""))
+  (defun my-c-mode-hook ()
+    (c-set-style "linux")
+    ;; (c-set-offset arglist-cont-nonempty +)
+    ;; c preprocessing
+    (setq c-macro-shrink-window-flag t)
+    (setq c-macro-preprocessor "cpp")
+    (setq c-macro-cppflags " ")
+    (setq c-macro-prompt-flag t)
     )
+  (add-hook 'c-mode-hook 'my-c-mode-hook)
 
-  (setq compilation-window-height 16)
-  (setq compilation-scroll-output t)
-  (setq gdb-show-main t)
-  (setq gdb-many-windows t)
-
-  (require 'xcscope)
-
-  (eval-after-load `xcscope
-    `(progn
-       ;; cscope databases
-       (setq cscope-database-regexps
-	     '(
-	       ( "/home/Projects/libc"
-		 (t)
-		 ("/usr/src/linux/include")
-		 )
-	       ))
-
-       (setq cscope-do-not-update-database t)
-       (setq cscope-display-cscope-buffer nil)
-       (setq cscope-edit-single-match nil)))
-
-  (yas/minor-mode t)
-
-  ;; major key bindings for c-modes
-  (local-set-key "\C-c\C-c" 'comment-dwim)
-  (define-key c-mode-base-map [(return)] 'newline-and-indent)
-  (define-key c-mode-base-map [(f7)] 'compile)
-  (define-key c-mode-base-map [(meta \')] 'c-indent-command)
-  )
-(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
-
-(defun my-c-mode-hook ()
-  (c-set-style "linux")
-  ;; (c-set-offset arglist-cont-nonempty +)
-  ;; c preprocessing
-  (setq c-macro-shrink-window-flag t)
-  (setq c-macro-preprocessor "cpp")
-  (setq c-macro-cppflags " ")
-  (setq c-macro-prompt-flag t)
-  )
-(add-hook 'c-mode-hook 'my-c-mode-hook)
-
-(defun my-c++-mode-hook ()
-  (c-set-style "stroustrup")
-  )
-(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+  (defun my-c++-mode-hook ()
+    (c-set-style "stroustrup")
+    )
+  (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+)
 ;; ########## end ##########
 
 ;; ########## emacs server ##########
@@ -289,41 +280,44 @@
 ;; ########## auctex ##########
 ;; default to xelatex
 ;; exec-path for texlive2009
-(add-hook 'LaTeX-mode-hook (lambda()
-			     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2009/bin/x86_64-linux/"))
-			     (add-to-list 'exec-path "/usr/local/texlive/2009/bin/x86_64-linux/")
-			     (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-			     (setq TeX-command-default "XeLaTeX")
-			     (setq TeX-save-query nil)
-			     (setq TeX-show-compilation t)
-			     (setq Tex-master nil)
-			     ))
-;; set preview application and preview style
-(eval-after-load "tex"
-  '(progn
-     (TeX-global-PDF-mode t)
-     (setq TeX-output-view-style
-	   (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
-	   )))
-(add-hook 'TeX-mode-hook
-	  (lambda ()
-	    (turn-on-reftex)
-	    (auto-fill-mode)
-	    (outline-minor-mode)
-	    (flyspell-mode)))
-(add-hook 'LaTeX-mode-hook
-	  (lambda ()
-	    ;; minor modes
-	    (autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
-	    (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
-	    (autoload 'reftex-citation "reftex-cite" "Make citation" nil)
-	    (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
-	    (LaTeX-math-mode)
-	    (turn-on-reftex)
-	    (auto-fill-mode)
-	    (outline-minor-mode)
-	    (flyspell-mode)
-	    ))
+(defun my-auctex-init()
+  (add-hook 'LaTeX-mode-hook (lambda()
+			       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2009/bin/x86_64-linux/"))
+			       (add-to-list 'exec-path "/usr/local/texlive/2009/bin/x86_64-linux/")
+			       (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+			       (setq TeX-command-default "XeLaTeX")
+			       (setq TeX-save-query nil)
+			       (setq TeX-show-compilation t)
+			       (setq Tex-master nil)
+			       ))
+  ;; set preview application and preview style
+  (eval-after-load "tex"
+    '(progn
+       (TeX-global-PDF-mode t)
+       (setq TeX-output-view-style
+	     (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
+	     )))
+  (add-hook 'TeX-mode-hook
+	    (lambda ()
+	      (turn-on-reftex)
+	      (auto-fill-mode)
+	      (outline-minor-mode)
+	      (flyspell-mode)))
+  (add-hook 'LaTeX-mode-hook
+	    (lambda ()
+	      ;; minor modes
+	      (autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
+	      (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
+	      (autoload 'reftex-citation "reftex-cite" "Make citation" nil)
+	      (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
+	      (LaTeX-math-mode)
+	      (turn-on-reftex)
+	      (auto-fill-mode)
+	      (outline-minor-mode)
+	      (flyspell-mode)
+	      ))
+)
+(my-auctex-init)
 ;; ########## end ##########
 
 ;; ########## backup ##########
@@ -386,13 +380,16 @@
 ;; git contrib, various git controls
 ;; git.el, git-blame.el and magit.el give me git support
 ;; I installed maigt from debian apt
-(add-to-list 'load-path "~/.emacs.d/site-lisp/git-contrib/")
-(require 'git)
-(require 'git-blame)
-(eval-after-load 'magit
-  '(progn
-     (set-face-foreground 'magit-diff-add "green3")
-     (set-face-foreground 'magit-diff-del "red3")))
+(defun my-git-init()
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/git-contrib/")
+  (require 'git)
+  (require 'git-blame)
+  (eval-after-load 'magit
+    '(progn
+       (set-face-foreground 'magit-diff-add "green3")
+       (set-face-foreground 'magit-diff-del "red3")))
+)
+(my-git-init)
 ;; ########## end #########
 
 ;; ########## emms ##########
@@ -434,26 +431,6 @@ a sound to be played"
       ido-create-new-buffer 'always
       ido-use-filename-at-point 'guess
       ido-max-prospects 10)
-;; ########## end ##########
-
-;; ########## autocomplete ##########
-;; this package is good to use and easy to config
-;; now without cedet semantic support, it will be add next
-(add-to-list 'load-path "~/.emacs.d/site-lisp/auto-complete/")
-(require 'auto-complete)
-(require 'auto-complete-config)
-;; ac default configuration
-(ac-config-default)
-;; ac customizations
-(set-face-background 'ac-candidate-face "lightgray")
-(set-face-underline 'ac-candidate-face "darkgray")
-(set-face-background 'ac-selection-face "steelblue")
-(define-key ac-completing-map "\M-n" 'ac-next)
-(define-key ac-completing-map "\M-p" 'ac-previous)
-(setq ac-dwim t)
-(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-;;start completion when entered 3 characters
-(setq ac-auto-start 3)
 ;; ########## end ##########
 
 ;; ########## fullscreen ##########
@@ -555,15 +532,38 @@ a sound to be played"
 
 ;; ########## end ##########
 
-;; ########## erc ##########
-;; erc auto join channels
-(add-hook 'erc-mode-hook
-	  '(lambda()
-	     (require 'erc-join)
-	     (erc-autojoin-mode 1)
-	     (setq erc-autojoin-channels-alist
-		   '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
-		   )))
+;; ########## yasnppet ##########
+;; yasnippet
+(defun my-yasnippet-init()
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/yasnippet/")
+  (require 'yasnippet)
+  (setq yas/root-directory "~/.emacs.d/site-lisp/yasnippet/snippets")
+  (yas/load-directory yas/root-directory)
+)
+(my-yasnippet-init)
+;; ########## end ##########
+
+;; ########## auto-complete ##########
+;; this package is good to use and easy to config
+;; now without cedet semantic support, it will be add next
+(defun my-auto-complete-init()
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/auto-complete/")
+  (require 'auto-complete)
+  (require 'auto-complete-config)
+  ;; ac default configuration
+  (ac-config-default)
+  ;; ac customizations
+  (set-face-background 'ac-candidate-face "lightgray")
+  (set-face-underline 'ac-candidate-face "darkgray")
+  (set-face-background 'ac-selection-face "steelblue")
+  (define-key ac-completing-map "\M-n" 'ac-next)
+  (define-key ac-completing-map "\M-p" 'ac-previous)
+  (setq ac-dwim t)
+  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+  ;;start completion when entered 3 characters
+  (setq ac-auto-start 3)
+)
+(my-auto-complete-init)
 ;; ########## end ##########
 
 ;; ########## woman ##########
@@ -573,6 +573,17 @@ a sound to be played"
 	     (setq woman-use-own-frame nil)
 	     (setq woman-fill-column 80)
 	     ))
+;; ########## end ##########
+
+;; ########## erc ##########
+;; erc auto join channels
+(add-hook 'erc-mode-hook
+	  '(lambda()
+	     (require 'erc-join)
+	     (erc-autojoin-mode 1)
+	     (setq erc-autojoin-channels-alist
+		   '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
+		   )))
 ;; ########## end ##########
 
 ;;; init.el for emacs ends here
