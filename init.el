@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-02 08:47:03 vmlinz>
+;; Time-stamp: <2010-03-02 09:00:23 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -17,9 +17,10 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
-;; 2.Let's keep it really simple and easy
+;; 2.Let's keep it really simple and easy always
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
 ;; 4.The emacs i use is debian specifical, maybe I have to customize it through ;; debian source code
+;; 5.tweak the third party lisp package configurations and make it more structured
 
 ;; add local elisp packages to load path
 (defun add-subdirs-to-load-path (dir)
