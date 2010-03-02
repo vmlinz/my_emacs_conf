@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-02 16:19:14 vmlinz>
+;; Time-stamp: <2010-03-02 17:33:48 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -192,6 +192,7 @@
     )
   (add-hook 'c++-mode-hook 'my-c++-mode-hook)
   )
+(my-cc-mode-init)
 ;; ########## end ##########
 
 ;; ########## emacs server ##########
@@ -534,13 +535,15 @@ a sound to be played"
 
 ;; ########## end ##########
 
-;; ########## yasnppet ##########
+;; ########## yasnippet ##########
 ;; yasnippet
 (defun my-yasnippet-init()
   (add-to-list 'load-path "~/.emacs.d/site-lisp/yasnippet/")
   (require 'yasnippet)
   (setq yas/root-directory "~/.emacs.d/site-lisp/yasnippet/snippets")
   (yas/load-directory yas/root-directory)
+  ;; set yas menu to abbreviate mode
+  (setq yas/use-menu 'abbreviate)
   )
 (my-yasnippet-init)
 ;; ########## end ##########
@@ -561,9 +564,10 @@ a sound to be played"
   (define-key ac-completing-map "\M-n" 'ac-next)
   (define-key ac-completing-map "\M-p" 'ac-previous)
   (setq ac-dwim t)
-  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+  (define-key ac-mode-map [(C-tab)] 'auto-complete)
   ;;start completion when entered 3 characters
   (setq ac-auto-start 3)
+  (setq ac-use-quick-help nil)
   )
 (my-auto-complete-init)
 ;; ########## end ##########
