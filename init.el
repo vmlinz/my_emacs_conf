@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-02 11:05:55 vmlinz>
+;; Time-stamp: <2010-03-02 15:11:43 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -21,15 +21,17 @@
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
 ;; 4.The emacs i use is debian specifical, maybe I have to customize it through ;; debian source code
 ;; 5.tweak the third party lisp package configurations and make it more structured
+;; 6.speed up startup time by make defuns and hooks
 
 ;; add local elisp packages to load path
-(defun add-subdirs-to-load-path (dir)
-  "Recursive add directories to `load-path'."
-  (let ((default-directory (file-name-as-directory dir)))
-    (add-to-list 'load-path dir)
-    (normal-top-level-add-subdirs-to-load-path)))
+;; (defun add-subdirs-to-load-path (dir)
+;;   "Recursive add directories to `load-path'."
+;;   (let ((default-directory (file-name-as-directory dir)))
+;;   (add-to-list 'load-path dir)
+;;   (normal-top-level-add-subdirs-to-load-path))
+;;   )
 
-(add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
+;; (add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
 
 ;; #################### 01 localization ####################
 ;; needs further checking and practicing, read more on x resource and fonts
@@ -61,18 +63,21 @@
 (add-hook 'after-make-frame-hook 'my-set-frame-font)
 
 ;; locales
-(prefer-coding-system 'chinese-gbk)
-(prefer-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-clipboard-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-file-name-coding-system 'utf-8)
-(set-buffer-file-coding-system 'utf-8 'utf-8)
-'(set-buffer-process-coding-system 'utf-8 'utf-8)
-(modify-coding-system-alist 'process "*" 'utf-8)
-(setq default-process-coding-system '(utf-8 . utf-8))
-;; emacs shell color encoding
-(ansi-color-for-comint-mode-on)
+(defun my-coding-system-init()
+  (prefer-coding-system 'chinese-gbk)
+  (prefer-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-clipboard-coding-system 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-file-name-coding-system 'utf-8)
+  (set-buffer-file-coding-system 'utf-8 'utf-8)
+  '(set-buffer-process-coding-system 'utf-8 'utf-8)
+  (modify-coding-system-alist 'process "*" 'utf-8)
+  (setq default-process-coding-system '(utf-8 . utf-8))
+  ;; emacs shell color encoding
+  (ansi-color-for-comint-mode-on)
+)
+(my-coding-system-init)
 ;; #################### end 01 ####################
 
 ;; #################### 00 custom ####################
@@ -102,9 +107,13 @@
 
 ;; ########## yasnppet ##########
 ;; yasnippet
-(require 'yasnippet)
-(setq yas/root-directory "~/.emacs.d/snippets")
-(yas/load-directory yas/root-directory)
+(defun my-yasnippet-init()
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/yasnippet/")
+  (require 'yasnippet)
+  (setq yas/root-directory "~/.emacs.d/site-lisp/yasnippet/snippets")
+  (yas/load-directory yas/root-directory)
+)
+(my-yasnippet-init)
 ;; ########## end ##########
 
 ;; ########## cc-mode ##########
@@ -196,72 +205,85 @@
 
 ;; ########## emacs server ##########
 ;; only start emacs server when it's not started, I hate warnings.
-(setq server-socket-file "/tmp/emacs1000/server")
-(unless (file-exists-p server-socket-file)
-  (server-start))
-;; exit emacs client
-(defun my-exit-emacs-client ()
-  "consistent exit emacsclient.
+(defun my-emacs-daemon-init()
+  (setq server-socket-file "/tmp/emacs1000/server")
+  (unless (file-exists-p server-socket-file)
+    (server-start))
+  ;; exit emacs client
+  (defun my-exit-emacs-client ()
+    "consistent exit emacsclient.
    if not in emacs client, echo a message in minibuffer, don't exit emacs.
    if in server mode
       and editing file, do C-x # server-edit
       else do C-x 5 0 delete-frame"
-  (interactive)
-  (if server-buffer-clients
-      (server-edit)
-    (delete-frame)))
-(global-set-key (kbd "C-c C-q") 'my-exit-emacs-client)
+    (interactive)
+    (if server-buffer-clients
+	(server-edit)
+      (delete-frame)))
+  (global-set-key (kbd "C-c C-q") 'my-exit-emacs-client)
+)
+(my-emacs-daemon-init)
 ;; ########## end ##########
 
 ;; ########## various ##########
-(fset 'yes-or-no-p 'y-or-n-p)
-;; time format
-(setq display-time-24hr-format t)
-;; (setq display-time-day-and-date t)
-(display-time)
+(defun my-misc-custom-init()
+  (fset 'yes-or-no-p 'y-or-n-p)
+  ;; time format
+  (setq display-time-24hr-format t)
+  ;; (setq display-time-day-and-date t)
+  (display-time)
 
-(add-hook 'before-save-hook 'time-stamp)
-;; delete trailing whitespaces before save
-(add-hook 'before-save-hook 'whitespace-cleanup)
-(setq x-select-enable-clipboard t)
-(setq use-dialog-box nil)
-(auto-image-file-mode t)
+  (add-hook 'before-save-hook 'time-stamp)
+  ;; delete trailing whitespaces before save
+  (add-hook 'before-save-hook 'whitespace-cleanup)
+  (setq x-select-enable-clipboard t)
+  (setq use-dialog-box nil)
+  (auto-image-file-mode t)
+
+  ;; ########## scrollbar ##########
+  (set-scroll-bar-mode 'right)
+  (setq
+   scroll-margin 0
+   scroll-conservatively 100000
+   scroll-preserve-screen-position 1)
+  ;; ########## end ##########
+)
+(my-misc-custom-init)
 ;; ########## end ##########
 
-;; ########## scrollbar ##########
-(set-scroll-bar-mode 'right)
-(setq
- scroll-margin 0
- scroll-conservatively 100000
- scroll-preserve-screen-position 1)
-;; ########## end ##########
 ;; ########## expand function ##########
-(setq hippie-expand-try-functions-list
-      '(
-	try-expand-dabbrev
-	try-expand-dabbrev-visible
-	try-expand-dabbrev-all-buffers
-	try-expand-dabbrev-from-kill
-	try-expand-line
-	try-expand-line-all-buffers
-	try-expand-list
-	try-expand-list-all-buffers
-	try-complete-file-name
-	try-complete-file-name-partially
-	try-complete-lisp-symbol
-	try-complete-lisp-symbol-partially
-	try-expand-whole-kill))
-(global-set-key (kbd "M-/") 'hippie-expand)
-(global-set-key (kbd "M-;") 'dabbrev-expand)
+(defun my-hippie-expand-init()
+  (setq hippie-expand-try-functions-list
+	'(
+	  try-expand-dabbrev
+	  try-expand-dabbrev-visible
+	  try-expand-dabbrev-all-buffers
+	  try-expand-dabbrev-from-kill
+	  try-expand-line
+	  try-expand-line-all-buffers
+	  try-expand-list
+	  try-expand-list-all-buffers
+	  try-complete-file-name
+	  try-complete-file-name-partially
+	  try-complete-lisp-symbol
+	  try-complete-lisp-symbol-partially
+	  try-expand-whole-kill))
+  (global-set-key (kbd "M-/") 'hippie-expand)
+  (global-set-key (kbd "M-;") 'dabbrev-expand)
+)
+(my-hippie-expand-init)
 ;;########## end ##########
 
 ;;########## key bindings ##########
 ;; buffer switching
-(global-set-key (kbd "C-x p") 'previous-buffer)
-(global-set-key [(XF86Back)] 'previous-buffer)
-(global-set-key (kbd "C-x n") 'next-buffer)
-(global-set-key [(XF86Forward)] 'next-buffer)
-(global-set-key "\C-c\C-c" 'comment-dwim)
+(defun my-key-init()
+  (global-set-key (kbd "C-x p") 'previous-buffer)
+  (global-set-key [(XF86Back)] 'previous-buffer)
+  (global-set-key (kbd "C-x n") 'next-buffer)
+  (global-set-key [(XF86Forward)] 'next-buffer)
+  (global-set-key "\C-c\C-c" 'comment-dwim)
+)
+(my-key-init)
 ;; ########## end ##########
 
 ;; ########## auctex ##########
@@ -305,13 +327,16 @@
 ;; ########## end ##########
 
 ;; ########## backup ##########
-(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
-(setq make-backup-files t)
-(setq kept-old-versions 2)
-(setq kept-new-versions 10)
-(setq delete-old-versions t)
-(setq backup-by-copying t)
-(setq version-control t)
+(defun my-backup-init()
+  (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+  (setq make-backup-files t)
+  (setq kept-old-versions 2)
+  (setq kept-new-versions 10)
+  (setq delete-old-versions t)
+  (setq backup-by-copying t)
+  (setq version-control t)
+)
+(my-backup-init)
 ;; ########## end ##########
 
 ;; ########## gtags ##########
@@ -328,12 +353,6 @@
 ;; ########## end ##########
 
 ;; ########## org ##########
-;;custome commands for the use of GTD.
-(setq org-agenda-custom-commands
-      '(("w" todo "WAITING" nil)
-	("n" todo "NEXT" nil)
-	("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
-      )
 ;;function gtd
 (defun my-gtd ()
   (interactive)
@@ -341,23 +360,33 @@
   )
 ;; ########## end ##########
 
-;; ########## org remember ##########
-(org-remember-insinuate)
-(setq org-directory "~/Documents/notes")
-(setq org-default-notes-file (concat org-directory "/notes.org"))
-(setq org-log-done 'note)
-(setq remember-annotation-functions '(org-remember-annotation))
-(setq remember-handler-functions '(org-remember-handler))
-(add-hook 'remember-mode-hook 'org-remember-apply-template)
-(global-set-key "\C-cr" 'org-remember)
-(global-set-key "\C-cc" 'calendar)
-(global-set-key "\C-ca" 'org-agenda)
+;; ########## org mode and remember ##########
+(defun my-org-mode-init()
+  (org-remember-insinuate)
+  (setq org-directory "~/Documents/notes")
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-log-done 'note)
+  (setq remember-annotation-functions '(org-remember-annotation))
+  (setq remember-handler-functions '(org-remember-handler))
+  ;;custome commands for the use of GTD.
+  (setq org-agenda-custom-commands
+	'(("w" todo "WAITING" nil)
+	  ("n" todo "NEXT" nil)
+	  ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
+	)
+  (add-hook 'remember-mode-hook 'org-remember-apply-template)
+  (global-set-key "\C-cr" 'org-remember)
+  (global-set-key "\C-cc" 'calendar)
+  (global-set-key "\C-ca" 'org-agenda)
+)
+(my-org-mode-init)
 ;; ########## end ##########
 
 ;; ########## git ##########
 ;; git contrib, various git controls
 ;; git.el, git-blame.el and magit.el give me git support
 ;; I installed maigt from debian apt
+(add-to-list 'load-path "~/.emacs.d/site-lisp/git-contrib/")
 (require 'git)
 (require 'git-blame)
 (eval-after-load 'magit
@@ -372,10 +401,12 @@
 
 ;; ########## markdown ##########
 ;; markdown-mode for translating Pro Git
-(autoload 'markdown-mode "markdown-mode.el"
-  "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-      (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
+(defun my-markdown-mode-init()
+  (autoload 'markdown-mode "markdown-mode.el"
+    "Major mode for editing Markdown files" t)
+  (setq auto-mode-alist
+	(cons '("\\.markdown" . markdown-mode) auto-mode-alist))
+)
 ;; ########## end ##########
 
 ;; ########## notify ##########
@@ -408,6 +439,7 @@ a sound to be played"
 ;; ########## autocomplete ##########
 ;; this package is good to use and easy to config
 ;; now without cedet semantic support, it will be add next
+(add-to-list 'load-path "~/.emacs.d/site-lisp/auto-complete/")
 (require 'auto-complete)
 (require 'auto-complete-config)
 ;; ac default configuration
@@ -447,7 +479,8 @@ a sound to be played"
 ;; cedet' basic functions is going to be integrited in emacs 23.2
 ;; NOTE: cedet from cvs has more functions than the integrited one but it's not ;; as clean as the one integrited
 ;;
-(add-to-list 'load-path (expand-file-name "/home/vmlinz/Projects/emacs/site-lisp/cedet/common"))
+;; (add-to-list 'load-path (expand-file-name "/home/vmlinz/Projects/emacs/site-lisp/cedet/common"))
+(add-to-list 'load-path "~/.emacs.d/site-lisp/cedet/common/")
 (require 'cedet)
 
 (defun my-semantic-hook ()

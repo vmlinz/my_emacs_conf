@@ -1,12 +1,10 @@
-((("customize" .
-   [0 0 0 1 0 0 0 0 0])
-  ("configuration" .
-   [0 0 0 0 0 0 1 0 0 0 0 0 0])
-  ("default" .
-   [0 0 0 0 0 0 1])
-  ("ac-config-default" .
-   [0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0])
-  ("d" .
-   [1])
-  ("seq" .
-   [1 0 0])))
+((("~/.emacs.d/site-lisp/cedet/common/" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0])
+  ("~/.emacs.d/site-lisp/cedet/" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0])
+  ("~/.emacs.d/site-lisp/yasnippet/snippets/" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0])
+  ("~/.emacs.d/site-lisp/yasnippet/" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0])
+  ("~/.emacs.d/site-lisp/" .
+   [0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0])))
