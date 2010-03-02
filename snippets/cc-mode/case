@@ -1,5 +1,0 @@
-#name:case...
-# --
-case ${1:condition}:
-	$0
-	break;
