@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-03 09:13:34 vmlinz>
+;; Time-stamp: <2010-03-03 09:50:36 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -629,6 +629,12 @@ a sound to be played"
   '(lambda()
      (setq lisp-indent-offset 2))
   )
+
+(global-set-key [f12]
+  "byte compile emacs init file and load it"
+  '(lambda()
+     (byte-compile-file "~/.emacs.d/init.el" t)
+     ))
 ;; ########## end ##########
 
 ;;; init.el for emacs ends here
