@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-03 10:34:30 vmlinz>
+;; Time-stamp: <2010-03-03 10:20:09 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -85,24 +85,23 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(bookmark-default-file "~/.emacs.d/.emacs.bmk")
- '(calendar-chinese-all-holidays-flag t)
- '(calendar-view-diary-initially-flag nil)
- '(column-number-mode t)
- '(diary-file "~/.emacs.d/diary.gpg")
- '(font-latex-fontify-sectioning (quote color))
- '(inhibit-startup-screen t)
- '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
- '(show-paren-mode t)
- '(uniquify-buffer-name-style (quote forward) nil (uniquify))
- '(vc-handled-backends (quote (GIT CVS SVN SCCS Bzr RCS Hg Mtn Arch))))
+  '(calendar-chinese-all-holidays-flag t)
+  '(calendar-view-diary-initially-flag nil)
+  '(column-number-mode t)
+  '(diary-file "~/.emacs.d/diary.gpg")
+  '(font-latex-fontify-sectioning (quote color))
+  '(inhibit-startup-screen t)
+  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
+  '(show-paren-mode t)
+  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+  '(vc-handled-backends (quote (GIT CVS SVN SCCS Bzr RCS Hg Mtn Arch))))
 
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- )
+  )
 ;; ########## end ##########
 
 ;; ########## cc-mode ##########

@@ -1,4 +1,3 @@
-/.emacs.bmk
 /diary.gpg
 /init.elc
 /semanticdb
@@ -6,3 +5,4 @@
 /tramp
 auto-save-list
 backup
+/.emacs.bmk
