@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-03 09:50:36 vmlinz>
+;; Time-stamp: <2010-03-03 10:01:08 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -38,7 +38,7 @@
 (defun my-set-frame-font ()
   (interactive)
   ;; default ansi code font
-  (set-default-font "Inconsolata-16")
+  (set-frame-font "Inconsolata-16")
   ;; font for other scripts
   (set-fontset-font t
     nil '("Inconsolata-16" . "unicode-bmp"))
@@ -590,7 +590,7 @@ a sound to be played"
   (ac-config-default)
   ;; ac customizations
   (set-face-background 'ac-candidate-face "lightgray")
-  (set-face-underline 'ac-candidate-face "darkgray")
+  (set-face-underline-p 'ac-candidate-face "darkgray")
   (set-face-background 'ac-selection-face "steelblue")
   (define-key ac-completing-map "\M-n" 'ac-next)
   (define-key ac-completing-map "\M-p" 'ac-previous)
@@ -629,10 +629,10 @@ a sound to be played"
   '(lambda()
      (setq lisp-indent-offset 2))
   )
-
+;; byte compile emacs init file and load it
 (global-set-key [f12]
-  "byte compile emacs init file and load it"
   '(lambda()
+     (interactive)
      (byte-compile-file "~/.emacs.d/init.el" t)
      ))
 ;; ########## end ##########
