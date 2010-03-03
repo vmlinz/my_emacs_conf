@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-03 10:01:08 vmlinz>
+;; Time-stamp: <2010-03-03 10:18:12 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -33,7 +33,7 @@
 
 ;; (add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
 
-;; #################### 01 localization ####################
+;; ########## localization ##########
 ;; needs further checking and practicing, read more on x resource and fonts
 (defun my-set-frame-font ()
   (interactive)
@@ -77,9 +77,9 @@
   (ansi-color-for-comint-mode-on)
   )
 (my-coding-system-init)
-;; #################### end 01 ####################
+;; ########## end ##########
 
-;; #################### 00 custom ####################
+;; ########## custom ##########
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -102,8 +102,7 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
   )
-;; #################### end 00 ####################
-
+;; ########## end ##########
 
 ;; ########## cc-mode ##########
 ;; c mode common hook
@@ -220,9 +219,8 @@
 		  filename))
 	  (setq indent-tabs-mode t)
 	  (c-set-style "linux-tabs-only")))))
-
-  ;; ########## end ##########
   )
+  ;; ########## end ##########
 (my-cc-mode-init)
 ;; ########## end ##########
 
