@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-03 10:20:09 vmlinz>
+;; Time-stamp: <2010-03-03 21:31:17 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -85,6 +85,7 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+  '(bookmark-default-file "~/.emacs.d/.emacs.bmk")
   '(calendar-chinese-all-holidays-flag t)
   '(calendar-view-diary-initially-flag nil)
   '(column-number-mode t)
