@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-03 21:31:17 vmlinz>
+;; Time-stamp: <2010-03-04 10:04:19 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -22,6 +22,7 @@
 ;; 4.The emacs i use is debian specifical, maybe I have to customize it through ;; debian source code
 ;; 5.tweak the third party lisp package configurations and make it more structured
 ;; 6.speed up startup time by make defuns and hooks
+;; 7.the configuration contains some machine specifical settings for Lenovo X200
 
 ;; add local elisp packages to load path
 ;; (defun add-subdirs-to-load-path (dir)
@@ -31,6 +32,7 @@
 ;;   (normal-top-level-add-subdirs-to-load-path))
 ;;   )
 
+;; this setting is annoying, it add all sub dirs to load path
 ;; (add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
 
 ;; ########## localization ##########
