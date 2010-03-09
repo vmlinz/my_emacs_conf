@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-09 09:35:47 vmlinz>
+;; Time-stamp: <2010-03-09 11:36:20 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -548,9 +548,9 @@ a sound to be played"
   (setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
   (setq semanticdb-search-system-databases t)
 
-  (require 'semanticdb-global)
-  (semanticdb-enable-gnu-global-databases 'c-mode)
-  (semanticdb-enable-gnu-global-databases 'c++-mode)
+  ;; (require 'semanticdb-global)
+  ;; (semanticdb-enable-gnu-global-databases 'c-mode)
+  ;; (semanticdb-enable-gnu-global-databases 'c++-mode)
   )
 (add-hook 'semantic-init-hooks 'my-semanticdb-hook)
 
