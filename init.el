@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-04 10:04:19 vmlinz>
+;; Time-stamp: <2010-03-09 09:35:47 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -439,6 +439,7 @@
   (setq auto-mode-alist
     (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
   )
+(my-markdown-mode-init)
 ;; ########## end ##########
 
 ;; ########## notify ##########
