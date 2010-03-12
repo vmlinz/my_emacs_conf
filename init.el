@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-13 00:08:33 vmlinz>
+;; Time-stamp: <2010-03-13 00:24:57 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -485,12 +485,6 @@ a sound to be played"
   (menu-bar-mode -1)
   nil
   )
-;; turn off menu-bar when visit file in terminal in emacs server
-(add-hook 'server-visit-hook
-  (lambda nill (
-		 (if (not (eq (window-system) 'x)
-		       (menu-bar-mode -1)
-		       nil)))))
 ;; ########## end ##########
 
 ;; ########## cedet ##########
