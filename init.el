@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-13 00:24:57 vmlinz>
+;; Time-stamp: <2010-03-21 11:46:25 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -97,7 +97,7 @@
   '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
   '(show-paren-mode t)
   '(uniquify-buffer-name-style (quote forward) nil (uniquify))
-  '(vc-handled-backends (quote (GIT CVS SVN SCCS Bzr RCS Hg Mtn Arch))))
+  '(vc-handled-backends (quote (GIT SVN Hg Bzr CVS))))
 
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
@@ -121,10 +121,10 @@
 	   )
 	 ))
 
-    ;; (defun do-compile()
-    ;;   (interactive)
-    ;;   (compile (make-command))
-    ;;   )
+    (defun do-compile()
+      (interactive)
+      (compile (make-command))
+      )
 
     (defun do-lint()
       (interactive)
@@ -256,7 +256,6 @@
   (setq display-time-24hr-format t)
   ;; (setq display-time-day-and-date t)
   (display-time)
-
   (add-hook 'before-save-hook 'time-stamp)
   ;; delete trailing whitespaces before save
   (add-hook 'before-save-hook 'whitespace-cleanup)
@@ -489,7 +488,7 @@ a sound to be played"
 
 ;; ########## cedet ##########
 ;; cedet frome cvs configured for c/c++ programming
-;; cedet' basic functions is going to be integrited in emacs 23.2
+;; cedet' stable functions is going to be integrited in emacs 23.2
 ;; NOTE: cedet from cvs has more functions than the integrited one but it's not ;; as clean as the one integrited
 ;;
 ;; (add-to-list 'load-path (expand-file-name "/home/vmlinz/Projects/emacs/site-lisp/cedet/common"))
