@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-03-21 11:46:25 vmlinz>
+;; Time-stamp: <2010-03-22 21:41:17 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -261,6 +261,8 @@
   (add-hook 'before-save-hook 'whitespace-cleanup)
   (setq x-select-enable-clipboard t)
   (setq use-dialog-box nil)
+  ;; set my email address
+  (setq user-mail-address "vmlinz@gmail.com")
   (auto-image-file-mode t)
 
   ;; ########## scrollbar ##########
@@ -299,6 +301,7 @@
 
 ;;########## key bindings ##########
 ;; buffer switching
+;; some keybindings here are specifical to Lenovo Thinkpad
 (defun my-key-init()
   (global-set-key (kbd "C-x p") 'previous-buffer)
   (global-set-key [(XF86Back)] 'previous-buffer)
@@ -546,10 +549,6 @@ a sound to be played"
   (global-semanticdb-minor-mode 1)
   (setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
   (setq semanticdb-search-system-databases t)
-
-  ;; (require 'semanticdb-global)
-  ;; (semanticdb-enable-gnu-global-databases 'c-mode)
-  ;; (semanticdb-enable-gnu-global-databases 'c++-mode)
   )
 (add-hook 'semantic-init-hooks 'my-semanticdb-hook)
 
@@ -564,7 +563,6 @@ a sound to be played"
   (add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qglobal.h"))
   )
 (add-hook 'semantic-init-hooks 'my-semantic-qt4-hook)
-
 ;; ########## end ##########
 
 ;; ########## yasnippet ##########
