@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-04-04 00:20:25 vmlinz>
+;; Time-stamp: <2010-04-04 00:24:49 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -136,7 +136,6 @@
 	    "+single-include -strict -compdef -nullpass -preproc +matchanyintegral -internalglobs -I/usr/include/gtk-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/cairo/"
 	    file
 	    )))
-      (message compile-command)
       (compile compile-command)
       )
 
@@ -174,7 +173,7 @@
     ;; major key bindings for c-modes
     (local-set-key "\C-c\C-c" 'comment-dwim)
     (define-key c-mode-base-map [(return)] 'newline-and-indent)
-    (define-key c-mode-base-map [(f7)] 'do-compile)
+    (define-key c-mode-base-map [(f7)] 'compile)
     (define-key c-mode-base-map [(meta \')] 'c-indent-command)
     )
   (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
