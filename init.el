@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-04-04 00:24:49 vmlinz>
+;; Time-stamp: <2010-05-17 11:39:23 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -314,7 +314,7 @@
 
 ;; ########## auctex ##########
 ;; default to xelatex
-;; exec-path for texlive2009
+;; exec-path for texlive2009 from CTAN
 (defun my-auctex-init()
   (add-hook 'LaTeX-mode-hook
     '(lambda()
@@ -419,8 +419,11 @@
 ;; I installed maigt from debian apt
 (defun my-git-init()
   (add-to-list 'load-path "~/.emacs.d/site-lisp/git-contrib/")
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/magit/")
   (require 'git)
   (require 'git-blame)
+
+  (autoload 'magit-status "magit" nil t)
   (eval-after-load 'magit
     '(progn
        (set-face-foreground 'magit-diff-add "green3")
