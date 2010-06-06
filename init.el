@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-05-17 11:39:23 vmlinz>
+;; Time-stamp: <2010-06-06 17:31:21 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -264,14 +264,14 @@
   ;; set my email address
   (setq user-mail-address "vmlinz@gmail.com")
   (auto-image-file-mode t)
-
-  ;; ########## scrollbar ##########
+  ;; scrollbar
   (set-scroll-bar-mode 'right)
   (setq
     scroll-margin 0
     scroll-conservatively 100000
     scroll-preserve-screen-position 1)
-  ;; ########## end ##########
+  ;; check last line to be a newline
+  (setq require-final-newline t)
   )
 (my-misc-custom-init)
 ;; ########## end ##########
