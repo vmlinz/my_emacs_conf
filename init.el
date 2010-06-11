@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-06-06 17:31:21 vmlinz>
+;; Time-stamp: <2010-06-12 00:38:37 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -272,6 +272,8 @@
     scroll-preserve-screen-position 1)
   ;; check last line to be a newline
   (setq require-final-newline t)
+  ;; set insert parenthese without space
+  (setq parens-require-spaces nil)
   )
 (my-misc-custom-init)
 ;; ########## end ##########
@@ -637,6 +639,24 @@ a sound to be played"
      (interactive)
      (byte-compile-file "~/.emacs.d/init.el" t)
      ))
+;; ########## end ##########
+
+;; ########## android-mode #########
+(defun my-android-mode-init()
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/android-mode/")
+  (require 'android-mode)
+  (setq android-mode-sdk-dir "~/Projects/android-sdk-linux_86/")
+  (setq android-mode-ndk-dir "~/Projects/android/ndks/android-ndk-r4/")
+  ;; set default running emulator
+  (setq android-mode-avd "android-4")
+  (setenv "PATH" (concat
+		   (getenv "PATH")
+		   (concat ":" (expand-file-name android-mode-sdk-dir) "tools")
+		   (concat ":" (expand-file-name android-mode-ndk-dir))))
+  (add-to-list 'exec-path (expand-file-name (concat android-mode-sdk-dir "tools")))
+  (add-to-list 'exec-path (expand-file-name android-mode-ndk-dir))
+  )
+(my-android-mode-init)
 ;; ########## end ##########
 
 ;;; init.el for emacs ends here
