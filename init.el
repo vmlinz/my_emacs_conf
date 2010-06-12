@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-06-12 00:38:37 vmlinz>
+;; Time-stamp: <2010-06-12 09:59:12 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -647,12 +647,14 @@ a sound to be played"
   (require 'android-mode)
   (setq android-mode-sdk-dir "~/Projects/android-sdk-linux_86/")
   (setq android-mode-ndk-dir "~/Projects/android/ndks/android-ndk-r4/")
-  ;; set default running emulator
+  ;; set default emulator
   (setq android-mode-avd "android-4")
+  ;; set sdk tools and ndk tools to path env
   (setenv "PATH" (concat
 		   (getenv "PATH")
 		   (concat ":" (expand-file-name android-mode-sdk-dir) "tools")
 		   (concat ":" (expand-file-name android-mode-ndk-dir))))
+  ;; set sdk tools and ndk tools to emacs exec path
   (add-to-list 'exec-path (expand-file-name (concat android-mode-sdk-dir "tools")))
   (add-to-list 'exec-path (expand-file-name android-mode-ndk-dir))
   )
