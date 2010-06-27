@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-06-12 09:59:12 vmlinz>
+;; Time-stamp: <2010-06-27 09:15:29 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -274,6 +274,8 @@
   (setq require-final-newline t)
   ;; set insert parenthese without space
   (setq parens-require-spaces nil)
+  ;; set kill-ring-max to 512
+  (setq kill-ring-max 512)
   )
 (my-misc-custom-init)
 ;; ########## end ##########
