@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-07-28 14:38:32 vmlinz>
+;; Time-stamp: <2010-07-28 17:23:00 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -146,10 +146,16 @@
 				     (region-end)) "\""))
       )
 
+    ;; compilation
     (setq compilation-window-height 16)
     (setq compilation-scroll-output t)
-    (setq gdb-show-main t)
-    (setq gdb-many-windows t)
+    ;; gdb
+    (add-hook 'gud-mode-hook
+      (lambda()
+	(setq gdb-show-main t)
+	(setq gdb-many-windows -1)
+	(define-key gud-mode-map [(f8)] 'gdb-many-windows)
+	))
 
     (require 'xcscope)
 
