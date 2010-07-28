@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-06-27 09:15:29 vmlinz>
+;; Time-stamp: <2010-07-28 14:38:32 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -174,6 +174,7 @@
     (local-set-key "\C-c\C-c" 'comment-dwim)
     (define-key c-mode-base-map [(return)] 'newline-and-indent)
     (define-key c-mode-base-map [(f7)] 'compile)
+    (define-key c-mode-base-map [(f8)] 'gdb)
     (define-key c-mode-base-map [(meta \')] 'c-indent-command)
     )
   (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
