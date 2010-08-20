@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-07-28 17:23:00 vmlinz>
+;; Time-stamp: <2010-08-21 01:47:01 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -151,11 +151,11 @@
     (setq compilation-scroll-output t)
     ;; gdb
     (add-hook 'gud-mode-hook
-      (lambda()
-	(setq gdb-show-main t)
-	(setq gdb-many-windows -1)
-	(define-key gud-mode-map [(f8)] 'gdb-many-windows)
-	))
+      '(lambda()
+	 (setq gdb-show-main t)
+	 (setq gdb-many-windows -1)
+	 (define-key gud-mode-map [(f8)] 'gdb-many-windows)
+	 ))
 
     (require 'xcscope)
 
@@ -640,7 +640,8 @@ a sound to be played"
 ;; lisp indent offset to 2
 (add-hook 'emacs-lisp-mode-hook
   '(lambda()
-     (setq lisp-indent-offset 2))
+     (setq lisp-indent-offset 2)
+     (yas/minor-mode t))
   )
 ;; byte compile emacs init file and load it
 (global-set-key [f12]
