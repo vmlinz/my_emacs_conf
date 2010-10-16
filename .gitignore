@@ -3,7 +3,8 @@
 /semanticdb
 /session.*
 /tramp
-auto-save-list
-backup
+/auto-save-list
+/backup
 /.emacs.bmk
-ac-comphist.dat
+/ac-comphist.dat
+/el-get

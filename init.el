@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-08-21 01:47:01 vmlinz>
+;; Time-stamp: <2010-10-16 23:58:19 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -671,4 +671,15 @@ a sound to be played"
 (my-android-mode-init)
 ;; ########## end ##########
 
+;; ########## el-get ##########
+;; the great package management tool el-get
+(defun my-el-get-init()
+  (add-to-list 'load-path "~/.emacs.d/el-get/el-get/")
+  (require 'el-get)
+  (setq el-get-sources '(el-get package cssh))
+  ;; init el-get
+  (el-get 'sync)
+)
+(my-el-get-init)
+;; ########## end ##########
 ;;; init.el for emacs ends here
