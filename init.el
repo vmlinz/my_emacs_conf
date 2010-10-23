@@ -1,5 +1,9 @@
 ;; This file is not part of gnu emacs
+<<<<<<< HEAD
 ;; Time-stamp: <2010-10-23 23:54:03 vmlinz>
+=======
+;; Time-stamp: <2010-10-23 23:56:31 vmlinz>
+>>>>>>> enable upcase-region and downcase-region for convinience
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -680,7 +684,7 @@ a sound to be played"
   (setq el-get-sources '(el-get package cssh))
   ;; init el-get
   (el-get 'sync)
-)
+  )
 (my-el-get-init)
 ;; ########## end ##########
 
