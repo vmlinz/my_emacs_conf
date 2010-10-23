@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-10-16 23:58:19 vmlinz>
+;; Time-stamp: <2010-10-23 23:54:03 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -19,7 +19,8 @@
 ;; 1.Brand new emacs configuration for TeXing and c/c++ programming
 ;; 2.Let's keep it really simple and easy always
 ;; 3.Maybe I will restruct these code to get it more structured and maitainable
-;; 4.The emacs i use is debian specifical, maybe I have to customize it through ;; debian source code
+;; 4.The emacs i use is debian specifical, maybe I have to customize it through
+;; debian source code
 ;; 5.tweak the third party lisp package configurations and make it more structured
 ;; 6.speed up startup time by make defuns and hooks
 ;; 7.the configuration contains some machine specifical settings for Lenovo X200
@@ -113,13 +114,13 @@
   (defun my-c-mode-common-hook()
     (add-hook 'compilation-finish-functions
       '(lambda (buf str)
-	 (if (string-match "exited abnormally" str)
-	   (next-error)
-	   ;;no errors, make the compilation window go away in a few seconds
-	   (run-at-time "2 sec" nil 'delete-windows-on (get-buffer-create "*compilation*"))
-	   (message "No Compilation Errors!")
-	   )
-	 ))
+         (if (string-match "exited abnormally" str)
+           (next-error)
+           ;;no errors, make the compilation window go away in a few seconds
+           (run-at-time "2 sec" nil 'delete-windows-on (get-buffer-create "*compilation*"))
+           (message "No Compilation Errors!")
+           )
+         ))
 
     (defun do-compile()
       (interactive)
@@ -130,20 +131,20 @@
     (defun do-lint()
       (interactive)
       (set (make-local-variable 'compile-command)
-	(let ((file (file-name-nondirectory buffer-file-name)))
-	  (format "%s %s %s"
-	    "splint"
-	    "+single-include -strict -compdef -nullpass -preproc +matchanyintegral -internalglobs -I/usr/include/gtk-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/cairo/"
-	    file
-	    )))
+        (let ((file (file-name-nondirectory buffer-file-name)))
+          (format "%s %s %s"
+            "splint"
+            "+single-include -strict -compdef -nullpass -preproc +matchanyintegral -internalglobs -I/usr/include/gtk-2.0/ -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/cairo/"
+            file
+            )))
       (compile compile-command)
       )
 
     (defun do-cdecl ()
       (interactive)
       (shell-command
-	(concat "cdecl explain \"" (buffer-substring (region-beginning)
-				     (region-end)) "\""))
+        (concat "cdecl explain \"" (buffer-substring (region-beginning)
+                                     (region-end)) "\""))
       )
 
     ;; compilation
@@ -152,27 +153,27 @@
     ;; gdb
     (add-hook 'gud-mode-hook
       '(lambda()
-	 (setq gdb-show-main t)
-	 (setq gdb-many-windows -1)
-	 (define-key gud-mode-map [(f8)] 'gdb-many-windows)
-	 ))
+         (setq gdb-show-main t)
+         (setq gdb-many-windows -1)
+         (define-key gud-mode-map [(f8)] 'gdb-many-windows)
+         ))
 
     (require 'xcscope)
 
     (eval-after-load `xcscope
       `(progn
-	 ;; cscope databases
-	 (setq cscope-database-regexps
-	   '(
-	      ( "/home/Projects/libc"
-		(t)
-		("/usr/src/linux/include")
-		)
-	      ))
+         ;; cscope databases
+         (setq cscope-database-regexps
+           '(
+              ( "/home/Projects/libc"
+                (t)
+                ("/usr/src/linux/include")
+                )
+              ))
 
-	 (setq cscope-do-not-update-database t)
-	 (setq cscope-display-cscope-buffer nil)
-	 (setq cscope-edit-single-match nil)))
+         (setq cscope-do-not-update-database t)
+         (setq cscope-display-cscope-buffer nil)
+         (setq cscope-edit-single-match nil)))
 
     (yas/minor-mode t)
 
@@ -204,31 +205,31 @@
   (defun c-lineup-arglist-tabs-only (ignored)
     "Line up argument lists by tabs, not spaces"
     (let* ((anchor (c-langelem-pos c-syntactic-element))
-	    (column (c-langelem-2nd-pos c-syntactic-element))
-	    (offset (- (1+ column) anchor))
-	    (steps (floor offset c-basic-offset)))
+            (column (c-langelem-2nd-pos c-syntactic-element))
+            (offset (- (1+ column) anchor))
+            (steps (floor offset c-basic-offset)))
       (* (max steps 1)
-	c-basic-offset)))
+        c-basic-offset)))
 
   (add-hook 'c-mode-common-hook
     (lambda ()
       ;; Add kernel style
       (c-add-style
-	"linux-tabs-only"
-	'("linux" (c-offsets-alist
-		    (arglist-cont-nonempty
-		      c-lineup-gcc-asm-reg
-		      c-lineup-arglist-tabs-only))))))
+        "linux-tabs-only"
+        '("linux" (c-offsets-alist
+                    (arglist-cont-nonempty
+                      c-lineup-gcc-asm-reg
+                      c-lineup-arglist-tabs-only))))))
 
   (add-hook 'c-mode-hook
     (lambda ()
       (let ((filename (buffer-file-name)))
-	;; Enable kernel mode for the appropriate files
-	(when (and filename
-		(string-match (expand-file-name "~/Projects/kernel")
-		  filename))
-	  (setq indent-tabs-mode t)
-	  (c-set-style "linux-tabs-only")))))
+        ;; Enable kernel mode for the appropriate files
+        (when (and filename
+                (string-match (expand-file-name "~/Projects/kernel")
+                  filename))
+          (setq indent-tabs-mode t)
+          (c-set-style "linux-tabs-only")))))
   )
 ;; ########## end ##########
 (my-cc-mode-init)
@@ -343,8 +344,8 @@
     '(progn
        (TeX-global-PDF-mode t)
        (setq TeX-output-view-style
-	 (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
-	 )))
+         (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
+         )))
   (add-hook 'TeX-mode-hook
     '(lambda ()
        (turn-on-reftex)
@@ -467,11 +468,11 @@ a sound to be played"
 
   (interactive)
   (when sound (shell-command
-		(concat "mplayer -really-quiet " sound " 2> /dev/null")))
+                (concat "mplayer -really-quiet " sound " 2> /dev/null")))
   (if (eq window-system 'x)
     (shell-command (concat "notify-send "
-		     (if icon (concat "-i " icon) "")
-		     " '" title "' '" msg "'"))
+                     (if icon (concat "-i " icon) "")
+                     " '" title "' '" msg "'"))
     ;; text only version
     (message (concat title ": " msg))))
 ;; ########## end ##########
@@ -661,9 +662,9 @@ a sound to be played"
   (setq android-mode-avd "android-4")
   ;; set sdk tools and ndk tools to path env
   (setenv "PATH" (concat
-		   (getenv "PATH")
-		   (concat ":" (expand-file-name android-mode-sdk-dir) "tools")
-		   (concat ":" (expand-file-name android-mode-ndk-dir))))
+                   (getenv "PATH")
+                   (concat ":" (expand-file-name android-mode-sdk-dir) "tools")
+                   (concat ":" (expand-file-name android-mode-ndk-dir))))
   ;; set sdk tools and ndk tools to emacs exec path
   (add-to-list 'exec-path (expand-file-name (concat android-mode-sdk-dir "tools")))
   (add-to-list 'exec-path (expand-file-name android-mode-ndk-dir))
@@ -682,4 +683,19 @@ a sound to be played"
 )
 (my-el-get-init)
 ;; ########## end ##########
+
+;; ########## python mode ##########
+;; python mode customizations
+(defun my_py_init()
+  (setq python-python-command "python3")
+  )
+(my_py_init)
+;; ########## end ##########
+
+;; ########## switches ##########
+;; various toggles for the disabled commands
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+;; ########## end ##########
+
 ;;; init.el for emacs ends here
