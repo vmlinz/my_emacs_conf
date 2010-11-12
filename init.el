@@ -1,9 +1,5 @@
 ;; This file is not part of gnu emacs
-<<<<<<< HEAD
-;; Time-stamp: <2010-10-23 23:54:03 vmlinz>
-=======
-;; Time-stamp: <2010-10-23 23:56:31 vmlinz>
->>>>>>> enable upcase-region and downcase-region for convinience
+;; Time-stamp: <2010-11-12 12:45:19 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -691,8 +687,14 @@ a sound to be played"
 ;; ########## python mode ##########
 ;; python mode customizations
 (defun my_py_init()
-  (setq python-python-command "python3")
-  )
+  (add-hook 'python-mode-hook
+    '(lambda ()
+       (setq indent-tabs-mode nil)
+       ;; (setq tab-width 4)
+       (setq python-indent 4)
+       (setq python-python-command "python3")
+       (yas/minor-mode t)
+       )))
 (my_py_init)
 ;; ########## end ##########
 
