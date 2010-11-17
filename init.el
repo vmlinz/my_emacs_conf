@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-14 22:34:35 vmlinz>
+;; Time-stamp: <2010-11-17 22:56:00 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -24,6 +24,8 @@
 ;; 5.tweak the third party lisp package configurations and make it more structured
 ;; 6.speed up startup time by make defuns and hooks
 ;; 7.the configuration contains some machine specifical settings for Lenovo X200
+;; 8.introduce the newly pacage manager _el-get_ to manage various third party
+;; packages
 
 ;; add local elisp packages to load path
 ;; (defun add-subdirs-to-load-path (dir)
@@ -124,8 +126,8 @@
 
     (defun do-compile()
       (interactive)
-      (message (make-command))
-      (compile (make-command))
+      (message (compile-command))
+      (compile (compile-command))
       )
 
     (defun do-lint()
@@ -430,18 +432,18 @@
 ;; git.el, git-blame.el and magit.el give me git support
 ;; I installed maigt from debian apt
 (defun my-git-init()
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/git-contrib/")
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/magit/")
-  (require 'git)
-  (require 'git-blame)
+  ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/git-contrib/")
+  ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/magit/")
+  ;; (require 'git)
+  ;; (require 'git-blame)
 
   (autoload 'magit-status "magit" nil t)
+  (global-set-key (kbd "C-x C-z") 'magit-status)
   (eval-after-load 'magit
     '(progn
        (set-face-foreground 'magit-diff-add "green3")
        (set-face-foreground 'magit-diff-del "red3")))
   )
-(my-git-init)
 ;; ########## end #########
 
 ;; ########## emms ##########
@@ -570,6 +572,7 @@ a sound to be played"
 (defun my-semantic-qt4-hook()
   "qt4 setting hook for semantic"
   ;; qt4 programming settings
+  (defvar qt4-base-dir nil "Qt4 base include directory")
   (setq qt4-base-dir "/usr/include/qt4")
   (semantic-add-system-include qt4-base-dir 'c++-mode)
   (add-to-list 'auto-mode-alist (cons qt4-base-dir 'c++-mode))
@@ -597,8 +600,6 @@ a sound to be played"
 ;; this package is good to use and easy to config
 ;; now without cedet semantic support, it will be add next
 (defun my-auto-complete-init()
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/auto-complete/")
-  (require 'auto-complete)
   (require 'auto-complete-config)
   ;; ac default configuration
   (ac-config-default)
@@ -614,7 +615,6 @@ a sound to be played"
   (setq ac-auto-start 3)
   (setq ac-use-quick-help nil)
   )
-(my-auto-complete-init)
 ;; ########## end ##########
 
 ;; ########## woman ##########
@@ -678,22 +678,25 @@ a sound to be played"
   (add-to-list 'load-path "~/.emacs.d/el-get/el-get/")
   (require 'el-get)
   (setq el-get-sources
-    '(el-get package cssh scratch popup-kill-ring
-       (:name asciidoc
-	 :type elpa
-	 :after (lambda ()
-		  (autoload 'doc-mode "doc-mode" nil t)
-		  (add-to-list 'auto-mode-alist '("\\.adoc$" . doc-mode))
-		  (add-hook 'doc-mode-hook '(lambda ()
-					      (turn-on-auto-fill)
-					      (require 'asciidoc)))))
+    '(el-get
+       package
+       cssh
+       scratch
+       pos-tip popup-kill-ring
        (:name lisppaste
-	 :type elpa)
+       	 :type elpa)
+       (:name autocomplete
+	 :after (lambda () (my-auto-complete-init)))
+       (:name magit
+	 :after (lambda () (my-git-init)))
        ))
   ;; init el-get
-  (el-get 'sync)
+  (el-get 'wait)
   )
 (my-el-get-init)
+;; something wrong with the auto complete after hook of el-get, so it is a simp-
+;; ly work around for it
+(my-auto-complete-init)
 ;; ########## end ##########
 
 ;; ########## python mode ##########
