@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-20 15:23:46 vmlinz>
+;; Time-stamp: <2010-11-18 22:32:25 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -456,6 +456,10 @@ a sound to be played"
   ido-max-prospects 10)
 ;; ########## end ##########
 
+;; ########## icomplete ##########
+(icomplete-mode t)
+;; ########## end ##########
+
 ;; ########## fullscreen ##########
 ;; fullscreen
 (defun my-fullscreen (&optional f)
@@ -687,6 +691,7 @@ a sound to be played"
        scratch
        pos-tip
        popup-kill-ring
+       sicp
        (:name lisppaste
        	 :type elpa)
        (:name auto-complete
