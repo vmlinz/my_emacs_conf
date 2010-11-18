@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-18 14:39:03 vmlinz>
+;; Time-stamp: <2010-11-18 14:59:16 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -432,11 +432,6 @@
 ;; git.el, git-blame.el and magit.el give me git support
 ;; I installed maigt from debian apt
 (defun my-git-init()
-  ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/git-contrib/")
-  ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/magit/")
-  ;; (require 'git)
-  ;; (require 'git-blame)
-
   (autoload 'magit-status "magit" nil t)
   (global-set-key (kbd "C-x C-z") 'magit-status)
   (eval-after-load 'magit
