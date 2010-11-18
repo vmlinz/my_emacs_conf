@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-18 14:59:16 vmlinz>
+;; Time-stamp: <2010-11-18 15:20:10 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -26,17 +26,6 @@
 ;; 7.the configuration contains some machine specifical settings for Lenovo X200
 ;; 8.introduce the newly pacage manager _el-get_ to manage various third party
 ;; packages
-
-;; add local elisp packages to load path
-;; (defun add-subdirs-to-load-path (dir)
-;;   "Recursive add directories to `load-path'."
-;;   (let ((default-directory (file-name-as-directory dir)))
-;;   (add-to-list 'load-path dir)
-;;   (normal-top-level-add-subdirs-to-load-path))
-;;   )
-
-;; this setting is annoying, it add all sub dirs to load path
-;; (add-subdirs-to-load-path "~/.emacs.d/site-lisp/")
 
 ;; ########## localization ##########
 ;; needs further checking and practicing, read more on x resource and fonts
@@ -504,9 +493,8 @@ a sound to be played"
 ;; ########## cedet ##########
 ;; cedet frome cvs configured for c/c++ programming
 ;; cedet' stable functions is going to be integrited in emacs 23.2
-;; NOTE: cedet from cvs has more functions than the integrited one but it's not ;; as clean as the one integrited
-;;
-;; (add-to-list 'load-path (expand-file-name "/home/vmlinz/Projects/emacs/site-lisp/cedet/common"))
+;; NOTE: cedet from cvs has more functions than the integrited one but it's not
+;; as clean as the one integrited
 (add-to-list 'load-path "~/.emacs.d/site-lisp/cedet/common/")
 (require 'cedet)
 
