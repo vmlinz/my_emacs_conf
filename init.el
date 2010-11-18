@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-17 22:56:00 vmlinz>
+;; Time-stamp: <2010-11-18 14:39:03 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -686,6 +686,7 @@ a sound to be played"
        (:name lisppaste
        	 :type elpa)
        (:name autocomplete
+	 :features auto-complete-config
 	 :after (lambda () (my-auto-complete-init)))
        (:name magit
 	 :after (lambda () (my-git-init)))
