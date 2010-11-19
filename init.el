@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-19 13:39:31 vmlinz>
+;; Time-stamp: <2010-11-19 16:02:23 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -165,8 +165,6 @@
 	 (setq cscope-do-not-update-database t)
 	 (setq cscope-display-cscope-buffer nil)
 	 (setq cscope-edit-single-match nil)))
-
-    (yas/minor-mode t)
 
     ;; major key bindings for c-modes
     (local-set-key "\C-c\C-c" 'comment-dwim)
@@ -552,19 +550,6 @@ a sound to be played"
 (add-hook 'semantic-init-hooks 'my-semantic-qt4-hook)
 ;; ########## end ##########
 
-;; ########## yasnippet ##########
-;; yasnippet
-(defun my-yasnippet-init()
-  (add-to-list 'load-path "~/.emacs.d/el-get/yasnippet")
-  (require 'yasnippet)
-  (setq yas/root-directory "~/.emacs.d/el-get/yasnippet/snippets")
-  (yas/load-directory yas/root-directory)
-  ;; set yas menu to abbreviate mode
-  (setq yas/use-menu 'abbreviate)
-  )
-(my-yasnippet-init)
-;; ########## end ##########
-
 ;; ########## woman ##########
 ;; settings for woman
 (add-hook 'after-init-hook
@@ -590,8 +575,7 @@ a sound to be played"
 (add-hook 'emacs-lisp-mode-hook
   '(lambda()
      (setq lisp-indent-offset 2)
-     (yas/minor-mode t))
-  )
+  ))
 ;; byte compile emacs init file and load it
 (global-set-key [f12]
   '(lambda()
@@ -620,6 +604,18 @@ a sound to be played"
 (my-android-mode-init)
 ;; ########## end ##########
 
+;; ########## yasnippet ##########
+;; yasnippet
+(defun my-yasnippet-init()
+  (require 'yasnippet)
+  (setq yas/root-directory "~/.emacs.d/el-get/yasnippet/snippets")
+  (yas/load-directory yas/root-directory)
+  ;; set yas menu to abbreviate mode
+  (setq yas/use-menu 'abbreviate)
+  (yas/global-mode t)
+  )
+;; ########## end ##########
+
 ;; ########## auto-complete ##########
 ;; this package is good to use and easy to config
 ;; now without cedet semantic support, it will be add next
@@ -642,9 +638,7 @@ a sound to be played"
 ;; ########## end ##########
 
 ;; ########## git ##########
-;; git contrib, various git controls
-;; git.el, git-blame.el and magit.el give me git support
-;; I installed maigt from debian apt
+;; configure magit
 (defun my-git-init()
   (autoload 'magit-status "magit" nil t)
   (global-set-key (kbd "C-x C-z") 'magit-status)
@@ -670,13 +664,15 @@ a sound to be played"
        (:name lisppaste
        	 :type elpa)
        (:name auto-complete
+	 :build "make"
 	 :after (lambda () (my-auto-complete-init)))
        (:name magit
+	 :build "make"
 	 :after (lambda () (my-git-init)))
-       ;; (:name yasnippet
-       ;; 	 :after (lambda () (message "calling yasnippet after func")))
+       (:name yasnippet
+       	 :build "rake compile"
+	 :after (lambda () (my-yasnippet-init)))
        ))
-  ;; init el-get
   (el-get 'wait)
   )
 (my-el-get-init)
@@ -688,10 +684,8 @@ a sound to be played"
   (add-hook 'python-mode-hook
     '(lambda ()
        (setq indent-tabs-mode nil)
-       ;; (setq tab-width 4)
        (setq python-indent 4)
        (setq python-python-command "python3")
-       (yas/minor-mode t)
        )))
 (my-py-init)
 ;; ########## end ##########
