@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-18 15:20:10 vmlinz>
+;; Time-stamp: <2010-11-19 13:39:31 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -416,20 +416,6 @@
 (my-org-mode-init)
 ;; ########## end ##########
 
-;; ########## git ##########
-;; git contrib, various git controls
-;; git.el, git-blame.el and magit.el give me git support
-;; I installed maigt from debian apt
-(defun my-git-init()
-  (autoload 'magit-status "magit" nil t)
-  (global-set-key (kbd "C-x C-z") 'magit-status)
-  (eval-after-load 'magit
-    '(progn
-       (set-face-foreground 'magit-diff-add "green3")
-       (set-face-foreground 'magit-diff-del "red3")))
-  )
-;; ########## end #########
-
 ;; ########## emms ##########
 ;; now just ignore it, for programming and daily use come first
 ;; ########## end ##########
@@ -569,35 +555,14 @@ a sound to be played"
 ;; ########## yasnippet ##########
 ;; yasnippet
 (defun my-yasnippet-init()
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/yasnippet/")
+  (add-to-list 'load-path "~/.emacs.d/el-get/yasnippet")
   (require 'yasnippet)
-  (setq yas/root-directory "~/.emacs.d/site-lisp/yasnippet/snippets")
+  (setq yas/root-directory "~/.emacs.d/el-get/yasnippet/snippets")
   (yas/load-directory yas/root-directory)
   ;; set yas menu to abbreviate mode
   (setq yas/use-menu 'abbreviate)
   )
 (my-yasnippet-init)
-;; ########## end ##########
-
-;; ########## auto-complete ##########
-;; this package is good to use and easy to config
-;; now without cedet semantic support, it will be add next
-(defun my-auto-complete-init()
-  (require 'auto-complete-config)
-  ;; ac default configuration
-  (ac-config-default)
-  ;; ac customizations
-  (set-face-background 'ac-candidate-face "lightgray")
-  (set-face-underline-p 'ac-candidate-face "darkgray")
-  (set-face-background 'ac-selection-face "steelblue")
-  (define-key ac-completing-map "\M-n" 'ac-next)
-  (define-key ac-completing-map "\M-p" 'ac-previous)
-  (setq ac-dwim t)
-  (define-key ac-mode-map [(C-tab)] 'auto-complete)
-  ;;start completion when entered 3 characters
-  (setq ac-auto-start 3)
-  (setq ac-use-quick-help nil)
-  )
 ;; ########## end ##########
 
 ;; ########## woman ##########
@@ -655,6 +620,41 @@ a sound to be played"
 (my-android-mode-init)
 ;; ########## end ##########
 
+;; ########## auto-complete ##########
+;; this package is good to use and easy to config
+;; now without cedet semantic support, it will be add next
+(defun my-auto-complete-init()
+  (require 'auto-complete-config)
+  ;; ac default configuration
+  (ac-config-default)
+  ;; ac customizations
+  (set-face-background 'ac-candidate-face "lightgray")
+  (set-face-underline-p 'ac-candidate-face "darkgray")
+  (set-face-background 'ac-selection-face "steelblue")
+  (define-key ac-completing-map "\M-n" 'ac-next)
+  (define-key ac-completing-map "\M-p" 'ac-previous)
+  (setq ac-dwim t)
+  (define-key ac-mode-map [(C-tab)] 'auto-complete)
+  ;;start completion when entered 3 characters
+  (setq ac-auto-start 3)
+  (setq ac-use-quick-help nil)
+  )
+;; ########## end ##########
+
+;; ########## git ##########
+;; git contrib, various git controls
+;; git.el, git-blame.el and magit.el give me git support
+;; I installed maigt from debian apt
+(defun my-git-init()
+  (autoload 'magit-status "magit" nil t)
+  (global-set-key (kbd "C-x C-z") 'magit-status)
+  (eval-after-load 'magit
+    '(progn
+       (set-face-foreground 'magit-diff-add "green3")
+       (set-face-foreground 'magit-diff-del "red3")))
+  )
+;; ########## end #########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -665,22 +665,21 @@ a sound to be played"
        package
        cssh
        scratch
-       pos-tip popup-kill-ring
+       pos-tip
+       popup-kill-ring
        (:name lisppaste
        	 :type elpa)
-       (:name autocomplete
-	 :features auto-complete-config
+       (:name auto-complete
 	 :after (lambda () (my-auto-complete-init)))
        (:name magit
 	 :after (lambda () (my-git-init)))
+       ;; (:name yasnippet
+       ;; 	 :after (lambda () (message "calling yasnippet after func")))
        ))
   ;; init el-get
   (el-get 'wait)
   )
 (my-el-get-init)
-;; something wrong with the auto complete after hook of el-get, so it is a simp-
-;; ly work around for it
-(my-auto-complete-init)
 ;; ########## end ##########
 
 ;; ########## python mode ##########
