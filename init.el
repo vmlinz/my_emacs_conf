@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-19 16:02:23 vmlinz>
+;; Time-stamp: <2010-11-19 16:23:12 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -664,13 +664,13 @@ a sound to be played"
        (:name lisppaste
        	 :type elpa)
        (:name auto-complete
-	 :build "make"
+	 :build ("make")
 	 :after (lambda () (my-auto-complete-init)))
        (:name magit
-	 :build "make"
+	 :build ("make")
 	 :after (lambda () (my-git-init)))
        (:name yasnippet
-       	 :build "rake compile"
+	 :build ("rake compile")
 	 :after (lambda () (my-yasnippet-init)))
        ))
   (el-get 'wait)
