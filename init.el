@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-19 16:23:12 vmlinz>
+;; Time-stamp: <2010-11-20 14:54:10 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -479,7 +479,7 @@ a sound to be played"
 ;; cedet' stable functions is going to be integrited in emacs 23.2
 ;; NOTE: cedet from cvs has more functions than the integrited one but it's not
 ;; as clean as the one integrited
-(add-to-list 'load-path "~/.emacs.d/site-lisp/cedet/common/")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/cedet/common"))
 (require 'cedet)
 
 (defun my-semantic-hook ()
@@ -548,6 +548,32 @@ a sound to be played"
   (add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qglobal.h"))
   )
 (add-hook 'semantic-init-hooks 'my-semantic-qt4-hook)
+;; ########## end ##########
+
+;; ########## jdee ##########
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/jdee/lisp"))
+;; defer loading jde until first open a java file
+(setq defer-loading-jde t)
+(if defer-loading-jde
+  (progn
+    (autoload 'jde-mode "jde" "JDE mode." t)
+    (setq auto-mode-alist
+      (append
+	'(("\\.java\\'" . jde-mode))
+	auto-mode-alist)))
+  (require 'jde))
+;; my jde-mode hook
+(defun my-jde-mode-hook ()
+  (setq c-basic-offset 2)
+  ;; use java alternaltives in debian systems
+  (setq jde-jdk-registry (quote
+			   (("default" . "/usr/lib/jvm/defaut-java")
+			     ("1.6" . "/usr/lib/jvm/java-6-sun")
+			     ))
+    jde-jdk '("1.6")
+    )
+)
+(add-hook 'jde-mode-hook 'my-jde-mode-hook)
 ;; ########## end ##########
 
 ;; ########## woman ##########
