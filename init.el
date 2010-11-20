@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-20 14:54:10 vmlinz>
+;; Time-stamp: <2010-11-20 15:23:46 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -201,7 +201,7 @@
 	c-basic-offset)))
 
   (add-hook 'c-mode-common-hook
-    (lambda ()
+    '(lambda ()
       ;; Add kernel style
       (c-add-style
 	"linux-tabs-only"
@@ -211,7 +211,7 @@
 		      c-lineup-arglist-tabs-only))))))
 
   (add-hook 'c-mode-hook
-    (lambda ()
+    '(lambda ()
       (let ((filename (buffer-file-name)))
 	;; Enable kernel mode for the appropriate files
 	(when (and filename
