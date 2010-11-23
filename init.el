@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-23 21:09:13 vmlinz>
+;; Time-stamp: <2010-11-23 22:10:13 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -495,13 +495,16 @@ a sound to be played"
   (global-ede-mode t)
   ;; srecode-minor-mode
   (srecode-minor-mode 1)
+  ;; semantic minor modes
   (semantic-load-enable-code-helpers)
   ;;(semantic-load-enable-gaudy-code-helpers)
   (global-semantic-show-unmatched-syntax-mode -1)
   (global-semantic-tag-folding-mode -1)
-  (global-semantic-highlight-func-mode 1)
+  ;; idle scheduler
+  (global-semantic-idle-scheduler-mode -1)
+  (global-semantic-auto-parse-mode -1)
   ;;(global-semantic-decoration-mode 1)
-
+  (global-semantic-highlight-func-mode 1)
   (semantic-load-enable-all-exuberent-ctags-support)
 
   (setq-mode-local c-mode semanticdb-find-default-throttle
