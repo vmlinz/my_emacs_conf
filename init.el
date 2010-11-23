@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-18 22:32:25 vmlinz>
+;; Time-stamp: <2010-11-23 21:01:45 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -568,7 +568,7 @@ a sound to be played"
   (require 'jde))
 ;; my jde-mode hook
 (defun my-jde-mode-hook ()
-  (setq c-basic-offset 2)
+  (setq c-basic-offset 4)
   ;; use java alternaltives in debian systems
   (setq jde-jdk-registry (quote
 			   (("default" . "/usr/lib/jvm/defaut-java")
