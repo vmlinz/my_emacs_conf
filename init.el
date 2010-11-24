@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-23 22:10:13 vmlinz>
+;; Time-stamp: <2010-11-23 22:28:34 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -502,7 +502,6 @@ a sound to be played"
   (global-semantic-tag-folding-mode -1)
   ;; idle scheduler
   (global-semantic-idle-scheduler-mode -1)
-  (global-semantic-auto-parse-mode -1)
   ;;(global-semantic-decoration-mode 1)
   (global-semantic-highlight-func-mode 1)
   (semantic-load-enable-all-exuberent-ctags-support)
