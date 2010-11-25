@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-25 23:02:38 vmlinz>
+;; Time-stamp: <2010-11-25 23:35:50 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -26,8 +26,6 @@
 ;; 7.the configuration contains some machine specifical settings for Lenovo X200
 ;; 8.introduce the newly pacage manager _el-get_ to manage various third party
 ;; packages
-
-;;; #################### builtin packages ####################
 
 ;; ########## localization ##########
 ;; needs further checking and practicing, read more on x resource and fonts
@@ -162,8 +160,165 @@
     nil
     )
   ;; ########## end ##########
+
+  ;; ########## switches ##########
+  ;; various toggles for the disabled commands
+  (put 'upcase-region 'disabled nil)
+  (put 'downcase-region 'disabled nil)
+  ;; ########## end ##########
   )
 (my-misc-custom-init)
+;; ########## end ##########
+
+;; ########## emacs server ##########
+;; only start emacs server when it's not started, I hate warnings.
+(defun my-emacs-daemon-init()
+  (setq server-socket-file "/tmp/emacs1000/server")
+  (unless (file-exists-p server-socket-file)
+    (server-start))
+  ;; exit emacs client
+  (defun my-exit-emacs-client ()
+    "consistent exit emacsclient.
+   if not in emacs client, echo a message in minibuffer, don't exit emacs.
+   if in server mode
+      and editing file, do C-x # server-edit
+      else do C-x 5 0 delete-frame"
+    (interactive)
+    (if server-buffer-clients
+      (server-edit)
+      (delete-frame)))
+  (global-set-key (kbd "C-c C-q") 'my-exit-emacs-client)
+  )
+(my-emacs-daemon-init)
+;; ########## end ##########
+
+;; ########## expand function ##########
+(defun my-hippie-expand-init()
+  (setq hippie-expand-try-functions-list
+    '(
+       try-expand-dabbrev
+       try-expand-dabbrev-visible
+       try-expand-dabbrev-all-buffers
+       try-expand-dabbrev-from-kill
+       try-expand-line
+       try-expand-line-all-buffers
+       try-expand-list
+       try-expand-list-all-buffers
+       try-complete-file-name
+       try-complete-file-name-partially
+       try-complete-lisp-symbol
+       try-complete-lisp-symbol-partially
+       try-expand-whole-kill))
+  (global-set-key (kbd "M-/") 'hippie-expand)
+  (global-set-key (kbd "M-;") 'dabbrev-expand)
+  )
+(my-hippie-expand-init)
+;;########## end ##########
+
+;;########## key bindings ##########
+;; buffer switching
+;; some keybindings here are specifical to Lenovo Thinkpad
+(defun my-key-init()
+  ;; skeleton pairs
+  (setq skeleton-pair t)
+  (global-set-key "(" 'skeleton-pair-insert-maybe)
+  (global-set-key "{" 'skeleton-pair-insert-maybe)
+  (global-set-key "[" 'skeleton-pair-insert-maybe)
+  ;; buffer switching keys
+  (global-set-key (kbd "C-x p") 'previous-buffer)
+  (global-set-key [(XF86Back)] 'previous-buffer)
+  (global-set-key (kbd "C-x n") 'next-buffer)
+  (global-set-key [(XF86Forward)] 'next-buffer)
+  (global-set-key "\C-c\C-c" 'comment-dwim)
+  )
+(my-key-init)
+;; ########## end ##########
+
+;; ########## backup ##########
+(defun my-backup-init()
+  (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+  (setq make-backup-files t)
+  (setq kept-old-versions 2)
+  (setq kept-new-versions 10)
+  (setq delete-old-versions t)
+  (setq backup-by-copying t)
+  (setq version-control t)
+  )
+(my-backup-init)
+;; ########## end ##########
+
+;; ########## gtags ##########
+;; it works for me
+(defun my-tags-generate-files ()
+  "Generate ctags reference file for emacs."
+  (interactive)
+  (cd
+    (read-from-minibuffer
+      "directory: "
+      default-directory))
+  (shell-command "ctags -e -R"))
+(global-set-key "\C-c\C-t" 'my-tags-generate-files)
+;; ########## end ##########
+
+;; ########## org ##########
+;;function gtd
+(defun my-gtd ()
+  (interactive)
+  (find-file "~/Documents/notes/dailylife.org")
+  )
+;; ########## end ##########
+
+;; ########## org mode and remember ##########
+(defun my-org-mode-init()
+  (org-remember-insinuate)
+  (setq org-directory "~/Documents/notes")
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-log-done 'note)
+  (setq remember-annotation-functions '(org-remember-annotation))
+  (setq remember-handler-functions '(org-remember-handler))
+  ;;custome commands for the use of GTD.
+  (setq org-agenda-custom-commands
+    '(("w" todo "WAITING" nil)
+       ("n" todo "NEXT" nil)
+       ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
+    )
+  (add-hook 'remember-mode-hook 'org-remember-apply-template)
+  (global-set-key "\C-cr" 'org-remember)
+  (global-set-key "\C-cc" 'calendar)
+  (global-set-key "\C-ca" 'org-agenda)
+  )
+(my-org-mode-init)
+;; ########## end ##########
+
+;; ########## notify ##########
+;; use libnotify and mplayer for sound
+(defun my-notify-send (title msg &optional icon sound)
+  "Show a popup if we're on X, or echo it otherwise; TITLE is the title
+of the message, MSG is the context. Optionally, you can provide an ICON and
+a sound to be played"
+
+  (interactive)
+  (when sound (shell-command
+		(concat "mplayer -really-quiet " sound " 2> /dev/null")))
+  (if (eq window-system 'x)
+    (shell-command (concat "notify-send "
+		     (if icon (concat "-i " icon) "")
+		     " '" title "' '" msg "'"))
+    ;; text only version
+    (message (concat title ": " msg))))
+;; ########## end ##########
+
+;; ########## woman ##########
+;; settings for woman
+(add-hook 'after-init-hook
+  '(lambda()
+     (setq woman-use-own-frame nil)
+     (setq woman-fill-column 80)
+     ))
+;; ########## end ##########
+
+;; ########## emms ##########
+;; now just ignore it, for programming and daily use come first
 ;; ########## end ##########
 
 ;; ########## cc-mode ##########
@@ -269,90 +424,26 @@
 
   (add-hook 'c-mode-common-hook
     '(lambda ()
-      ;; Add kernel style
-      (c-add-style
-	"linux-tabs-only"
-	'("linux" (c-offsets-alist
-		    (arglist-cont-nonempty
-		      c-lineup-gcc-asm-reg
-		      c-lineup-arglist-tabs-only))))))
+       ;; Add kernel style
+       (c-add-style
+	 "linux-tabs-only"
+	 '("linux" (c-offsets-alist
+		     (arglist-cont-nonempty
+		       c-lineup-gcc-asm-reg
+		       c-lineup-arglist-tabs-only))))))
 
   (add-hook 'c-mode-hook
     '(lambda ()
-      (let ((filename (buffer-file-name)))
-	;; Enable kernel mode for the appropriate files
-	(when (and filename
-		(string-match (expand-file-name "~/Projects/kernel")
-		  filename))
-	  (setq indent-tabs-mode t)
-	  (c-set-style "linux-tabs-only")))))
+       (let ((filename (buffer-file-name)))
+	 ;; Enable kernel mode for the appropriate files
+	 (when (and filename
+		 (string-match (expand-file-name "~/Projects/kernel")
+		   filename))
+	   (setq indent-tabs-mode t)
+	   (c-set-style "linux-tabs-only")))))
   )
 ;; ########## end ##########
 (my-cc-mode-init)
-;; ########## end ##########
-
-;; ########## emacs server ##########
-;; only start emacs server when it's not started, I hate warnings.
-(defun my-emacs-daemon-init()
-  (setq server-socket-file "/tmp/emacs1000/server")
-  (unless (file-exists-p server-socket-file)
-    (server-start))
-  ;; exit emacs client
-  (defun my-exit-emacs-client ()
-    "consistent exit emacsclient.
-   if not in emacs client, echo a message in minibuffer, don't exit emacs.
-   if in server mode
-      and editing file, do C-x # server-edit
-      else do C-x 5 0 delete-frame"
-    (interactive)
-    (if server-buffer-clients
-      (server-edit)
-      (delete-frame)))
-  (global-set-key (kbd "C-c C-q") 'my-exit-emacs-client)
-  )
-(my-emacs-daemon-init)
-;; ########## end ##########
-
-;; ########## expand function ##########
-(defun my-hippie-expand-init()
-  (setq hippie-expand-try-functions-list
-    '(
-       try-expand-dabbrev
-       try-expand-dabbrev-visible
-       try-expand-dabbrev-all-buffers
-       try-expand-dabbrev-from-kill
-       try-expand-line
-       try-expand-line-all-buffers
-       try-expand-list
-       try-expand-list-all-buffers
-       try-complete-file-name
-       try-complete-file-name-partially
-       try-complete-lisp-symbol
-       try-complete-lisp-symbol-partially
-       try-expand-whole-kill))
-  (global-set-key (kbd "M-/") 'hippie-expand)
-  (global-set-key (kbd "M-;") 'dabbrev-expand)
-  )
-(my-hippie-expand-init)
-;;########## end ##########
-
-;;########## key bindings ##########
-;; buffer switching
-;; some keybindings here are specifical to Lenovo Thinkpad
-(defun my-key-init()
-  ;; skeleton pairs
-  (setq skeleton-pair t)
-  (global-set-key "(" 'skeleton-pair-insert-maybe)
-  (global-set-key "{" 'skeleton-pair-insert-maybe)
-  (global-set-key "[" 'skeleton-pair-insert-maybe)
-  ;; buffer switching keys
-  (global-set-key (kbd "C-x p") 'previous-buffer)
-  (global-set-key [(XF86Back)] 'previous-buffer)
-  (global-set-key (kbd "C-x n") 'next-buffer)
-  (global-set-key [(XF86Forward)] 'next-buffer)
-  (global-set-key "\C-c\C-c" 'comment-dwim)
-  )
-(my-key-init)
 ;; ########## end ##########
 
 ;; ########## auctex ##########
@@ -400,64 +491,15 @@
 (my-auctex-init)
 ;; ########## end ##########
 
-;; ########## backup ##########
-(defun my-backup-init()
-  (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
-  (setq make-backup-files t)
-  (setq kept-old-versions 2)
-  (setq kept-new-versions 10)
-  (setq delete-old-versions t)
-  (setq backup-by-copying t)
-  (setq version-control t)
-  )
-(my-backup-init)
-;; ########## end ##########
-
-;; ########## gtags ##########
-;; it works for me
-(defun my-tags-generate-files ()
-  "Generate ctags reference file for emacs."
-  (interactive)
-  (cd
-    (read-from-minibuffer
-      "directory: "
-      default-directory))
-  (shell-command "ctags -e -R"))
-(global-set-key "\C-c\C-t" 'my-tags-generate-files)
-;; ########## end ##########
-
-;; ########## org ##########
-;;function gtd
-(defun my-gtd ()
-  (interactive)
-  (find-file "~/Documents/notes/dailylife.org")
-  )
-;; ########## end ##########
-
-;; ########## org mode and remember ##########
-(defun my-org-mode-init()
-  (org-remember-insinuate)
-  (setq org-directory "~/Documents/notes")
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
-  (setq org-log-done 'note)
-  (setq remember-annotation-functions '(org-remember-annotation))
-  (setq remember-handler-functions '(org-remember-handler))
-  ;;custome commands for the use of GTD.
-  (setq org-agenda-custom-commands
-    '(("w" todo "WAITING" nil)
-       ("n" todo "NEXT" nil)
-       ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
-    )
-  (add-hook 'remember-mode-hook 'org-remember-apply-template)
-  (global-set-key "\C-cr" 'org-remember)
-  (global-set-key "\C-cc" 'calendar)
-  (global-set-key "\C-ca" 'org-agenda)
-  )
-(my-org-mode-init)
-;; ########## end ##########
-
-;; ########## emms ##########
-;; now just ignore it, for programming and daily use come first
+;; ########## erc ##########
+;; erc auto join channels
+(add-hook 'erc-mode-hook
+  '(lambda()
+     (require 'erc-join)
+     (erc-autojoin-mode 1)
+     (setq erc-autojoin-channels-alist
+       '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
+       )))
 ;; ########## end ##########
 
 ;; ########## markdown ##########
@@ -470,25 +512,6 @@
   )
 (my-markdown-mode-init)
 ;; ########## end ##########
-
-;; ########## notify ##########
-;; use libnotify and mplayer for sound
-(defun my-notify-send (title msg &optional icon sound)
-  "Show a popup if we're on X, or echo it otherwise; TITLE is the title
-of the message, MSG is the context. Optionally, you can provide an ICON and
-a sound to be played"
-
-  (interactive)
-  (when sound (shell-command
-		(concat "mplayer -really-quiet " sound " 2> /dev/null")))
-  (if (eq window-system 'x)
-    (shell-command (concat "notify-send "
-		     (if icon (concat "-i " icon) "")
-		     " '" title "' '" msg "'"))
-    ;; text only version
-    (message (concat title ": " msg))))
-;; ########## end ##########
-
 
 ;; ########## cedet ##########
 ;; cedet frome cvs configured for c/c++ programming
@@ -590,28 +613,8 @@ a sound to be played"
 			     ))
     jde-jdk '("1.6")
     )
-)
+  )
 (add-hook 'jde-mode-hook 'my-jde-mode-hook)
-;; ########## end ##########
-
-;; ########## woman ##########
-;; settings for woman
-(add-hook 'after-init-hook
-  '(lambda()
-     (setq woman-use-own-frame nil)
-     (setq woman-fill-column 80)
-     ))
-;; ########## end ##########
-
-;; ########## erc ##########
-;; erc auto join channels
-(add-hook 'erc-mode-hook
-  '(lambda()
-     (require 'erc-join)
-     (erc-autojoin-mode 1)
-     (setq erc-autojoin-channels-alist
-       '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
-       )))
 ;; ########## end ##########
 
 ;; ########## lisp settings ##########
@@ -619,7 +622,7 @@ a sound to be played"
 (add-hook 'emacs-lisp-mode-hook
   '(lambda()
      (setq lisp-indent-offset 2)
-  ))
+     ))
 ;; byte compile emacs init file and load it
 (global-set-key [f12]
   '(lambda()
@@ -693,6 +696,18 @@ a sound to be played"
   )
 ;; ########## end #########
 
+;; ########## python mode ##########
+;; python mode customizations
+(defun my-py-init()
+  (add-hook 'python-mode-hook
+    '(lambda ()
+       (setq indent-tabs-mode nil)
+       (setq python-indent 4)
+       (setq python-python-command "python3")
+       )))
+(my-py-init)
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -721,24 +736,6 @@ a sound to be played"
   (el-get 'wait)
   )
 (my-el-get-init)
-;; ########## end ##########
-
-;; ########## python mode ##########
-;; python mode customizations
-(defun my-py-init()
-  (add-hook 'python-mode-hook
-    '(lambda ()
-       (setq indent-tabs-mode nil)
-       (setq python-indent 4)
-       (setq python-python-command "python3")
-       )))
-(my-py-init)
-;; ########## end ##########
-
-;; ########## switches ##########
-;; various toggles for the disabled commands
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
 ;; ########## end ##########
 
 ;;; init.el for emacs ends here
