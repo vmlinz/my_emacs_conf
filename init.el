@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-25 00:37:13 vmlinz>
+;; Time-stamp: <2010-11-25 23:02:38 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -27,6 +27,8 @@
 ;; 8.introduce the newly pacage manager _el-get_ to manage various third party
 ;; packages
 
+;;; #################### builtin packages ####################
+
 ;; ########## localization ##########
 ;; needs further checking and practicing, read more on x resource and fonts
 (defun my-set-frame-font ()
@@ -51,11 +53,11 @@
   (set-face-font 'tooltip "fontset-startup")
   (set-frame-font "fontset-startup")
   (add-to-list 'default-frame-alist '(font . "fontset-startup"))
-  (tabbar-mode )
+  (tabbar-mode -1)
   )
 (add-hook 'after-make-frame-hook 'my-set-frame-font)
 
-;; locales
+;; encodings and locales
 (defun my-coding-system-init()
   (prefer-coding-system 'chinese-gbk)
   (prefer-coding-system 'utf-8)
@@ -67,8 +69,6 @@
   '(set-buffer-process-coding-system 'utf-8 'utf-8)
   (modify-coding-system-alist 'process "*" 'utf-8)
   (setq default-process-coding-system '(utf-8 . utf-8))
-  ;; emacs shell color encoding
-  (ansi-color-for-comint-mode-on)
   )
 (my-coding-system-init)
 ;; ########## end ##########
@@ -79,17 +79,21 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
-  '(bookmark-default-file "~/.emacs.d/.emacs.bmk")
   '(calendar-chinese-all-holidays-flag t)
   '(calendar-view-diary-initially-flag nil)
   '(column-number-mode t)
-  '(diary-file "~/.emacs.d/diary.gpg")
   '(font-latex-fontify-sectioning (quote color))
   '(inhibit-startup-screen t)
-  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
   '(show-paren-mode t)
   '(uniquify-buffer-name-style (quote forward) nil (uniquify))
-  '(vc-handled-backends (quote (GIT SVN Hg Bzr CVS))))
+  '(vc-handled-backends (quote (GIT SVN Hg Bzr CVS)))
+  ;; depend on personal settings
+  '(bookmark-default-file "~/.emacs.d/.emacs.bmk")
+  '(diary-file "~/.emacs.d/diary.gpg")
+  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org"
+			      "~/Documents/notes/study.org"
+			      "~/Documents/notes/work.org")))
+  )
 
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
@@ -99,10 +103,74 @@
   )
 ;; ########## end ##########
 
+;; ########## misc settings ##########
+(defun my-misc-custom-init()
+  (display-time)
+  ;; time format
+  (setq display-time-24hr-format t)
+  ;; (setq display-time-day-and-date t)
+  ;; emacs shell color encoding
+  (ansi-color-for-comint-mode-on)
+  (auto-image-file-mode t)
+  ;; ido-mode
+  (ido-mode t)
+  (setq ido-enable-prefix nil
+    ido-enable-flex-matching t
+    ido-create-new-buffer 'always
+    ido-use-filename-at-point 'guess
+    ido-max-prospects 10)
+  ;; icomplete
+  (icomplete-mode t)
+  ;; scrollbar
+  (set-scroll-bar-mode 'right)
+  (setq
+    scroll-margin 0
+    scroll-conservatively 100000
+    scroll-preserve-screen-position 1)
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq use-dialog-box nil)
+  ;; set my email address
+  (setq user-mail-address "vmlinz@gmail.com")
+
+  ;; ########## editing ##########
+  (setq x-select-enable-clipboard t)
+  (add-hook 'before-save-hook 'time-stamp)
+  ;; delete trailing whitespaces before save
+  (add-hook 'before-save-hook 'whitespace-cleanup)
+  ;; check last line to be a newline
+  (setq require-final-newline t)
+  ;; set insert parenthese without space
+  (setq parens-require-spaces nil)
+  ;; set kill-ring-max to 512
+  (setq kill-ring-max 512)
+  ;; ########## end ##########
+
+  ;; ########## fullscreen ##########
+  ;; fullscreen
+  (defun my-fullscreen (&optional f)
+    (interactive)
+    (set-frame-parameter f 'fullscreen
+      (if (frame-parameter f 'fullscreen) nil 'fullboth)))
+
+  (global-set-key [f11] 'my-fullscreen)
+  ;; ########## end ##########
+
+  ;; ########## menu-bar ##########
+  ;; turn off menu-bar when in terminal
+  (if (not (eq (window-system) 'x))
+    (menu-bar-mode -1)
+    nil
+    )
+  ;; ########## end ##########
+  )
+(my-misc-custom-init)
+;; ########## end ##########
+
 ;; ########## cc-mode ##########
 ;; c mode common hook
 (defun my-cc-mode-init()
   (defun my-c-mode-common-hook()
+    ;; compilation
     (add-hook 'compilation-finish-functions
       '(lambda (buf str)
 	 (if (string-match "exited abnormally" str)
@@ -112,14 +180,16 @@
 	   (message "No Compilation Errors!")
 	   )
 	 ))
+    (setq compilation-window-height 16)
+    (setq compilation-scroll-output t)
 
-    (defun do-compile()
+    (defun my-do-compile()
       (interactive)
       (message (compile-command))
       (compile (compile-command))
       )
 
-    (defun do-lint()
+    (defun my-do-lint()
       (interactive)
       (set (make-local-variable 'compile-command)
 	(let ((file (file-name-nondirectory buffer-file-name)))
@@ -131,16 +201,13 @@
       (compile compile-command)
       )
 
-    (defun do-cdecl ()
+    (defun my-do-cdecl ()
       (interactive)
       (shell-command
 	(concat "cdecl explain \"" (buffer-substring (region-beginning)
 				     (region-end)) "\""))
       )
 
-    ;; compilation
-    (setq compilation-window-height 16)
-    (setq compilation-scroll-output t)
     ;; gdb
     (add-hook 'gud-mode-hook
       '(lambda()
@@ -244,37 +311,6 @@
   (global-set-key (kbd "C-c C-q") 'my-exit-emacs-client)
   )
 (my-emacs-daemon-init)
-;; ########## end ##########
-
-;; ########## various ##########
-(defun my-misc-custom-init()
-  (fset 'yes-or-no-p 'y-or-n-p)
-  ;; time format
-  (setq display-time-24hr-format t)
-  ;; (setq display-time-day-and-date t)
-  (display-time)
-  (add-hook 'before-save-hook 'time-stamp)
-  ;; delete trailing whitespaces before save
-  (add-hook 'before-save-hook 'whitespace-cleanup)
-  (setq x-select-enable-clipboard t)
-  (setq use-dialog-box nil)
-  ;; set my email address
-  (setq user-mail-address "vmlinz@gmail.com")
-  (auto-image-file-mode t)
-  ;; scrollbar
-  (set-scroll-bar-mode 'right)
-  (setq
-    scroll-margin 0
-    scroll-conservatively 100000
-    scroll-preserve-screen-position 1)
-  ;; check last line to be a newline
-  (setq require-final-newline t)
-  ;; set insert parenthese without space
-  (setq parens-require-spaces nil)
-  ;; set kill-ring-max to 512
-  (setq kill-ring-max 512)
-  )
-(my-misc-custom-init)
 ;; ########## end ##########
 
 ;; ########## expand function ##########
@@ -453,36 +489,6 @@ a sound to be played"
     (message (concat title ": " msg))))
 ;; ########## end ##########
 
-;; ########## ido ##########
-(ido-mode t)
-(setq ido-enable-prefix nil
-  ido-enable-flex-matching t
-  ido-create-new-buffer 'always
-  ido-use-filename-at-point 'guess
-  ido-max-prospects 10)
-;; ########## end ##########
-
-;; ########## icomplete ##########
-(icomplete-mode t)
-;; ########## end ##########
-
-;; ########## fullscreen ##########
-;; fullscreen
-(defun my-fullscreen (&optional f)
-  (interactive)
-  (set-frame-parameter f 'fullscreen
-    (if (frame-parameter f 'fullscreen) nil 'fullboth)))
-
-(global-set-key [f11] 'my-fullscreen)
-;; ########## end ##########
-
-;; ########## turn off menu-bar ##########
-;; turn off menu-bar when in terminal
-(if (not (eq (window-system) 'x))
-  (menu-bar-mode -1)
-  nil
-  )
-;; ########## end ##########
 
 ;; ########## cedet ##########
 ;; cedet frome cvs configured for c/c++ programming
