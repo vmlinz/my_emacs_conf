@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-25 23:35:50 vmlinz>
+;; Time-stamp: <2010-11-26 00:04:19 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -51,9 +51,10 @@
   (set-face-font 'tooltip "fontset-startup")
   (set-frame-font "fontset-startup")
   (add-to-list 'default-frame-alist '(font . "fontset-startup"))
-  (tabbar-mode -1)
   )
-(add-hook 'after-make-frame-hook 'my-set-frame-font)
+(if (window-system)
+  (add-hook 'after-make-frame-hook 'my-set-frame-font)
+)
 
 ;; encodings and locales
 (defun my-coding-system-init()
@@ -110,6 +111,7 @@
   ;; emacs shell color encoding
   (ansi-color-for-comint-mode-on)
   (auto-image-file-mode t)
+  (tabbar-mode -1)
   ;; ido-mode
   (ido-mode t)
   (setq ido-enable-prefix nil
@@ -155,9 +157,8 @@
 
   ;; ########## menu-bar ##########
   ;; turn off menu-bar when in terminal
-  (if (not (eq (window-system) 'x))
+  (unless (window-system)
     (menu-bar-mode -1)
-    nil
     )
   ;; ########## end ##########
 
