@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-26 00:04:19 vmlinz>
+;; Time-stamp: <2010-11-26 09:13:31 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -519,8 +519,8 @@ a sound to be played"
 ;; cedet' stable functions is going to be integrited in emacs 23.2
 ;; NOTE: cedet from cvs has more functions than the integrited one but it's not
 ;; as clean as the one integrited
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/cedet/common"))
-(require 'cedet)
+;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/cedet/common"))
+;; (require 'cedet)
 
 (defun my-semantic-hook ()
   "feature setting hook for semantic"
@@ -547,7 +547,6 @@ a sound to be played"
   (setq-mode-local c++-mode semanticdb-find-default-throttle
     '(project unloaded system recursive))
   )
-(add-hook 'semantic-init-hooks 'my-semantic-hook)
 
 (defun my-semantic-key-hook ()
   (local-set-key [(control return)] 'semantic-ia-complete-symbol-menu)
@@ -567,7 +566,6 @@ a sound to be played"
   (local-set-key "\C-ce" 'eassist-list-methods)
   (local-set-key "\C-c\C-r" 'semantic-symref)
   )
-(add-hook 'semantic-init-hooks 'my-semantic-key-hook)
 
 (defun my-semanticdb-hook ()
   "semanticdb hook"
@@ -576,7 +574,6 @@ a sound to be played"
   (setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
   (setq semanticdb-search-system-databases t)
   )
-(add-hook 'semantic-init-hooks 'my-semanticdb-hook)
 
 (defun my-semantic-qt4-hook()
   "qt4 setting hook for semantic"
@@ -589,7 +586,12 @@ a sound to be played"
   (add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qconfig-dist.h"))
   (add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qglobal.h"))
   )
-(add-hook 'semantic-init-hooks 'my-semantic-qt4-hook)
+(defun my-semantic-init()
+  (add-hook 'semantic-init-hooks 'my-semantic-hook)
+  (add-hook 'semantic-init-hooks 'my-semantic-key-hook)
+  (add-hook 'semantic-init-hooks 'my-semanticdb-hook)
+  (add-hook 'semantic-init-hooks 'my-semantic-qt4-hook)
+  )
 ;; ########## end ##########
 
 ;; ########## jdee ##########
@@ -733,6 +735,15 @@ a sound to be played"
        (:name yasnippet
 	 :build ("rake compile")
 	 :after (lambda () (my-yasnippet-init)))
+       (:name cedet
+	 :type cvs
+	 :module "cedet"
+	 :url ":pserver:anonymous@cedet.cvs.sourceforge.net:/cvsroot/cedet"
+	 :build ("touch `find . -name Makefile`" "make")
+	 :load-path ("./common")
+	 :features cedet
+	 :after (lambda () (my-semantic-init))
+	 )
        ))
   (el-get 'wait)
   )
