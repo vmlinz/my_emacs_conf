@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-30 14:17:12 vmlinz>
+;; Time-stamp: <2010-11-30 14:45:31 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -230,7 +230,9 @@
   (global-set-key "\C-c\C-c" 'comment-dwim)
   (global-set-key "\C-x\C-b" 'ibuffer)
   ;; set mark
-  (global-set-key "\C-m" 'set-mark-command)
+  (global-set-key "\M-m" 'set-mark-command)
+  ;; woman
+  (global-set-key "\C-hj" 'woman)
   )
 (my-key-init)
 ;; ########## end ##########
