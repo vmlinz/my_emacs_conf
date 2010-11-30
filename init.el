@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-30 21:36:09 vmlinz>
+;; Time-stamp: <2010-11-30 22:14:44 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -16,16 +16,16 @@
 ;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA 02110-1301, USA.
 
-;; 1.Brand new emacs configuration for TeXing and c/c++ programming
-;; 2.Let's keep it really simple and easy always
-;; 3.Maybe I will restruct these code to get it more structured and maitainable
-;; 4.The emacs i use is debian specifical, maybe I have to customize it through
-;; debian source code
-;; 5.tweak the third party lisp package configurations and make it more structured
-;; 6.speed up startup time by making defuns and hooks
-;; 7.the configuration contains some machine specifical settings for Lenovo X200
-;; 8.introduce the newly pacage manager _el-get_ to manage various third party
+;; 1.Emacs configuration for TeXing and c/c++ programming
+;; 2.Speed up startup time by making defuns and hooks
+;; 3.The configuration contains some machine specifical settings for Lenovo X200
+;; 4.Introduce the newly pacage manager _el-get_ to manage various third party
 ;; packages
+
+;; TODOS:
+;; 1.Configure cedet and auto-complet
+;; 2.Get to know more about elisp programming
+;; 3.Make it portable between computers
 
 ;; ########## localization ##########
 ;; needs further checking and practicing, read more on x resource and fonts
@@ -565,12 +565,13 @@
   (add-hook 'semantic-init-hook
     '(lambda ()
        (setq ac-sources
-	 (append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
+	 (append '(ac-source-semantic) '(ac-source-semantic-raw) ac-sources))
        ))
   )
 
 (defun my-auto-complete-init()
   "auto-complete init function"
+  ;; add semantic support
   (add-hook 'auto-complete-mode-hook 'my-ac-semantic-setup)
 
   (require 'auto-complete-config)
@@ -579,7 +580,7 @@
   (ac-config-default)
 
   (setq ac-dwim t)
-  (setq ac-delay 0.5)
+  (setq ac-delay 0.8)
   (setq ac-auto-start 3)
   (setq ac-use-quick-help nil)
 
