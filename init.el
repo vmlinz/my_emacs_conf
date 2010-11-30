@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-30 22:34:17 vmlinz>
+;; Time-stamp: <2010-11-30 22:49:02 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 
 ;; 1.Emacs configuration for TeXing and c/c++ programming
 ;; 2.Speed up startup time by making defuns and hooks
-;; 3.The configuration contains some machine specifical settings for Lenovo X200
+;; 3.The configuration contains some specifical settins for Lenovo X200
 ;; 4.Introduce the newly pacage manager _el-get_ to manage various third party
 ;; packages
 
@@ -207,8 +207,7 @@
        try-complete-lisp-symbol
        try-complete-lisp-symbol-partially
        try-expand-whole-kill))
-  (global-set-key (kbd "M-/") 'hippie-expand)
-  (global-set-key (kbd "M-;") 'dabbrev-expand)
+  (global-set-key (kbd "M-;") 'hippie-expand)
   )
 (my-hippie-expand-init)
 ;;########## end ##########
@@ -588,7 +587,7 @@
   (setq ac-use-menu-map t)
   (define-key ac-menu-map "\C-n" 'ac-next)
   (define-key ac-menu-map "\C-p" 'ac-previous)
-  (define-key ac-mode-map [(control return)] 'auto-complete)
+  (define-key ac-mode-map "\M-/" 'auto-complete)
   )
 ;; ########## end ##########
 
