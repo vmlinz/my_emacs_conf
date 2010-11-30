@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-30 14:45:31 vmlinz>
+;; Time-stamp: <2010-11-30 21:36:09 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -481,7 +481,7 @@
   (global-semantic-show-unmatched-syntax-mode -1)
   (global-semantic-tag-folding-mode -1)
   (global-semantic-idle-scheduler-mode -1)
-  (semantic-load-enable-all-exuberent-ctags-support)
+  (semantic-load-enable-primary-exuberent-ctags-support)
 
   (setq-mode-local c-mode semanticdb-find-default-throttle
     '(project unloaded system recursive))
@@ -495,15 +495,12 @@
   (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
   (local-set-key "\C-c\C-r" 'semantic-symref)
 
-  (local-set-key [(control return)] 'semantic-ia-complete-symbol-menu)
   (local-set-key "\C-c/" 'semantic-ia-complete-symbol)
   (local-set-key "\C-cj" 'semantic-ia-fast-jump)
   (local-set-key "\C-cd" 'semantic-ia-show-doc)
   (local-set-key "\C-cs" 'semantic-ia-show-summary)
 
   (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
-  (local-set-key "." 'semantic-complete-self-insert)
-  (local-set-key ">" 'semantic-complete-self-insert)
   (local-set-key "\C-ct" 'eassist-switch-h-cpp)
   (local-set-key "\C-cm" 'eassist-list-methods)
   )
@@ -533,7 +530,6 @@
   (add-hook 'semantic-init-hooks 'my-semantic-hook)
   (add-hook 'semantic-init-hooks 'my-semanticdb-hook)
   (add-hook 'semantic-init-hooks 'my-semantic-key-hook)
-  (add-hook 'semantic-init-hooks 'my-semantic-qt4-hook)
   )
 ;; ########## end ##########
 
@@ -565,21 +561,31 @@
 
 ;; ########## auto-complete ##########
 ;; this package is good to use and easy to config
+(defun my-ac-semantic-setup ()
+  (add-hook 'semantic-init-hook
+    '(lambda ()
+       (setq ac-sources
+	 (append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
+       ))
+  )
+
 (defun my-auto-complete-init()
   "auto-complete init function"
+  (add-hook 'auto-complete-mode-hook 'my-ac-semantic-setup)
+
   (require 'auto-complete-config)
+  (add-to-list 'ac-dictionary-directories
+    "~/.emacs.d/el-get/auto-complete/dict")
   (ac-config-default)
+
   (setq ac-dwim t)
+  (setq ac-delay 0.5)
   (setq ac-auto-start 3)
   (setq ac-use-quick-help nil)
 
-  (set-face-background 'ac-candidate-face "lightgray")
-  (set-face-underline-p 'ac-candidate-face "darkgray")
-  (set-face-background 'ac-selection-face "steelblue")
-
   (define-key ac-completing-map "\M-n" 'ac-next)
   (define-key ac-completing-map "\M-p" 'ac-previous)
-  (define-key ac-mode-map [(C-tab)] 'auto-complete)
+  (define-key ac-mode-map [(control return)] 'auto-complete)
   )
 ;; ########## end ##########
 
@@ -617,9 +623,6 @@
        package
        cssh
        sicp
-       (:name auto-complete
-	 :build ("make")
-	 :after (lambda () (my-auto-complete-init)))
        (:name magit
 	 :build ("make")
 	 :after (lambda () (my-git-init)))
@@ -630,6 +633,9 @@
 	 :features cedet
 	 :after (lambda () (my-semantic-init))
 	 )
+       (:name auto-complete
+	 :build ("make")
+	 :after (lambda () (my-auto-complete-init)))
        ))
   (el-get 'wait)
   )
