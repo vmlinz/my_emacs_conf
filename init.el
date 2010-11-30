@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-30 22:14:44 vmlinz>
+;; Time-stamp: <2010-11-30 22:34:17 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -582,10 +582,12 @@
   (setq ac-dwim t)
   (setq ac-delay 0.8)
   (setq ac-auto-start 3)
-  (setq ac-use-quick-help nil)
+  (setq ac-use-quick-help t)
+  (setq ac-menu-height 8)
 
-  (define-key ac-completing-map "\M-n" 'ac-next)
-  (define-key ac-completing-map "\M-p" 'ac-previous)
+  (setq ac-use-menu-map t)
+  (define-key ac-menu-map "\C-n" 'ac-next)
+  (define-key ac-menu-map "\C-p" 'ac-previous)
   (define-key ac-mode-map [(control return)] 'auto-complete)
   )
 ;; ########## end ##########
@@ -622,6 +624,7 @@
   (setq el-get-sources
     '(el-get
        package
+       pos-tip
        cssh
        sicp
        (:name magit
