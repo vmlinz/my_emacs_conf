@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-28 20:01:09 vmlinz>
+;; Time-stamp: <2010-11-30 12:46:13 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -497,12 +497,12 @@
   (local-set-key "\C-c/" 'semantic-ia-complete-symbol)
   (local-set-key "\C-cj" 'semantic-ia-fast-jump)
   (local-set-key "\C-cd" 'semantic-ia-show-doc)
-  (local-set-key "\C-cm" 'semantic-ia-show-summary)
+  (local-set-key "\C-cs" 'semantic-ia-show-summary)
 
   (local-set-key "." 'semantic-complete-self-insert)
   (local-set-key ">" 'semantic-complete-self-insert)
   (local-set-key "\C-ct" 'eassist-switch-h-cpp)
-  (local-set-key "\C-ce" 'eassist-list-methods)
+  (local-set-key "\C-cm" 'eassist-list-methods)
   )
 
 (defun my-semanticdb-hook ()
@@ -678,11 +678,6 @@
 	 :build ("rake compile")
 	 :after (lambda () (my-yasnippet-init)))
        (:name cedet
-	 :type cvs
-	 :module "cedet"
-	 :url ":pserver:anonymous@cedet.cvs.sourceforge.net:/cvsroot/cedet"
-	 :build ("touch `find . -name Makefile`" "make")
-	 :load-path ("./common")
 	 :features cedet
 	 :after (lambda () (my-semantic-init))
 	 )
