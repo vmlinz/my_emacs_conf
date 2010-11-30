@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-30 13:31:23 vmlinz>
+;; Time-stamp: <2010-11-30 13:54:08 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -131,6 +131,7 @@
   (setq use-dialog-box nil)
   ;; set my email address
   (setq user-mail-address "vmlinz@gmail.com")
+  (setq user-full-name "Nick Qi")
 
   ;; ########## editing ##########
   (setq x-select-enable-clipboard t)
@@ -226,6 +227,7 @@
   (global-set-key (kbd "C-x n") 'next-buffer)
   (global-set-key [(XF86Forward)] 'next-buffer)
   (global-set-key "\C-c\C-c" 'comment-dwim)
+  (global-set-key "\C-x\C-b" 'ibuffer)
   )
 (my-key-init)
 ;; ########## end ##########
@@ -397,11 +399,6 @@
 (defun my-auctex-init()
   (add-hook 'LaTeX-mode-hook
     '(lambda()
-       (setenv "PATH"
-	 (concat (getenv "PATH")
-	   ":/usr/local/texlive/2009/bin/x86_64-linux/"))
-       (add-to-list 'exec-path
-	 '("/usr/local/texlive/2009/bin/x86_64-linux/"))
        (add-to-list 'TeX-command-list
 	 '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
        (setq TeX-command-default "XeLaTeX")
@@ -535,30 +532,6 @@
   )
 ;; ########## end ##########
 
-;; ########## jdee ##########
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/jdee/lisp"))
-(setq defer-loading-jde t)
-(if defer-loading-jde
-  (progn
-    (autoload 'jde-mode "jde" "JDE mode." t)
-    (setq auto-mode-alist
-      (append
-	'(("\\.java\\'" . jde-mode))
-	auto-mode-alist)))
-  (require 'jde))
-
-(defun my-jde-mode-hook ()
-  "my jde mode hook"
-  (setq c-basic-offset 4)
-  (setq jde-jdk-registry (quote
-			   (("1.6" . "/usr/lib/jvm/java-6-sun"))
-			   )
-    jde-jdk '("1.6")
-    )
-  )
-(add-hook 'jde-mode-hook 'my-jde-mode-hook)
-;; ########## end ##########
-
 ;; ########## lisp settings ##########
 ;; lisp indent offset to 2
 (add-hook 'emacs-lisp-mode-hook
@@ -571,28 +544,6 @@
      (interactive)
      (byte-compile-file "~/.emacs.d/init.el" t)
      ))
-;; ########## end ##########
-
-;; ########## android-mode #########
-(defun my-android-mode-init()
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/android-mode/")
-  (require 'android-mode)
-  (setq android-mode-sdk-dir "~/Projects/android-sdk-linux_86/")
-  (setq android-mode-ndk-dir "~/Projects/android/ndks/android-ndk-r4/")
-  ;; set default emulator
-  (setq android-mode-avd "android-4")
-  ;; set sdk tools and ndk tools to path env
-  (setenv "PATH" (concat
-		   (getenv "PATH")
-		   (concat ":" (expand-file-name android-mode-sdk-dir) "tools")
-		   (concat ":" (expand-file-name android-mode-ndk-dir))))
-  ;; set sdk tools and ndk tools to emacs exec path
-  (add-to-list 'exec-path
-    (expand-file-name (concat android-mode-sdk-dir "tools")))
-  (add-to-list 'exec-path
-    (expand-file-name android-mode-ndk-dir))
-  )
-(my-android-mode-init)
 ;; ########## end ##########
 
 ;; ########## yasnippet ##########
@@ -647,7 +598,6 @@
     '(lambda ()
        (setq indent-tabs-mode nil)
        (setq python-indent 4)
-       (setq python-python-command "python3")
        )))
 (my-py-init)
 ;; ########## end ##########
