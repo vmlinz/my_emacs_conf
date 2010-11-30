@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-30 12:46:13 vmlinz>
+;; Time-stamp: <2010-11-30 13:31:23 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -472,7 +472,8 @@
 
   (imenu-add-to-menubar "TAGS")
   (global-ede-mode t)
-  (srecode-minor-mode t)
+  (global-srecode-minor-mode 1)
+
   (semantic-load-enable-code-helpers)
   (global-semantic-highlight-func-mode 1)
   (global-semantic-show-unmatched-syntax-mode -1)
@@ -488,7 +489,6 @@
 
 (defun my-semantic-key-hook ()
   "key bindings for semantic modes"
-  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
   (local-set-key "\C-c=" 'semantic-decoration-include-visit)
   (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
   (local-set-key "\C-c\C-r" 'semantic-symref)
@@ -499,6 +499,7 @@
   (local-set-key "\C-cd" 'semantic-ia-show-doc)
   (local-set-key "\C-cs" 'semantic-ia-show-summary)
 
+  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
   (local-set-key "." 'semantic-complete-self-insert)
   (local-set-key ">" 'semantic-complete-self-insert)
   (local-set-key "\C-ct" 'eassist-switch-h-cpp)
@@ -507,8 +508,6 @@
 
 (defun my-semanticdb-hook ()
   "semanticdb hook"
-  (require 'semanticdb)
-  (global-semanticdb-minor-mode 1)
   (setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
   (setq semanticdb-search-system-databases t)
   )
@@ -530,8 +529,8 @@
 (defun my-semantic-init()
   "all in one semantic init function"
   (add-hook 'semantic-init-hooks 'my-semantic-hook)
-  (add-hook 'semantic-init-hooks 'my-semantic-key-hook)
   (add-hook 'semantic-init-hooks 'my-semanticdb-hook)
+  (add-hook 'semantic-init-hooks 'my-semantic-key-hook)
   (add-hook 'semantic-init-hooks 'my-semantic-qt4-hook)
   )
 ;; ########## end ##########
@@ -662,12 +661,7 @@
     '(el-get
        package
        cssh
-       scratch
-       pos-tip
-       popup-kill-ring
        sicp
-       (:name lisppaste
-       	 :type elpa)
        (:name auto-complete
 	 :build ("make")
 	 :after (lambda () (my-auto-complete-init)))
