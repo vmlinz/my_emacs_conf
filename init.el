@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-01 11:57:36 vmlinz>
+;; Time-stamp: <2010-12-01 13:34:50 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -592,14 +592,17 @@
   (ac-config-default)
 
   (setq ac-dwim t)
+  (ac-set-trigger-key "TAB")
   (setq ac-auto-start nil)
-  (setq ac-delay 0.8)
+  (setq ac-delay 0.5)
   (setq ac-use-quick-help t)
   (setq ac-menu-height 5)
 
   (setq ac-use-menu-map t)
   (define-key ac-menu-map "\C-n" 'ac-next)
+  (define-key ac-menu-map "\M-n" 'ac-next)
   (define-key ac-menu-map "\C-p" 'ac-previous)
+  (define-key ac-menu-map "\M-p" 'ac-previous)
   (define-key ac-mode-map "\M-/" 'auto-complete)
   )
 ;; ########## end ##########
