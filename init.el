@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-01 13:34:50 vmlinz>
+;; Time-stamp: <2010-12-01 14:01:02 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -592,8 +592,8 @@
   (ac-config-default)
 
   (setq ac-dwim t)
-  (ac-set-trigger-key "TAB")
   (setq ac-auto-start nil)
+  (ac-set-trigger-key "TAB")
   (setq ac-delay 0.5)
   (setq ac-use-quick-help t)
   (setq ac-menu-height 5)
