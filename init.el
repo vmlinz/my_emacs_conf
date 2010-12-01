@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-11-30 22:49:02 vmlinz>
+;; Time-stamp: <2010-12-01 11:37:00 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -564,14 +564,27 @@
   (add-hook 'semantic-init-hook
     '(lambda ()
        (setq ac-sources
-	 (append '(ac-source-semantic) '(ac-source-semantic-raw) ac-sources))
-       ))
+	 (append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
+       )
+    )
+  )
+
+(defun my-ac-clang-setup ()
+  "clang source configuration for auto-complete"
+  (require 'auto-complete-clang)
+  (add-hook 'c-mode-common-hook
+    '(lambda ()
+       (setq ac-sources
+	 (append '(ac-source-clang) ac-sources))
+       )
+    )
   )
 
 (defun my-auto-complete-init()
   "auto-complete init function"
-  ;; add semantic support
-  (add-hook 'auto-complete-mode-hook 'my-ac-semantic-setup)
+
+  ;;(add-hook 'auto-complete-mode-hook 'my-ac-semantic-setup)
+  (add-hook 'auto-complete-mode-hook 'my-ac-clang-setup)
 
   (require 'auto-complete-config)
   (add-to-list 'ac-dictionary-directories
@@ -582,7 +595,7 @@
   (setq ac-delay 0.8)
   (setq ac-auto-start 3)
   (setq ac-use-quick-help t)
-  (setq ac-menu-height 8)
+  (setq ac-menu-height 5)
 
   (setq ac-use-menu-map t)
   (define-key ac-menu-map "\C-n" 'ac-next)
@@ -636,6 +649,7 @@
 	 :features cedet
 	 :after (lambda () (my-semantic-init))
 	 )
+       auto-complete-clang
        (:name auto-complete
 	 :build ("make")
 	 :after (lambda () (my-auto-complete-init)))
