@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-01 15:49:45 vmlinz>
+;; Time-stamp: <2010-12-02 04:01:23 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -480,12 +480,6 @@
   (global-semantic-show-unmatched-syntax-mode -1)
   (global-semantic-tag-folding-mode -1)
   (global-semantic-idle-scheduler-mode -1)
-  (semantic-load-enable-primary-exuberent-ctags-support)
-
-  (setq-mode-local c-mode semanticdb-find-default-throttle
-    '(project unloaded system recursive))
-  (setq-mode-local c++-mode semanticdb-find-default-throttle
-    '(project unloaded system recursive))
   )
 
 (defun my-semantic-key-hook ()
@@ -508,12 +502,20 @@
   "semanticdb hook"
   (setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
   (setq semanticdb-search-system-databases t)
+
+  (setq-mode-local c-mode semanticdb-find-default-throttle
+    '(project unloaded system recursive))
+  (setq-mode-local c++-mode semanticdb-find-default-throttle
+    '(project unloaded system recursive))
+
+  ;; enable ctags for its supported languages
+  (semantic-load-enable-all-exuberent-ctags-support)
   )
 
-(defun my-semantic-qt4-hook()
-  "qt4 setting hook for semantic"
-  (defvar qt4-base-dir nil "Qt4 base include directory")
-  (setq qt4-base-dir "/usr/include/qt4")
+(defun my-semantic-qt4-setup ()
+  "add qt4 system include for semanticdb"
+  (interactive)
+  (defvar qt4-base-dir "/usr/include/qt4" "Qt4 base include directory")
   (semantic-add-system-include qt4-base-dir 'c++-mode)
   (add-to-list 'auto-mode-alist (cons qt4-base-dir 'c++-mode))
   (add-to-list 'semantic-lex-c-preprocessor-symbol-file
@@ -524,11 +526,19 @@
     (concat qt4-base-dir "/Qt/qglobal.h"))
   )
 
+(defun my-semantic-linux-kernel-setup ()
+  "set up linux kernel includes for semantic"
+  (interactive)
+  (semantic-add-system-include "/usr/include/linux/" 'c-mode)
+  )
+
 (defun my-semantic-init()
   "all in one semantic init function"
-  (add-hook 'semantic-init-hooks 'my-semantic-hook)
-  (add-hook 'semantic-init-hooks 'my-semanticdb-hook)
-  (add-hook 'semantic-init-hooks 'my-semantic-key-hook)
+  (progn
+    (add-hook 'semantic-init-hooks 'my-semantic-hook)
+    (add-hook 'semantic-init-hooks 'my-semanticdb-hook)
+    (add-hook 'semantic-init-hooks 'my-semantic-key-hook)
+    )
   )
 ;; ########## end ##########
 
