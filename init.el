@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-01 14:01:02 vmlinz>
+;; Time-stamp: <2010-12-01 15:34:46 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -582,9 +582,12 @@
 
 (defun my-auto-complete-init()
   "auto-complete init function"
-
-  (add-hook 'auto-complete-mode-hook 'my-ac-semantic-setup)
-  ;;(add-hook 'auto-complete-mode-hook 'my-ac-clang-setup)
+  (defvar my-ac-use-semantic t "make auto-complete to use semantic to complete")
+  (setq my-ac-use-semantic nil)
+  (if my-ac-use-semantic
+    (add-hook 'auto-complete-mode-hook 'my-ac-semantic-setup)
+    (add-hook 'auto-complete-mode-hook 'my-ac-clang-setup)
+    )
 
   (require 'auto-complete-config)
   (add-to-list 'ac-dictionary-directories
