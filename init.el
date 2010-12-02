@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-02 04:01:23 vmlinz>
+;; Time-stamp: <2010-12-02 14:12:13 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -175,7 +175,9 @@
 ;; ########## emacs server ##########
 ;; only start emacs server when it's not started, I hate warnings.
 (defun my-emacs-daemon-init()
-  (setq server-socket-file "/tmp/emacs1000/server")
+  (setq server-socket-file
+    (concat "/tmp/emacs"
+      (substring (shell-command-to-string "id -u") 0 -1) "/server"))
   (unless (file-exists-p server-socket-file)
     (server-start))
 
@@ -564,6 +566,10 @@
   (setq yas/root-directory "~/.emacs.d/el-get/yasnippet/snippets")
   (yas/load-directory yas/root-directory)
   (setq yas/use-menu 'abbreviate)
+  (setq yas/prompt-functions
+    (cons 'yas/ido-prompt
+      (remove 'yas/ido-prompt
+	yas/prompt-functions)))
   (yas/global-mode t)
   )
 ;; ########## end ##########
