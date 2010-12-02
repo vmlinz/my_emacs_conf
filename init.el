@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-02 20:00:46 vmlinz>
+;; Time-stamp: <2010-12-02 22:51:26 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -595,6 +595,7 @@
        (setq ac-clang-flags
 	 (split-string
 	   (shell-command-to-string "pkg-config --cflags gtk+-2.0")))
+       (define-key ac-mode-map "\M-/" 'ac-complete-clang)
        )
     )
   )
@@ -625,8 +626,9 @@
   (define-key ac-menu-map "\M-n" 'ac-next)
   (define-key ac-menu-map "\C-p" 'ac-previous)
   (define-key ac-menu-map "\M-p" 'ac-previous)
-  (define-key ac-menu-map "\M-/" 'auto-complete)
   (define-key ac-menu-map "\C-f" 'ac-stop)
+  ;; auto-complet mode map
+  ;; (define-key ac-mode-map "\M-/" 'auto-complete)
   )
 ;; ########## end ##########
 
