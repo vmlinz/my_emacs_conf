@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-02 22:51:26 vmlinz>
+;; Time-stamp: <2010-12-03 00:30:04 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -510,28 +510,7 @@
   (setq-mode-local c++-mode semanticdb-find-default-throttle
     '(project unloaded system recursive))
 
-  ;; enable ctags for its supported languages
-  (semantic-load-enable-all-exuberent-ctags-support)
-  )
-
-(defun my-semantic-qt4-setup ()
-  "add qt4 system include for semanticdb"
-  (interactive)
-  (defvar qt4-base-dir "/usr/include/qt4" "Qt4 base include directory")
-  (semantic-add-system-include qt4-base-dir 'c++-mode)
-  (add-to-list 'auto-mode-alist (cons qt4-base-dir 'c++-mode))
-  (add-to-list 'semantic-lex-c-preprocessor-symbol-file
-    (concat qt4-base-dir "/Qt/qconfig.h"))
-  (add-to-list 'semantic-lex-c-preprocessor-symbol-file
-    (concat qt4-base-dir "/Qt/qconfig-dist.h"))
-  (add-to-list 'semantic-lex-c-preprocessor-symbol-file
-    (concat qt4-base-dir "/Qt/qglobal.h"))
-  )
-
-(defun my-semantic-linux-kernel-setup ()
-  "set up linux kernel includes for semantic"
-  (interactive)
-  (semantic-add-system-include "/usr/include/linux/" 'c-mode)
+  (semantic-load-enable-primary-exuberent-ctags-support)
   )
 
 (defun my-semantic-init()
@@ -627,8 +606,6 @@
   (define-key ac-menu-map "\C-p" 'ac-previous)
   (define-key ac-menu-map "\M-p" 'ac-previous)
   (define-key ac-menu-map "\C-f" 'ac-stop)
-  ;; auto-complet mode map
-  ;; (define-key ac-mode-map "\M-/" 'auto-complete)
   )
 ;; ########## end ##########
 
