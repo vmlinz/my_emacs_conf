@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-03 00:30:04 vmlinz>
+;; Time-stamp: <2010-12-04 02:29:27 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -121,12 +121,6 @@
     ido-max-prospects 10)
   ;; icomplete
   (icomplete-mode t)
-  ;; scrollbar
-  (set-scroll-bar-mode 'right)
-  (setq
-    scroll-margin 0
-    scroll-conservatively 100000
-    scroll-preserve-screen-position 1)
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq use-dialog-box nil)
   ;; set my email address
@@ -581,8 +575,8 @@
 
 (defun my-auto-complete-init()
   "auto-complete init function"
-  (defvar my-ac-use-semantic t "make auto-complete to use semantic to complete")
-  (setq my-ac-use-semantic nil)
+  (defvar my-ac-use-semantic nil
+    "make auto-complete to use semantic to complete")
   (if my-ac-use-semantic
     (add-hook 'auto-complete-mode-hook 'my-ac-semantic-setup)
     (add-hook 'auto-complete-mode-hook 'my-ac-clang-setup)
@@ -596,7 +590,7 @@
   (setq ac-dwim t)
   (setq ac-auto-start nil)
   (ac-set-trigger-key "TAB")
-  (setq ac-delay 0.5)
+  (setq ac-delay 0.1)
   (setq ac-use-quick-help nil)
   (setq ac-menu-height 5)
 
@@ -606,6 +600,7 @@
   (define-key ac-menu-map "\C-p" 'ac-previous)
   (define-key ac-menu-map "\M-p" 'ac-previous)
   (define-key ac-menu-map "\C-f" 'ac-stop)
+  (define-key ac-menu-map "\M-f" 'ac-stop)
   )
 ;; ########## end ##########
 
