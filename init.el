@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-04 02:29:27 vmlinz>
+;; Time-stamp: <2010-12-05 17:34:14 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -23,7 +23,7 @@
 ;; packages
 
 ;; TODOS:
-;; 1.Configure cedet and auto-complet
+;; 1.Configure cedet and auto-complete
 ;; 2.Get to know more about elisp programming
 ;; 3.Make it portable between computers
 
@@ -550,10 +550,12 @@
 ;; ########## auto-complete ##########
 ;; this package is good to use and easy to config
 (defun my-ac-semantic-setup ()
+  "semantic source configuration for auto-complete"
   (add-hook 'semantic-init-hook
     '(lambda ()
        (setq ac-sources
 	 (append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
+       (define-key ac-mode-map "\M-/" 'ac-complete-semantic-raw)
        )
     )
   )
