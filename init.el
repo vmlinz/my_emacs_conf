@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-05 17:34:14 vmlinz>
+;; Time-stamp: <2010-12-05 23:47:39 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -171,7 +171,7 @@
 (defun my-emacs-daemon-init()
   (setq server-socket-file
     (concat "/tmp/emacs"
-      (substring (shell-command-to-string "id -u") 0 -1) "/server"))
+      (int-to-string (user-uid)) "/server"))
   (unless (file-exists-p server-socket-file)
     (server-start))
 
@@ -651,11 +651,12 @@
 	 :features cedet
 	 :after (lambda () (my-semantic-init))
 	 )
-       auto-complete-clang
        (:name auto-complete
 	 :build ("make")
 	 :after (lambda () (my-auto-complete-init)))
-       ))
+       auto-complete-clang
+       )
+    )
   (el-get 'wait)
   )
 (my-el-get-init)
