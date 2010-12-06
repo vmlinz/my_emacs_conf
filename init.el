@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-05 23:47:39 vmlinz>
+;; Time-stamp: <2010-12-06 22:02:07 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -138,6 +138,8 @@
   (setq parens-require-spaces nil)
   ;; set kill-ring-max to 512
   (setq kill-ring-max 512)
+  ;; enter view-mode when buffer is read-only
+  (setq view-read-only t)
   ;; ########## end ##########
 
   ;; ########## fullscreen ##########
