@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-13 11:55:58 vmlinz>
+;; Time-stamp: <2010-12-13 14:24:48 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -110,6 +110,8 @@
   ;; (setq display-time-day-and-date t)
   ;; emacs shell color encoding
   (ansi-color-for-comint-mode-on)
+  ;; set inferior shell prompt read-only
+  (setq comint-prompt-read-only t)
   (auto-image-file-mode t)
   (tabbar-mode -1)
   ;; ido-mode
