@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-06 22:02:07 vmlinz>
+;; Time-stamp: <2010-12-13 11:55:58 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -531,6 +531,16 @@
      (interactive)
      (byte-compile-file "~/.emacs.d/init.el" t)
      ))
+;; ########## end ##########
+
+;; ########## scheme mode ##########
+;; scheme mode setup
+(defun my-scheme-init()
+  (require 'quack)
+  (setq quack-global-menu-p nil)
+  (setq quack-default-program "guile")
+)
+(my-scheme-init)
 ;; ########## end ##########
 
 ;; ########## yasnippet ##########
