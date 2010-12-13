@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-13 14:24:48 vmlinz>
+;; Time-stamp: <2010-12-13 15:30:37 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -541,6 +541,13 @@
   (require 'quack)
   (setq quack-global-menu-p nil)
   (setq quack-default-program "guile")
+  (quack-install)
+
+  (add-hook 'scheme-mode-hook
+    '(lambda ()
+       (define-key scheme-mode-map "\C-x\M-r" 'run-scheme)
+       (setq scheme-program-name "guile")
+       ))
 )
 (my-scheme-init)
 ;; ########## end ##########
