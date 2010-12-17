@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-13 15:30:37 vmlinz>
+;; Time-stamp: <2010-12-17 17:28:43 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -172,22 +172,29 @@
 
 ;; ########## emacs server ##########
 ;; only start emacs server when it's not started, I hate warnings.
-(defun my-emacs-daemon-init()
+(defun my-server-init()
   (setq server-socket-file
     (concat "/tmp/emacs"
       (int-to-string (user-uid)) "/server"))
   (unless (file-exists-p server-socket-file)
     (server-start))
 
-  (defun my-exit-emacs-client ()
+  (defun my-server-force-start ()
+    (interactive)
+    (progn
+      '(
+	 (server-force-delete)
+	 (server-start))))
+
+  (defun my-server-kill-client ()
     "consistent exit emacsclient"
     (interactive)
     (if server-buffer-clients
       (server-edit)
       (delete-frame)))
-  (global-set-key (kbd "C-c C-q") 'my-exit-emacs-client)
+  (global-set-key (kbd "C-c C-q") 'my-server-kill-client)
   )
-(my-emacs-daemon-init)
+(my-server-init)
 ;; ########## end ##########
 
 ;; ########## expand function ##########
@@ -262,36 +269,6 @@
 (global-set-key "\C-c\C-t" 'my-tags-generate-files)
 ;; ########## end ##########
 
-;; ########## org ##########
-;;function gtd
-(defun my-gtd ()
-  (interactive)
-  (find-file "~/Documents/notes/dailylife.org")
-  )
-;; ########## end ##########
-
-;; ########## org mode and remember ##########
-(defun my-org-mode-init()
-  (org-remember-insinuate)
-  (setq org-directory "~/Documents/notes")
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
-  (setq org-log-done 'note)
-  (setq remember-annotation-functions '(org-remember-annotation))
-  (setq remember-handler-functions '(org-remember-handler))
-  ;;custome commands for the use of GTD.
-  (setq org-agenda-custom-commands
-    '(("w" todo "WAITING" nil)
-       ("n" todo "NEXT" nil)
-       ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
-    )
-  (add-hook 'remember-mode-hook 'org-remember-apply-template)
-  (global-set-key "\C-cr" 'org-remember)
-  (global-set-key "\C-cc" 'calendar)
-  (global-set-key "\C-ca" 'org-agenda)
-  )
-(my-org-mode-init)
-;; ########## end ##########
-
 ;; ########## woman ##########
 ;; settings for woman
 (add-hook 'after-init-hook
@@ -299,10 +276,6 @@
      (setq woman-use-own-frame nil)
      (setq woman-fill-column 80)
      ))
-;; ########## end ##########
-
-;; ########## emms ##########
-;; now just ignore it, for programming and daily use come first
 ;; ########## end ##########
 
 ;; ########## cc-mode ##########
@@ -464,63 +437,6 @@
 (my-markdown-mode-init)
 ;; ########## end ##########
 
-;; ########## cedet ##########
-;; cedet is now managed by _el-get_ using latest source from cvs
-(defun my-semantic-hook ()
-  "feature setting hook for semantic"
-  (require 'semantic-ia)
-  (require 'semantic-gcc)
-
-  (imenu-add-to-menubar "TAGS")
-  (global-ede-mode t)
-  (global-srecode-minor-mode 1)
-
-  (semantic-load-enable-code-helpers)
-  (global-semantic-highlight-func-mode 1)
-  (global-semantic-show-unmatched-syntax-mode -1)
-  (global-semantic-tag-folding-mode -1)
-  (global-semantic-idle-scheduler-mode -1)
-  )
-
-(defun my-semantic-key-hook ()
-  "key bindings for semantic modes"
-  (local-set-key "\C-c=" 'semantic-decoration-include-visit)
-  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
-  (local-set-key "\C-c\C-r" 'semantic-symref)
-
-  (local-set-key "\C-c/" 'semantic-ia-complete-symbol)
-  (local-set-key "\C-cj" 'semantic-ia-fast-jump)
-  (local-set-key "\C-cd" 'semantic-ia-show-doc)
-  (local-set-key "\C-cs" 'semantic-ia-show-summary)
-
-  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
-  (local-set-key "\C-ct" 'eassist-switch-h-cpp)
-  (local-set-key "\C-cm" 'eassist-list-methods)
-  )
-
-(defun my-semanticdb-hook ()
-  "semanticdb hook"
-  (setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
-  (setq semanticdb-search-system-databases t)
-
-  (setq-mode-local c-mode semanticdb-find-default-throttle
-    '(project unloaded system recursive))
-  (setq-mode-local c++-mode semanticdb-find-default-throttle
-    '(project unloaded system recursive))
-
-  (semantic-load-enable-primary-exuberent-ctags-support)
-  )
-
-(defun my-semantic-init()
-  "all in one semantic init function"
-  (progn
-    (add-hook 'semantic-init-hooks 'my-semantic-hook)
-    (add-hook 'semantic-init-hooks 'my-semanticdb-hook)
-    (add-hook 'semantic-init-hooks 'my-semantic-key-hook)
-    )
-  )
-;; ########## end ##########
-
 ;; ########## lisp settings ##########
 ;; lisp indent offset to 2
 (add-hook 'emacs-lisp-mode-hook
@@ -557,8 +473,6 @@
 (defun my-yasnippet-init()
   "simple yasnippet mode init function"
   (require 'yasnippet)
-  (setq yas/root-directory "~/.emacs.d/el-get/yasnippet/snippets")
-  (yas/load-directory yas/root-directory)
   (setq yas/use-menu 'abbreviate)
   (setq yas/prompt-functions
     (cons 'yas/ido-prompt
@@ -566,44 +480,13 @@
 	yas/prompt-functions)))
   (yas/global-mode t)
   )
+(my-yasnippet-init)
 ;; ########## end ##########
 
 ;; ########## auto-complete ##########
 ;; this package is good to use and easy to config
-(defun my-ac-semantic-setup ()
-  "semantic source configuration for auto-complete"
-  (add-hook 'semantic-init-hook
-    '(lambda ()
-       (setq ac-sources
-	 (append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
-       (define-key ac-mode-map "\M-/" 'ac-complete-semantic-raw)
-       )
-    )
-  )
-
-(defun my-ac-clang-setup ()
-  "clang source configuration for auto-complete"
-  (require 'auto-complete-clang)
-  (add-hook 'c-mode-common-hook
-    '(lambda ()
-       (setq ac-sources
-	 (append '(ac-source-clang) ac-sources))
-       (setq ac-clang-flags
-	 (split-string
-	   (shell-command-to-string "pkg-config --cflags gtk+-2.0")))
-       (define-key ac-mode-map "\M-/" 'ac-complete-clang)
-       )
-    )
-  )
-
 (defun my-auto-complete-init()
   "auto-complete init function"
-  (defvar my-ac-use-semantic nil
-    "make auto-complete to use semantic to complete")
-  (if my-ac-use-semantic
-    (add-hook 'auto-complete-mode-hook 'my-ac-semantic-setup)
-    (add-hook 'auto-complete-mode-hook 'my-ac-clang-setup)
-    )
 
   (require 'auto-complete-config)
   (add-to-list 'ac-dictionary-directories
@@ -661,21 +544,12 @@
        package
        pos-tip
        cssh
-       sicp
        (:name magit
 	 :build ("make")
 	 :after (lambda () (my-git-init)))
-       (:name yasnippet
-	 :build ("rake compile")
-	 :after (lambda () (my-yasnippet-init)))
-       (:name cedet
-	 :features cedet
-	 :after (lambda () (my-semantic-init))
-	 )
        (:name auto-complete
 	 :build ("make")
 	 :after (lambda () (my-auto-complete-init)))
-       auto-complete-clang
        )
     )
   (el-get 'wait)
