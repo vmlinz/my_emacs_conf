@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-13 15:30:37 vmlinz>
+;; Time-stamp: <2010-12-22 22:40:09 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -176,17 +176,26 @@
   (setq server-socket-file
     (concat "/tmp/emacs"
       (int-to-string (user-uid)) "/server"))
+
   (unless (file-exists-p server-socket-file)
     (server-start))
 
-  (defun my-exit-emacs-client ()
+  (defun my-server-force-start ()
+    "delete current server socket and restart the server"
+    (interactive)
+    (progn
+      '(
+	 (server-force-delete)
+	 (server-start))))
+
+  (defun my-server-kill-client ()
     "consistent exit emacsclient"
     (interactive)
     (if server-buffer-clients
       (server-edit)
       (delete-frame)))
-  (global-set-key (kbd "C-c C-q") 'my-exit-emacs-client)
-  )
+  (global-set-key (kbd "C-c C-q") 'my-server-kill-client)
+)
 (my-emacs-daemon-init)
 ;; ########## end ##########
 
