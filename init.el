@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-22 22:40:09 vmlinz>
+;; Time-stamp: <2010-12-24 01:13:45 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -465,12 +465,23 @@
 ;; ########## markdown ##########
 ;; markdown-mode for translating Pro Git
 (defun my-markdown-mode-init()
-  (autoload 'markdown-mode "markdown-mode.el"
+  (autoload 'markdown-mode "markdown-mode"
     "Major mode for editing Markdown files" t)
   (setq auto-mode-alist
-    (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
+    (cons '("\\.markdown\\'" . markdown-mode) auto-mode-alist))
   )
 (my-markdown-mode-init)
+;; ########## end ##########
+
+;; ########## sh mode ##########
+;; .zsh files to sh auto-mode-alist
+(defun my-sh-mode-init()
+  (autoload 'sh-mode "sh-script"
+    "Major mode for editing shell files" t)
+  (setq auto-mode-alist
+    (cons '("\\.zsh\\'" . sh-mode) auto-mode-alist))
+  )
+(my-sh-mode-init)
 ;; ########## end ##########
 
 ;; ########## cedet ##########
