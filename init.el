@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-27 01:32:53 vmlinz>
+;; Time-stamp: <2010-12-28 01:21:21 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -80,7 +80,7 @@
   ;; If there is more than one, they won't work right.
   '(calendar-chinese-all-holidays-flag t)
   '(calendar-view-diary-initially-flag nil)
-  '(column-number-mode t)
+  '(column-number-mode nil)
   '(font-latex-fontify-sectioning (quote color))
   '(inhibit-startup-screen t)
   '(show-paren-mode t)
