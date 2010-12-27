@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-24 01:13:45 vmlinz>
+;; Time-stamp: <2010-12-27 01:32:53 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -142,6 +142,8 @@
   (setq kill-ring-max 512)
   ;; enter view-mode when buffer is read-only
   (setq view-read-only t)
+  ;; set comment style to multi-line
+  (setq comment-style 'multi-line)
   ;; ########## end ##########
 
   ;; ########## fullscreen ##########
