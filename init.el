@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-27 11:20:40 vmlinz>
+;; Time-stamp: <2010-12-28 17:09:44 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -560,6 +560,7 @@
        package
        pos-tip
        cssh
+       gist
        (:name magit
 	 :build ("make")
 	 :after (lambda () (my-git-init)))
