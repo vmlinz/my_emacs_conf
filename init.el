@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-28 01:21:21 vmlinz>
+;; Time-stamp: <2010-12-29 00:06:37 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -403,6 +403,13 @@
   (add-hook 'c++-mode-hook
     '(lambda ()
        (c-set-style "stroustrup")
+       )
+    )
+  (add-hook 'java-mode-hook
+    '(lambda ()
+       (setq indent-tabs-mode nil)
+       (c-set-offset 'arglist-cont-nonempty '+)
+       (c-set-offset 'topmost-intro-cont 0)
        )
     )
   )
