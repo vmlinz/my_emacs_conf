@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-29 00:06:37 vmlinz>
+;; Time-stamp: <2010-12-29 00:18:44 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -174,7 +174,7 @@
 
 ;; ########## emacs server ##########
 ;; only start emacs server when it's not started, I hate warnings.
-(defun my-emacs-daemon-init()
+(defun my-server-init()
   (setq server-socket-file
     (concat "/tmp/emacs"
       (int-to-string (user-uid)) "/server"))
@@ -186,8 +186,7 @@
     "delete current server socket and restart the server"
     (interactive)
     (progn
-      '(
-	 (server-force-delete)
+      '((server-force-delete)
 	 (server-start))))
 
   (defun my-server-kill-client ()
@@ -198,7 +197,7 @@
       (delete-frame)))
   (global-set-key (kbd "C-c C-q") 'my-server-kill-client)
 )
-(my-emacs-daemon-init)
+(my-server-init)
 ;; ########## end ##########
 
 ;; ########## expand function ##########
