@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-31 14:09:31 vmlinz>
+;; Time-stamp: <2010-12-31 14:15:27 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
 ;; 1.Emacs configuration for TeXing and c/c++ programming
 ;; 2.Speed up startup time by making defuns and hooks
 ;; 3.The configuration contains some specifical settins for Lenovo X200
-;; 4.Introduce the newly pacage manager _el-get_ to manage various third party
+;; 4.Introduce the new package manager _el-get_ to manage various third party
 ;; packages
 
 ;; TODOS:
