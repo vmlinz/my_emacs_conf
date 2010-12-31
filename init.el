@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-28 17:09:44 vmlinz>
+;; Time-stamp: <2010-12-31 13:51:08 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -119,7 +119,8 @@
     ido-enable-flex-matching t
     ido-create-new-buffer 'always
     ido-use-filename-at-point 'guess
-    ido-max-prospects 10)
+    ido-max-prospects 10
+    ido-save-directory-list-file "~/.emacs.d/.ido.last")
   ;; icomplete
   (icomplete-mode t)
   (fset 'yes-or-no-p 'y-or-n-p)
