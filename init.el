@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-31 13:51:08 vmlinz>
+;; Time-stamp: <2010-12-31 14:09:31 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -182,8 +182,7 @@
   (defun my-server-force-start ()
     (interactive)
     (progn
-      '(
-	 (server-force-delete)
+      '((server-force-delete)
 	 (server-start))))
 
   (defun my-server-kill-client ()
