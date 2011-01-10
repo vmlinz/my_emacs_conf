@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2010-12-29 22:18:29 vmlinz>
+;; Time-stamp: <2011-01-10 22:29:17 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -154,6 +154,17 @@
       (if (frame-parameter f 'fullscreen) nil 'fullboth)))
 
   (global-set-key [f11] 'my-fullscreen)
+  ;; ########## end ##########
+
+  ;; ########## current position  ##########
+  ;; Get current line number and column number
+  (defun my-current-line-and-column ()
+    "Get current line number and column number."
+    (interactive)
+    (message "Line %d, Column %d" (line-number-at-pos) (current-column))
+    )
+
+  (global-set-key "\C-x?" 'my-current-line-and-column)
   ;; ########## end ##########
 
   ;; ########## menu-bar ##########
