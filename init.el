@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-01-10 22:29:17 vmlinz>
+;; Time-stamp: <2011-01-16 18:24:30 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -511,7 +511,7 @@
   (require 'semantic-gcc)
 
   (imenu-add-to-menubar "TAGS")
-  (global-ede-mode t)
+  ;; (global-ede-mode t)
   (global-srecode-minor-mode 1)
 
   (semantic-load-enable-code-helpers)
