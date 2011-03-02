@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-01-16 18:24:30 vmlinz>
+;; Time-stamp: <2011-03-02 21:53:30 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -643,11 +643,6 @@
     (add-hook 'auto-complete-mode-hook 'my-ac-semantic-setup)
     (add-hook 'auto-complete-mode-hook 'my-ac-clang-setup)
     )
-
-  (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories
-    "~/.emacs.d/el-get/auto-complete/dict")
-  (ac-config-default)
 
   (setq ac-dwim t)
   (setq ac-auto-start nil)
