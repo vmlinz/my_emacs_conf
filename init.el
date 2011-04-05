@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-03-02 21:53:30 vmlinz>
+;; Time-stamp: <2011-04-05 13:57:42 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -179,6 +179,11 @@
   (put 'upcase-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
   ;; ########## end ##########
+
+  ;; ########## browse url ##########
+  (setq browse-url-browser-function 'browse-url-generic
+    browse-url-generic-program "google-chrome" )
+  ;; ########## en ##########
   )
 (my-misc-custom-init)
 ;; ########## end ##########
