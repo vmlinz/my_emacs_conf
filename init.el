@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-01-24 14:26:16 vmlinz>
+;; Time-stamp: <2011-04-15 10:06:00 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -510,9 +510,6 @@
   "auto-complete init function"
 
   (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories
-    "~/.emacs.d/el-get/auto-complete/dict")
-  (ac-config-default)
 
   (setq ac-dwim t)
   (setq ac-auto-start nil)
@@ -566,6 +563,7 @@
        pos-tip
        cssh
        gist
+       paredit
        (:name magit
 	 :build ("make")
 	 :after (lambda () (my-git-init)))
