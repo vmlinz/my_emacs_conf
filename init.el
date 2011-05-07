@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-04-05 13:57:42 vmlinz>
+;; Time-stamp: <2011-05-07 15:15:47 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -701,6 +701,7 @@
        pos-tip
        cssh
        sicp
+       lua-mode
        (:name magit
 	 :build ("make")
 	 :after (lambda () (my-git-init)))
