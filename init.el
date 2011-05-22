@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-05-17 23:05:51 vmlinz>
+;; Time-stamp: <2011-05-22 20:41:26 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -186,7 +186,7 @@
   ;; ########## end ##########
 
   ;; ########## emacs title ##########
-  (setq frame-title-format '("" "[%b] - Emacs " emacs-version))
+  (setq frame-title-format '("" "%b - Emacs " emacs-version))
   ;; ########## end ##########
   )
 (my-misc-custom-init)
