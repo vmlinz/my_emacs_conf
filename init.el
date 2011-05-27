@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-05-27 21:16:28 vmlinz>
+;; Time-stamp: <2011-05-27 21:29:46 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -22,10 +22,10 @@
 ;; 4.Introduce the newly pacage manager _el-get_ to manage various third party
 ;; packages
 
-;; TODOS:
-;; 1.Configure cedet and auto-complete
-;; 2.Get to know more about elisp programming
-;; 3.Make it portable between computers
+;; [done]1.Configure cedet and auto-complete
+;; [next]2.Get to know more about elisp programming
+;; [done]3.Make it portable between computers
+;; [todo]4.keep simplifying this configuration file
 
 ;; ########## localization ##########
 ;; needs further checking and practicing, read more on x resource and fonts
