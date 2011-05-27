@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-05-22 20:41:26 vmlinz>
+;; Time-stamp: <2011-05-27 21:16:28 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -605,8 +605,6 @@
 (defun my-yasnippet-init()
   "simple yasnippet mode init function"
   (require 'yasnippet)
-  (setq yas/root-directory "~/.emacs.d/el-get/yasnippet/snippets")
-  (yas/load-directory yas/root-directory)
   (setq yas/use-menu 'abbreviate)
   (setq yas/prompt-functions
     (cons 'yas/ido-prompt
