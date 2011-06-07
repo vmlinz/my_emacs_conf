@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-05-27 21:29:46 vmlinz>
+;; Time-stamp: <2011-06-07 21:00:17 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -88,7 +88,7 @@
   '(vc-handled-backends (quote (GIT SVN Hg Bzr CVS)))
   ;; depend on personal settings
   '(bookmark-default-file "~/.emacs.d/.emacs.bmk")
-  '(diary-file "~/.emacs.d/diary.gpg")
+  '(diary-file "~/Documents/notes/diary.gpg")
   '(org-agenda-files (quote ("~/Documents/notes/dailylife.org"
 			      "~/Documents/notes/study.org"
 			      "~/Documents/notes/work.org")))
