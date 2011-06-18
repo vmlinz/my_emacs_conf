@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-06-07 21:00:17 vmlinz>
+;; Time-stamp: <2011-06-18 10:48:34 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -178,6 +178,7 @@
   ;; various toggles for the disabled commands
   (put 'upcase-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
   ;; ########## end ##########
 
   ;; ########## browse url ##########
@@ -251,9 +252,9 @@
   (global-set-key "{" 'skeleton-pair-insert-maybe)
   (global-set-key "[" 'skeleton-pair-insert-maybe)
   ;; buffer switching keys
-  (global-set-key (kbd "C-x p") 'previous-buffer)
+  (global-set-key (kbd "C-<") 'previous-buffer)
   (global-set-key [(XF86Back)] 'previous-buffer)
-  (global-set-key (kbd "C-x n") 'next-buffer)
+  (global-set-key (kbd "C->") 'next-buffer)
   (global-set-key [(XF86Forward)] 'next-buffer)
   ;; comment-dwim
   (global-set-key "\C-c\C-c" 'comment-dwim)
