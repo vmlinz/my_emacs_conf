@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-06-18 10:48:34 vmlinz>
+;; Time-stamp: <2011-06-22 22:38:24 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -713,8 +713,7 @@
 	 :after (lambda () (my-yasnippet-init)))
        (:name cedet
 	 :features cedet
-	 :after (lambda () (my-semantic-init))
-	 )
+	 :after (lambda () (my-semantic-init)))
        (:name auto-complete
 	 :build ("make")
 	 :after (lambda () (my-auto-complete-init)))
