@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-06-22 22:38:24 vmlinz>
+;; Time-stamp: <2011-08-25 20:55:44 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -189,6 +189,8 @@
   ;; ########## emacs title ##########
   (setq frame-title-format '("" "%b - Emacs " emacs-version))
   ;; ########## end ##########
+
+  (setq warning-suppress-types ())
   )
 (my-misc-custom-init)
 ;; ########## end ##########
@@ -524,7 +526,7 @@
   ;; (global-ede-mode t)
   (global-srecode-minor-mode 1)
 
-  (semantic-load-enable-code-helpers)
+  ;; (global-semanticdb-minor-mode 1)
   (global-semantic-highlight-func-mode 1)
   (global-semantic-show-unmatched-syntax-mode -1)
   (global-semantic-tag-folding-mode -1)
@@ -608,8 +610,8 @@
   (require 'yasnippet)
   (setq yas/use-menu 'abbreviate)
   (setq yas/prompt-functions
-    (cons 'yas/ido-prompt
-      (remove 'yas/ido-prompt
+    (cons 'yas/dropdown-prompt
+      (remove 'yas/dropdown-prompt
 	yas/prompt-functions)))
   (yas/global-mode t)
   )
@@ -619,13 +621,9 @@
 ;; this package is good to use and easy to config
 (defun my-ac-semantic-setup ()
   "semantic source configuration for auto-complete"
-  (add-hook 'semantic-init-hook
-    '(lambda ()
-       (setq ac-sources
-	 (append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
-       (define-key ac-mode-map "\M-/" 'ac-complete-semantic-raw)
-       )
-    )
+  (setq ac-sources
+    (append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
+  (define-key ac-mode-map "\M-/" 'ac-complete-semantic-raw)
   )
 
 (defun my-ac-clang-setup ()
@@ -643,14 +641,24 @@
     )
   )
 
-(defun my-auto-complete-init()
-  "auto-complete init function"
+(defun my-ac-py-mode-setup ()
+  (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
+
+(defun my-ac-config ()
   (defvar my-ac-use-semantic nil
     "make auto-complete to use semantic to complete")
   (if my-ac-use-semantic
-    (add-hook 'auto-complete-mode-hook 'my-ac-semantic-setup)
-    (add-hook 'auto-complete-mode-hook 'my-ac-clang-setup)
+    (add-hook 'c-mode-common-hook 'my-ac-semantic-setup)
+    (add-hook 'c-mode-common-hook 'my-ac-clang-setup)
     )
+
+  (add-hook 'python-mode-hook 'my-ac-py-mode-setup)
+  )
+
+(defun my-auto-complete-init()
+  "auto-complete init function"
+
+  (my-ac-config)
 
   (setq ac-dwim t)
   (setq ac-auto-start nil)
@@ -689,7 +697,8 @@
     '(lambda ()
        (setq indent-tabs-mode nil)
        (setq python-indent 4)
-       )))
+       ))
+  )
 (my-py-init)
 ;; ########## end ##########
 
@@ -717,7 +726,6 @@
        (:name auto-complete
 	 :build ("make")
 	 :after (lambda () (my-auto-complete-init)))
-       auto-complete-clang
        )
     )
   (el-get 'wait)
