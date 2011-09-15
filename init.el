@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-08-25 20:55:44 vmlinz>
+;; Time-stamp: <2011-09-16 00:45:04 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -78,28 +78,24 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
-  '(calendar-chinese-all-holidays-flag t)
-  '(calendar-view-diary-initially-flag nil)
-  '(column-number-mode nil)
-  '(font-latex-fontify-sectioning (quote color))
-  '(inhibit-startup-screen t)
-  '(show-paren-mode t)
-  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
-  '(vc-handled-backends (quote (GIT SVN Hg Bzr CVS)))
-  ;; depend on personal settings
-  '(bookmark-default-file "~/.emacs.d/.emacs.bmk")
-  '(diary-file "~/Documents/notes/diary.gpg")
-  '(org-agenda-files (quote ("~/Documents/notes/dailylife.org"
-			      "~/Documents/notes/study.org"
-			      "~/Documents/notes/work.org")))
-  )
+ '(bookmark-default-file "~/.emacs.d/.emacs.bmk")
+ '(calendar-chinese-all-holidays-flag t)
+ '(calendar-view-diary-initially-flag nil)
+ '(column-number-mode nil)
+ '(diary-file "~/Documents/notes/diary.gpg")
+ '(font-latex-fontify-sectioning (quote color))
+ '(inhibit-startup-screen t)
+ '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
+ '(show-paren-mode t)
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+ '(vc-handled-backends (quote (GIT SVN Hg Bzr CVS))))
 
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
-  )
+ )
 ;; ########## end ##########
 
 ;; ########## misc settings ##########
@@ -546,7 +542,7 @@
 
   (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
   (local-set-key "\C-ct" 'eassist-switch-h-cpp)
-  (local-set-key "\C-cm" 'eassist-list-methods)
+  (local-set-key "\C-cl" 'eassist-list-methods)
   )
 
 (defun my-semanticdb-hook ()
@@ -573,11 +569,6 @@
 ;; ########## end ##########
 
 ;; ########## lisp settings ##########
-;; lisp indent offset to 2
-(add-hook 'emacs-lisp-mode-hook
-  '(lambda()
-     (setq lisp-indent-offset 2)
-     ))
 ;; byte compile emacs init file and load it
 (global-set-key [f12]
   '(lambda()
@@ -641,18 +632,20 @@
     )
   )
 
-(defun my-ac-py-mode-setup ()
-  (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
+(defun my-ac-py-setup ()
+  (setq ac-sources (append '(ac-source-yasnippet) ac-sources))
+  )
 
 (defun my-ac-config ()
-  (defvar my-ac-use-semantic nil
+  (defvar my-ac-use-semantic t
     "make auto-complete to use semantic to complete")
   (if my-ac-use-semantic
     (add-hook 'c-mode-common-hook 'my-ac-semantic-setup)
     (add-hook 'c-mode-common-hook 'my-ac-clang-setup)
     )
 
-  (add-hook 'python-mode-hook 'my-ac-py-mode-setup)
+  ;; (ac-ropemacs-initialize)
+  (add-hook 'python-mode-hook 'my-ac-py-setup)
   )
 
 (defun my-auto-complete-init()
@@ -697,6 +690,7 @@
     '(lambda ()
        (setq indent-tabs-mode nil)
        (setq python-indent 4)
+       (setq python-python-command "python3") ;default to python3
        ))
   )
 (my-py-init)
