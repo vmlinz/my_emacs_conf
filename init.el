@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2011-09-16 00:45:04 vmlinz>
+;; Time-stamp: <2011-10-07 22:52:03 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -179,7 +179,7 @@
 
   ;; ########## browse url ##########
   (setq browse-url-browser-function 'browse-url-generic
-    browse-url-generic-program "google-chrome" )
+    browse-url-generic-program "google-chrome")
   ;; ########## end ##########
 
   ;; ########## emacs title ##########
@@ -700,7 +700,14 @@
 ;; the great package management tool el-get
 (defun my-el-get-init()
   (add-to-list 'load-path "~/.emacs.d/el-get/el-get/")
-  (require 'el-get)
+  ;; retrive el-get if it doesn't exist
+  (unless (require 'el-get nil t)
+    (with-current-buffer
+	(url-retrieve-synchronously
+	 "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+      (end-of-buffer)
+      (eval-print-last-sexp)))
+
   (setq el-get-sources
     '(el-get
        package
