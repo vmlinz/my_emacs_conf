@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-02-01 00:27:05 vmlinz>
+;; Time-stamp: <2012-03-03 03:10:35 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -207,7 +207,7 @@
     (interactive)
     (progn
       '((server-force-delete)
-         (server-start))))
+	 (server-start))))
 
   (defun my-server-kill-client ()
     "consistent exit emacsclient"
@@ -342,12 +342,12 @@
   (add-hook 'compilation-finish-functions
     '(lambda (buf str)
        (if (string-match "exited abnormally" str)
-         (next-error)
-         ;;no errors, make the compilation window go away in a few seconds
-         (run-at-time "2 sec" nil 'delete-windows-on
-           (get-buffer-create "*compilation*"))
-         (message "No Compilation Errors!")
-         )
+	 (next-error)
+	 ;;no errors, make the compilation window go away in a few seconds
+	 (run-at-time "2 sec" nil 'delete-windows-on
+	   (get-buffer-create "*compilation*"))
+	 (message "No Compilation Errors!")
+	 )
        ))
   (setq compilation-window-height 16)
   (setq compilation-scroll-output t)
@@ -385,9 +385,9 @@
 (defun c-lineup-arglist-tabs-only (ignored)
   "Line up argument lists by tabs, not spaces"
   (let* ((anchor (c-langelem-pos c-syntactic-element))
-          (column (c-langelem-2nd-pos c-syntactic-element))
-          (offset (- (1+ column) anchor))
-          (steps (floor offset c-basic-offset)))
+	  (column (c-langelem-2nd-pos c-syntactic-element))
+	  (offset (- (1+ column) anchor))
+	  (steps (floor offset c-basic-offset)))
     (* (max steps 1)
       c-basic-offset)))
 
@@ -397,9 +397,9 @@
     "linux-tabs-only"
     '("linux"
        (c-offsets-alist
-         (arglist-cont-nonempty
-           c-lineup-gcc-asm-reg
-           c-lineup-arglist-tabs-only))))
+	 (arglist-cont-nonempty
+	   c-lineup-gcc-asm-reg
+	   c-lineup-arglist-tabs-only))))
   )
 
 (defun my-c-mode-init ()
@@ -441,7 +441,7 @@
   (add-hook 'LaTeX-mode-hook
     '(lambda()
        (add-to-list 'TeX-command-list
-         '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+	 '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
        (setq TeX-command-default "XeLaTeX")
        (setq TeX-save-query nil)
        (setq TeX-show-compilation t)
@@ -453,8 +453,8 @@
     '(progn
        (TeX-global-PDF-mode t)
        (setq TeX-output-view-style
-         (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
-         )))
+	 (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
+	 )))
 
   (add-hook 'TeX-mode-hook
     '(lambda ()
@@ -600,11 +600,20 @@
 (defun my-yasnippet-init()
   "simple yasnippet mode init function"
   (require 'yasnippet)
+  ;; set yasnippet default dirs
+  (setq yas/snippet-dirs (list
+		  (concat el-get-dir
+			  (file-name-as-directory "yasnippet")
+			  "snippets")
+		  (concat el-get-dir
+			  (file-name-as-directory "yasnippet")
+			  (file-name-as-directory "extras")
+			  "imported")))
   (setq yas/use-menu 'abbreviate)
   (setq yas/prompt-functions
     (cons 'yas/dropdown-prompt
       (remove 'yas/dropdown-prompt
-        yas/prompt-functions)))
+	yas/prompt-functions)))
   (yas/global-mode t)
   )
 ;; ########## end ##########
@@ -624,10 +633,10 @@
   (add-hook 'c-mode-common-hook
     '(lambda ()
        (setq ac-sources
-         (append '(ac-source-clang) ac-sources))
+	 (append '(ac-source-clang) ac-sources))
        (setq ac-clang-flags
-         (split-string
-           (shell-command-to-string "pkg-config --cflags gtk+-2.0")))
+	 (split-string
+	   (shell-command-to-string "pkg-config --cflags gtk+-2.0")))
        (define-key ac-mode-map "\M-/" 'ac-complete-clang)
        )
     )
@@ -704,8 +713,8 @@
   ;; retrive el-get if it doesn't exist
   (unless (require 'el-get nil t)
     (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+	(url-retrieve-synchronously
+	 "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
       (end-of-buffer)
       (eval-print-last-sexp)))
 
@@ -717,17 +726,17 @@
        sicp
        lua-mode
        (:name magit
-         :build ("make")
-         :after (lambda () (my-git-init)))
+	 :build ("make")
+	 :after (progn (my-git-init)))
        (:name yasnippet
-         :build ("rake compile")
-         :after (lambda () (my-yasnippet-init)))
+	 :build ("rake compile")
+	 :after (progn (my-yasnippet-init)))
        (:name cedet
-         :features cedet
-         :after (lambda () (my-semantic-init)))
+	 :features cedet
+	 :after (progn (my-semantic-init)))
        (:name auto-complete
-         :build ("make")
-         :after (lambda () (my-auto-complete-init)))
+	 :build ("make")
+	 :after (progn (my-auto-complete-init)))
        )
     )
   (el-get 'wait)
