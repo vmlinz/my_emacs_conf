@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-03-03 03:10:35 vmlinz>
+;; Time-stamp: <2012-03-03 12:57:56 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -36,25 +36,25 @@
   (set-frame-font "Inconsolata-16")
   ;; font for other scripts
   (set-fontset-font t
-    nil '("Inconsolata-16" . "unicode-bmp"))
+		    nil '("Inconsolata-16" . "unicode-bmp"))
   (set-fontset-font "fontset-startup"
-    'han '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-    'prepend)
+		    'han '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+		    'prepend)
   (set-fontset-font "fontset-startup"
-    'cjk-misc '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-    'prepend)
+		    'cjk-misc '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+		    'prepend)
   (set-fontset-font "fontset-startup"
-    'kana '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-    'prepend)
+		    'kana '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+		    'prepend)
   (set-fontset-font "fontset-startup"
-    'symbol '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-    'prepend)
+		    'symbol '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
+		    'prepend)
   (set-face-font 'tooltip "fontset-startup")
   (set-frame-font "fontset-startup")
   (add-to-list 'default-frame-alist '(font . "fontset-startup"))
   )
 (if (window-system)
-  (add-hook 'after-make-frame-hook 'my-set-frame-font)
+    (add-hook 'after-make-frame-hook 'my-set-frame-font)
   )
 
 ;; encodings and locales
@@ -75,10 +75,10 @@
 
 ;; ########## custom ##########
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(bookmark-default-file "~/.emacs.d/.emacs.bmk")
  '(calendar-chinese-all-holidays-flag t)
  '(calendar-view-diary-initially-flag nil)
@@ -92,10 +92,10 @@
  '(vc-handled-backends (quote (GIT SVN Hg Bzr CVS))))
 
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
 ;; ########## end ##########
 
@@ -114,10 +114,10 @@
   ;; ido-mode
   (ido-mode t)
   (setq ido-enable-prefix nil
-    ido-enable-flex-matching t
-    ido-create-new-buffer 'always
-    ido-use-filename-at-point 'guess
-    ido-max-prospects 10)
+	ido-enable-flex-matching t
+	ido-create-new-buffer 'always
+	ido-use-filename-at-point 'guess
+	ido-max-prospects 10)
   ;; icomplete
   (icomplete-mode t)
   (fset 'yes-or-no-p 'y-or-n-p)
@@ -148,7 +148,7 @@
   (defun my-fullscreen (&optional f)
     (interactive)
     (set-frame-parameter f 'fullscreen
-      (if (frame-parameter f 'fullscreen) nil 'fullboth)))
+			 (if (frame-parameter f 'fullscreen) nil 'fullboth)))
 
   (global-set-key [f11] 'my-fullscreen)
   ;; ########## end ##########
@@ -180,7 +180,7 @@
 
   ;; ########## browse url ##########
   (setq browse-url-browser-function 'browse-url-generic
-    browse-url-generic-program "google-chrome")
+	browse-url-generic-program "google-chrome")
   ;; ########## end ##########
 
   ;; ########## emacs title ##########
@@ -196,8 +196,8 @@
 ;; only start emacs server when it's not started, I hate warnings.
 (defun my-server-init()
   (setq server-socket-file
-    (concat "/tmp/emacs"
-      (int-to-string (user-uid)) "/server"))
+	(concat "/tmp/emacs"
+		(int-to-string (user-uid)) "/server"))
 
   (unless (file-exists-p server-socket-file)
     (server-start))
@@ -207,36 +207,36 @@
     (interactive)
     (progn
       '((server-force-delete)
-	 (server-start))))
+	(server-start))))
 
   (defun my-server-kill-client ()
     "consistent exit emacsclient"
     (interactive)
     (if server-buffer-clients
-      (server-edit)
+	(server-edit)
       (delete-frame)))
   (global-set-key (kbd "C-c C-q") 'my-server-kill-client)
-)
+  )
 (my-server-init)
 ;; ########## end ##########
 
 ;; ########## expand function ##########
 (defun my-hippie-expand-init()
   (setq hippie-expand-try-functions-list
-    '(
-       try-expand-dabbrev
-       try-expand-dabbrev-visible
-       try-expand-dabbrev-all-buffers
-       try-expand-dabbrev-from-kill
-       try-expand-line
-       try-expand-line-all-buffers
-       try-expand-list
-       try-expand-list-all-buffers
-       try-complete-file-name
-       try-complete-file-name-partially
-       try-complete-lisp-symbol
-       try-complete-lisp-symbol-partially
-       try-expand-whole-kill))
+	'(
+	  try-expand-dabbrev
+	  try-expand-dabbrev-visible
+	  try-expand-dabbrev-all-buffers
+	  try-expand-dabbrev-from-kill
+	  try-expand-line
+	  try-expand-line-all-buffers
+	  try-expand-list
+	  try-expand-list-all-buffers
+	  try-complete-file-name
+	  try-complete-file-name-partially
+	  try-complete-lisp-symbol
+	  try-complete-lisp-symbol-partially
+	  try-expand-whole-kill))
   (global-set-key (kbd "M-;") 'hippie-expand)
   )
 (my-hippie-expand-init)
@@ -285,9 +285,9 @@
   "Generate ctags reference file for emacs."
   (interactive)
   (cd
-    (read-from-minibuffer
-      "directory: "
-      default-directory))
+   (read-from-minibuffer
+    "directory: "
+    default-directory))
   (shell-command "ctags -e -R"))
 (global-set-key "\C-c\C-t" 'my-tags-generate-files)
 ;; ########## end ##########
@@ -310,10 +310,10 @@
   (setq remember-handler-functions '(org-remember-handler))
   ;;custome commands for the use of GTD.
   (setq org-agenda-custom-commands
-    '(("w" todo "WAITING" nil)
-       ("n" todo "NEXT" nil)
-       ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
-    )
+	'(("w" todo "WAITING" nil)
+	  ("n" todo "NEXT" nil)
+	  ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
+	)
   (add-hook 'remember-mode-hook 'org-remember-apply-template)
   (global-set-key "\C-cr" 'org-remember)
   (global-set-key "\C-cc" 'calendar)
@@ -325,10 +325,10 @@
 ;; ########## woman ##########
 ;; settings for woman
 (add-hook 'after-init-hook
-  '(lambda()
-     (setq woman-use-own-frame nil)
-     (setq woman-fill-column 80)
-     ))
+	  '(lambda()
+	     (setq woman-use-own-frame nil)
+	     (setq woman-fill-column 80)
+	     ))
 ;; ########## end ##########
 
 ;; ########## emms ##########
@@ -340,15 +340,15 @@
 (defun my-compile-init ()
   "compile mode init function"
   (add-hook 'compilation-finish-functions
-    '(lambda (buf str)
-       (if (string-match "exited abnormally" str)
-	 (next-error)
-	 ;;no errors, make the compilation window go away in a few seconds
-	 (run-at-time "2 sec" nil 'delete-windows-on
-	   (get-buffer-create "*compilation*"))
-	 (message "No Compilation Errors!")
-	 )
-       ))
+	    '(lambda (buf str)
+	       (if (string-match "exited abnormally" str)
+		   (next-error)
+		 ;;no errors, make the compilation window go away in a few seconds
+		 (run-at-time "2 sec" nil 'delete-windows-on
+			      (get-buffer-create "*compilation*"))
+		 (message "No Compilation Errors!")
+		 )
+	       ))
   (setq compilation-window-height 16)
   (setq compilation-scroll-output t)
   )
@@ -356,11 +356,11 @@
 (defun my-gud-init ()
   "gud mode init function"
   (add-hook 'gud-mode-hook
-    '(lambda()
-       (setq gdb-show-main t)
-       (setq gdb-many-windows -1)
-       (define-key gud-mode-map [(f8)] 'gdb-many-windows)
-       ))
+	    '(lambda()
+	       (setq gdb-show-main t)
+	       (setq gdb-many-windows -1)
+	       (define-key gud-mode-map [(f8)] 'gdb-many-windows)
+	       ))
   )
 
 (defun my-cscope-init ()
@@ -385,21 +385,21 @@
 (defun c-lineup-arglist-tabs-only (ignored)
   "Line up argument lists by tabs, not spaces"
   (let* ((anchor (c-langelem-pos c-syntactic-element))
-	  (column (c-langelem-2nd-pos c-syntactic-element))
-	  (offset (- (1+ column) anchor))
-	  (steps (floor offset c-basic-offset)))
+	 (column (c-langelem-2nd-pos c-syntactic-element))
+	 (offset (- (1+ column) anchor))
+	 (steps (floor offset c-basic-offset)))
     (* (max steps 1)
-      c-basic-offset)))
+       c-basic-offset)))
 
 (defun my-c-linux-style-init ()
   "add linux c style"
   (c-add-style
-    "linux-tabs-only"
-    '("linux"
-       (c-offsets-alist
-	 (arglist-cont-nonempty
-	   c-lineup-gcc-asm-reg
-	   c-lineup-arglist-tabs-only))))
+   "linux-tabs-only"
+   '("linux"
+     (c-offsets-alist
+      (arglist-cont-nonempty
+       c-lineup-gcc-asm-reg
+       c-lineup-arglist-tabs-only))))
   )
 
 (defun my-c-mode-init ()
@@ -420,17 +420,17 @@
 
   (add-hook 'c-mode-hook 'my-c-mode-init)
   (add-hook 'c++-mode-hook
-    '(lambda ()
-       (c-set-style "stroustrup")
-       )
-    )
+	    '(lambda ()
+	       (c-set-style "stroustrup")
+	       )
+	    )
   (add-hook 'java-mode-hook
-    '(lambda ()
-       (setq indent-tabs-mode nil)
-       (c-set-offset 'arglist-cont-nonempty '+)
-       (c-set-offset 'topmost-intro-cont 0)
-       )
-    )
+	    '(lambda ()
+	       (setq indent-tabs-mode nil)
+	       (c-set-offset 'arglist-cont-nonempty '+)
+	       (c-set-offset 'topmost-intro-cont 0)
+	       )
+	    )
   )
 (my-cc-mode-init)
 ;; ########## end ##########
@@ -439,42 +439,42 @@
 ;; feature rich package for TeXing
 (defun my-auctex-init()
   (add-hook 'LaTeX-mode-hook
-    '(lambda()
-       (add-to-list 'TeX-command-list
-	 '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-       (setq TeX-command-default "XeLaTeX")
-       (setq TeX-save-query nil)
-       (setq TeX-show-compilation t)
-       (setq Tex-master nil)
-       )
-    )
+	    '(lambda()
+	       (add-to-list 'TeX-command-list
+			    '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+	       (setq TeX-command-default "XeLaTeX")
+	       (setq TeX-save-query nil)
+	       (setq TeX-show-compilation t)
+	       (setq Tex-master nil)
+	       )
+	    )
 
   (eval-after-load "tex"
     '(progn
        (TeX-global-PDF-mode t)
        (setq TeX-output-view-style
-	 (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
-	 )))
+	     (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
+	     )))
 
   (add-hook 'TeX-mode-hook
-    '(lambda ()
-       (turn-on-reftex)
-       (auto-fill-mode)
-       (outline-minor-mode)
-       (flyspell-mode)))
+	    '(lambda ()
+	       (turn-on-reftex)
+	       (auto-fill-mode)
+	       (outline-minor-mode)
+	       (flyspell-mode)))
 
   (add-hook 'LaTeX-mode-hook
-    '(lambda ()
-       (autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
-       (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
-       (autoload 'reftex-citation "reftex-cite" "Make citation" nil)
-       (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
-       (LaTeX-math-mode)
-       (turn-on-reftex)
-       (auto-fill-mode)
-       (outline-minor-mode)
-       (flyspell-mode)
-       ))
+	    '(lambda ()
+	       (autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
+	       (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
+	       (autoload 'reftex-citation "reftex-cite" "Make citation" nil)
+	       (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
+	       (LaTeX-math-mode)
+	       (turn-on-reftex)
+	       (auto-fill-mode)
+	       (outline-minor-mode)
+	       (flyspell-mode)
+	       ))
   )
 (my-auctex-init)
 ;; ########## end ##########
@@ -482,12 +482,12 @@
 ;; ########## erc ##########
 ;; erc auto join channels
 (add-hook 'erc-mode-hook
-  '(lambda()
-     (require 'erc-join)
-     (erc-autojoin-mode 1)
-     (setq erc-autojoin-channels-alist
-       '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
-       )))
+	  '(lambda()
+	     (require 'erc-join)
+	     (erc-autojoin-mode 1)
+	     (setq erc-autojoin-channels-alist
+		   '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
+		   )))
 ;; ########## end ##########
 
 ;; ########## markdown ##########
@@ -496,7 +496,7 @@
   (autoload 'markdown-mode "markdown-mode"
     "Major mode for editing Markdown files" t)
   (setq auto-mode-alist
-    (cons '("\\.markdown\\'" . markdown-mode) auto-mode-alist))
+	(cons '("\\.markdown\\'" . markdown-mode) auto-mode-alist))
   )
 (my-markdown-mode-init)
 ;; ########## end ##########
@@ -507,7 +507,7 @@
   (autoload 'sh-mode "sh-script"
     "Major mode for editing shell files" t)
   (setq auto-mode-alist
-    (cons '("\\.zsh\\'" . sh-mode) auto-mode-alist))
+	(cons '("\\.zsh\\'" . sh-mode) auto-mode-alist))
   )
 (my-sh-mode-init)
 ;; ########## end ##########
@@ -552,9 +552,9 @@
   (setq semanticdb-search-system-databases t)
 
   (setq-mode-local c-mode semanticdb-find-default-throttle
-    '(project unloaded system recursive))
+		   '(project unloaded system recursive))
   (setq-mode-local c++-mode semanticdb-find-default-throttle
-    '(project unloaded system recursive))
+		   '(project unloaded system recursive))
 
   (semantic-load-enable-primary-exuberent-ctags-support)
   )
@@ -572,10 +572,10 @@
 ;; ########## lisp settings ##########
 ;; byte compile emacs init file and load it
 (global-set-key [f12]
-  '(lambda()
-     (interactive)
-     (byte-compile-file "~/.emacs.d/init.el" t)
-     ))
+		'(lambda()
+		   (interactive)
+		   (byte-compile-file "~/.emacs.d/init.el" t)
+		   ))
 ;; ########## end ##########
 
 ;; ########## scheme mode ##########
@@ -587,11 +587,11 @@
   (quack-install)
 
   (add-hook 'scheme-mode-hook
-    '(lambda ()
-       (define-key scheme-mode-map "\C-x\M-r" 'run-scheme)
-       (setq scheme-program-name "guile")
-       ))
-)
+	    '(lambda ()
+	       (define-key scheme-mode-map "\C-x\M-r" 'run-scheme)
+	       (setq scheme-program-name "guile")
+	       ))
+  )
 (my-scheme-init)
 ;; ########## end ##########
 
@@ -602,18 +602,18 @@
   (require 'yasnippet)
   ;; set yasnippet default dirs
   (setq yas/snippet-dirs (list
-		  (concat el-get-dir
-			  (file-name-as-directory "yasnippet")
-			  "snippets")
-		  (concat el-get-dir
-			  (file-name-as-directory "yasnippet")
-			  (file-name-as-directory "extras")
-			  "imported")))
+			  (concat el-get-dir
+				  (file-name-as-directory "yasnippet")
+				  "snippets")
+			  (concat el-get-dir
+				  (file-name-as-directory "yasnippet")
+				  (file-name-as-directory "extras")
+				  "imported")))
   (setq yas/use-menu 'abbreviate)
   (setq yas/prompt-functions
-    (cons 'yas/dropdown-prompt
-      (remove 'yas/dropdown-prompt
-	yas/prompt-functions)))
+	(cons 'yas/dropdown-prompt
+	      (remove 'yas/dropdown-prompt
+		      yas/prompt-functions)))
   (yas/global-mode t)
   )
 ;; ########## end ##########
@@ -623,7 +623,7 @@
 (defun my-ac-semantic-setup ()
   "semantic source configuration for auto-complete"
   (setq ac-sources
-    (append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
+	(append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
   (define-key ac-mode-map "\M-/" 'ac-complete-semantic-raw)
   )
 
@@ -631,15 +631,15 @@
   "clang source configuration for auto-complete"
   (require 'auto-complete-clang)
   (add-hook 'c-mode-common-hook
-    '(lambda ()
-       (setq ac-sources
-	 (append '(ac-source-clang) ac-sources))
-       (setq ac-clang-flags
-	 (split-string
-	   (shell-command-to-string "pkg-config --cflags gtk+-2.0")))
-       (define-key ac-mode-map "\M-/" 'ac-complete-clang)
-       )
-    )
+	    '(lambda ()
+	       (setq ac-sources
+		     (append '(ac-source-clang) ac-sources))
+	       (setq ac-clang-flags
+		     (split-string
+		      (shell-command-to-string "pkg-config --cflags gtk+-2.0")))
+	       (define-key ac-mode-map "\M-/" 'ac-complete-clang)
+	       )
+	    )
   )
 
 (defun my-ac-py-setup ()
@@ -650,7 +650,7 @@
   (defvar my-ac-use-semantic t
     "make auto-complete to use semantic to complete")
   (if my-ac-use-semantic
-    (add-hook 'c-mode-common-hook 'my-ac-semantic-setup)
+      (add-hook 'c-mode-common-hook 'my-ac-semantic-setup)
     (add-hook 'c-mode-common-hook 'my-ac-clang-setup)
     )
 
@@ -697,13 +697,19 @@
 ;; python mode customizations
 (defun my-py-init()
   (add-hook 'python-mode-hook
-    '(lambda ()
-       (setq indent-tabs-mode nil)
-       (setq python-indent 4)
-       (setq python-python-command "python3") ;default to python3
-       ))
+	    '(lambda ()
+	       (setq indent-tabs-mode nil)
+	       (setq python-indent 4)
+	       (setq python-python-command "python3") ;default to python3
+	       ))
   )
 (my-py-init)
+;; ########## end ##########
+
+;; ########## sgml and html mode ##########
+(defun my-sgml-init()
+  (add-hook 'sgml-mode-hook 'zencoding-mode)
+  )
 ;; ########## end ##########
 
 ;; ########## el-get ##########
@@ -719,26 +725,28 @@
       (eval-print-last-sexp)))
 
   (setq el-get-sources
-    '(el-get
-       package
-       pos-tip
-       cssh
-       sicp
-       lua-mode
-       (:name magit
-	 :build ("make")
-	 :after (progn (my-git-init)))
-       (:name yasnippet
-	 :build ("rake compile")
-	 :after (progn (my-yasnippet-init)))
-       (:name cedet
-	 :features cedet
-	 :after (progn (my-semantic-init)))
-       (:name auto-complete
-	 :build ("make")
-	 :after (progn (my-auto-complete-init)))
-       )
-    )
+	'(el-get
+	  package
+	  pos-tip
+	  cssh
+	  sicp
+	  lua-mode
+	  (:name zencoding-mode
+		 :after (progn (my-sgml-init)))
+	  (:name magit
+		 :build ("make")
+		 :after (progn (my-git-init)))
+	  (:name yasnippet
+		 :build ("rake compile")
+		 :after (progn (my-yasnippet-init)))
+	  (:name cedet
+		 :features cedet
+		 :after (progn (my-semantic-init)))
+	  (:name auto-complete
+		 :build ("make")
+		 :after (progn (my-auto-complete-init)))
+	  )
+	)
   (el-get 'wait)
   )
 (my-el-get-init)
