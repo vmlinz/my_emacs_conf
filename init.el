@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-03-03 12:57:56 vmlinz>
+;; Time-stamp: <2012-03-06 01:50:17 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -646,6 +646,9 @@
   (setq ac-sources (append '(ac-source-yasnippet) ac-sources))
   )
 
+(defun my-ac-sgml-setup ()
+  (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
+
 (defun my-ac-config ()
   (defvar my-ac-use-semantic t
     "make auto-complete to use semantic to complete")
@@ -656,6 +659,7 @@
 
   ;; (ac-ropemacs-initialize)
   (add-hook 'python-mode-hook 'my-ac-py-setup)
+  (add-hook 'sgml-mode-hook 'my-ac-sgml-setup)
   )
 
 (defun my-auto-complete-init()
