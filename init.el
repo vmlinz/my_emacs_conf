@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-03-15 20:16:31 vmlinz>
+;; Time-stamp: <2012-04-01 22:25:25 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -584,16 +584,18 @@
 ;; scheme mode setup
 (defun my-scheme-init()
   (if (require 'quack nil t)
-      ((setq quack-global-menu-p nil)
-       (setq quack-default-program "guile")
-       (quack-install)
+      (lambda ()
+	(setq quack-global-menu-p nil)
+	(setq quack-default-program "guile")
+	(quack-install)
 
-       (add-hook 'scheme-mode-hook
-		 '(lambda ()
-		    (define-key scheme-mode-map "\C-x\M-r" 'run-scheme)
-		    (setq scheme-program-name "guile")
-		    ))
-       ))
+	(add-hook 'scheme-mode-hook
+		  '(lambda ()
+		     (define-key scheme-mode-map "\C-x\M-r" 'run-scheme)
+		     (setq scheme-program-name "guile")
+		     ))
+	)
+    )
   )
 (my-scheme-init)
 ;; ########## end ##########
