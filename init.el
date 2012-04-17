@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-04-01 22:25:25 vmlinz>
+;; Time-stamp: <2012-04-17 18:41:04 nickqi>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -722,6 +722,14 @@
   )
 ;; ########## end ##########
 
+;; ########## evil mode ##########
+(defun my-evil-init()
+  (if (boundp 'evil-mode)
+	(evil-mode 1)
+    )
+  )
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -754,8 +762,9 @@
 	  (:name auto-complete
 		 :build ("make")
 		 :after (progn (my-auto-complete-init)))
-	  )
-	)
+	  (:name evil
+		 :after (progn (my-evil-init)))
+	  ))
   (el-get 'wait)
   )
 (my-el-get-init)
