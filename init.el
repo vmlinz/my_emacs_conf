@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-04-17 18:41:04 nickqi>
+;; Time-stamp: <2012-05-22 16:12:34 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -111,7 +111,7 @@
   (setq comint-prompt-read-only t)
   (auto-image-file-mode t)
   (if (boundp 'tabbar-mode)
-	(tabbar-mode -1)
+      (tabbar-mode -1)
     )
   ;; ido-mode
   (ido-mode t)
@@ -670,6 +670,8 @@
 
 (defun my-auto-complete-init()
   "auto-complete init function"
+  (require 'auto-complete-config)
+  (ac-config-default)
 
   (my-ac-config)
 
@@ -725,7 +727,7 @@
 ;; ########## evil mode ##########
 (defun my-evil-init()
   (if (boundp 'evil-mode)
-	(evil-mode 1)
+      (evil-mode -1)
     )
   )
 ;; ########## end ##########
@@ -733,39 +735,36 @@
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
-  (add-to-list 'load-path "~/.emacs.d/el-get/el-get/")
-  ;; retrive el-get if it doesn't exist
+  (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
   (unless (require 'el-get nil t)
-    (with-current-buffer
-	(url-retrieve-synchronously
-	 "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-      (end-of-buffer)
-      (eval-print-last-sexp)))
+    (url-retrieve
+     "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
+     (lambda (s)
+       (let (el-get-master-branch)
+	 (goto-char (point-max))
+	 (eval-print-last-sexp))
+       )))
 
   (setq el-get-sources
-	'(el-get
-	  package
-	  pos-tip
-	  cssh
-	  sicp
-	  lua-mode
-	  (:name zencoding-mode
+	'((:name zencoding-mode
 		 :after (progn (my-sgml-init)))
 	  (:name magit
-		 :build ("make")
 		 :after (progn (my-git-init)))
 	  (:name yasnippet
 		 :after (progn (my-yasnippet-init)))
 	  (:name cedet
-		 :features cedet
+		 :features "cedet"
 		 :after (progn (my-semantic-init)))
 	  (:name auto-complete
-		 :build ("make")
+		 :features auto-complete
 		 :after (progn (my-auto-complete-init)))
 	  (:name evil
 		 :after (progn (my-evil-init)))
 	  ))
-  (el-get 'wait)
+
+  (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill nxhtml xcscope) (mapcar 'el-get-source-name el-get-sources)))
+
+  (el-get 'wait my-packages)
   )
 (my-el-get-init)
 ;; ########## end ##########
