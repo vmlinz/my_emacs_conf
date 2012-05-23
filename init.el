@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-05-22 16:12:34 vmlinz>
+;; Time-stamp: <2012-05-23 15:48:08 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -516,6 +516,13 @@
 
 ;; ########## cedet ##########
 ;; cedet is now managed by _el-get_ using latest source from cvs
+
+;; disable builtin cedet
+(setq load-path
+      (remove (concat "/usr/share/emacs/"
+		      (substring emacs-version 0 -2) "/lisp/cedet")
+	      load-path))
+
 (defun my-semantic-hook ()
   "feature setting hook for semantic"
   (require 'semantic-ia)
@@ -753,7 +760,7 @@
 	  (:name yasnippet
 		 :after (progn (my-yasnippet-init)))
 	  (:name cedet
-		 :features "cedet"
+		 :features cedet
 		 :after (progn (my-semantic-init)))
 	  (:name auto-complete
 		 :features auto-complete
