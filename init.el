@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-05-29 11:55:44 vmlinz>
+;; Time-stamp: <2012-05-29 14:53:35 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -228,6 +228,8 @@
   (setq view-read-only t)
   ;; set comment style to multi-line
   (setq comment-style 'multi-line)
+  ;; inhibit startup echo area message
+  (setq inhibit-startup-echo-area-message 1)
   ;; ########## end ##########
 
   ;; ########## fullscreen ##########
@@ -494,8 +496,16 @@
   (setq c-macro-preprocessor "cpp")
   (setq c-macro-cppflags " ")
   (setq c-macro-prompt-flag t)
-  (setq indent-tabs-mode t)
+
   (c-set-style "linux-tabs-only")
+
+  (setq tab-width 4)
+  (setq indent-tabs-mode t)
+  (setq c-basic-offset 4)
+
+  (auto-fill-mode 1)
+  (gtags-mode 1)
+  (hs-minor-mode 1)
   )
 
 (defun my-cc-mode-init()
@@ -509,13 +519,20 @@
   (add-hook 'c++-mode-hook
 	    '(lambda ()
 	       (c-set-style "stroustrup")
+
+	       (setq indent-tabs-mode nil)
+	       (setq tab-width 4)
+	       (setq c-basic-offset 4)
 	       )
 	    )
   (add-hook 'java-mode-hook
 	    '(lambda ()
-	       (setq indent-tabs-mode nil)
 	       (c-set-offset 'arglist-cont-nonempty '+)
 	       (c-set-offset 'topmost-intro-cont 0)
+
+	       (setq indent-tabs-mode nil)
+	       (setq tab-width 4)
+	       (setq c-basic-offset 4)
 	       )
 	    )
   )
@@ -756,7 +773,10 @@
 ;; ########## evil mode ##########
 (defun my-evil-init()
   (if (boundp 'evil-mode)
-      (evil-mode -1)
+      (lambda ()
+	(evil-mode -1)
+	(global-set-key "\C-c\C-v" 'evil-mode)
+	)
     )
   )
 ;; ########## end ##########
