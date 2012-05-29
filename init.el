@@ -79,7 +79,7 @@
 ;; ########## end ##########
 
 ;; ########## custom ##########
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file "~/.emacs.d/site-start.d/custom.el")
 (load custom-file)
 ;; ########## end ##########
 
