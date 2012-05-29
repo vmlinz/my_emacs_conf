@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-05-29 19:54:18 vmlinz>
+;; Time-stamp: <2012-05-29 19:57:53 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -28,8 +28,10 @@
 ;; [todo]4.keep simplifying this configuration file
 ;; [todo]5.Make configuration of cedet really useful for programming
 
+;; ########## cedet ##########
 (add-to-list 'load-path "~/.emacs.d/site-start.d")
 (require 'my-cedet-init)
+;; ########## end ##########
 
 ;; ########## localization ##########
 ;; needs further checking and practicing, read more on x resource and fonts
