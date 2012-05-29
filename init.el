@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-05-29 11:47:34 vmlinz>
+;; Time-stamp: <2012-05-29 11:55:44 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -29,7 +29,9 @@
 ;; [todo]5.Make configuration of cedet really useful for programming
 
 ;; ########## cedet ##########
-;; cedet is now managed by _el-get_ using latest source from cvs
+;; cedet is now managed by _el-get_ using latest source from bzr
+;; NOTE: cedet config should be put at the top of the emacs init file
+;; according to cedet INSTALL
 (defun my-cedet-load ()
   (load-file "~/.emacs.d/el-get/cedet/cedet-devel-load.el")
   (add-to-list 'load-path "~/.emacs.d/el-get/cedet/contrib")
