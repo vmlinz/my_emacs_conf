@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-05-23 15:48:08 vmlinz>
+;; Time-stamp: <2012-05-29 11:47:34 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -27,6 +27,89 @@
 ;; [done]3.Make it portable between computers
 ;; [todo]4.keep simplifying this configuration file
 ;; [todo]5.Make configuration of cedet really useful for programming
+
+;; ########## cedet ##########
+;; cedet is now managed by _el-get_ using latest source from cvs
+(defun my-cedet-load ()
+  (load-file "~/.emacs.d/el-get/cedet/cedet-devel-load.el")
+  (add-to-list 'load-path "~/.emacs.d/el-get/cedet/contrib")
+  (add-to-list  'Info-directory-list "~/.emacs.d/el-get/cedet/doc/info")
+  )
+
+(defun my-semantic-hook ()
+  (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
+  (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+  (add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
+  (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
+
+  (require 'semantic/bovine/c)
+  (require 'semantic/bovine/gcc)
+  (require 'semantic/bovine/clang)
+  (require 'semantic/ia)
+  (require 'semantic/decorate/include)
+  (require 'semantic/lex-spp)
+  (require 'eassist)
+  )
+
+(defun my-semantic-key-hook ()
+  (local-set-key "\C-c?" 'semantic-ia-complete-symbol)
+  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
+  (local-set-key "\C-c=" 'semantic-decoration-include-visit)
+
+  (local-set-key "\C-cj" 'semantic-ia-fast-jump)
+  (local-set-key "\C-cq" 'semantic-ia-show-doc)
+  (local-set-key "\C-cs" 'semantic-ia-show-summary)
+  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
+  (local-set-key (kbd "C-c <left>") 'semantic-tag-folding-fold-block)
+  (local-set-key (kbd "C-c <right>") 'semantic-tag-folding-show-block)
+  )
+
+(defun my-cedet-misc-hook ()
+  (semanticdb-enable-gnu-global-databases 'c-mode t)
+  (semanticdb-enable-gnu-global-databases 'c++-mode t)
+
+  (when (cedet-ectag-version-check t)
+    (semantic-load-enable-primary-ectags-support))
+
+  (global-srecode-minor-mode 1)
+
+  ;; (global-ede-mode 1)
+  ;; (ede-enable-generic-projects)
+)
+
+(defun my-semantic-init-hooks()
+  "all in one semantic init function"
+  (progn
+    (add-hook 'semantic-init-hooks 'my-semantic-hook)
+    (add-hook 'semantic-init-hooks 'my-semantic-key-hook)
+    (add-hook 'semantic-init-hooks 'my-cedet-misc-hook)
+    )
+
+  (semantic-mode 1)
+  )
+
+(defun my-c-mode-cedet-hook ()
+  (local-set-key "\C-ct" 'eassist-switch-h-cpp)
+  (local-set-key "\C-xt" 'eassist-switch-h-cpp)
+  (local-set-key "\C-ce" 'eassist-list-methods)
+  (local-set-key "\C-c\C-r" 'semantic-symref)
+
+  (add-to-list 'ac-sources 'ac-source-gtags)
+  )
+
+(defun my-cedet-setup ()
+  (add-hook 'c-mode-common-hook 'my-semantic-init-hooks)
+  (add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
+
+  (add-hook 'lisp-mode-hook 'my-semantic-init-hooks)
+  (add-hook 'scheme-mode-hook 'my-semantic-init-hooks)
+  (add-hook 'emacs-lisp-mode-hook 'my-semantic-init-hooks)
+  )
+
+(my-cedet-load)
+(my-cedet-setup)
+;; ########## end ##########
 
 ;; ########## localization ##########
 ;; needs further checking and practicing, read more on x resource and fonts
@@ -514,69 +597,6 @@
 (my-sh-mode-init)
 ;; ########## end ##########
 
-;; ########## cedet ##########
-;; cedet is now managed by _el-get_ using latest source from cvs
-
-;; disable builtin cedet
-(setq load-path
-      (remove (concat "/usr/share/emacs/"
-		      (substring emacs-version 0 -2) "/lisp/cedet")
-	      load-path))
-
-(defun my-semantic-hook ()
-  "feature setting hook for semantic"
-  (require 'semantic-ia)
-  (require 'semantic-gcc)
-
-  (imenu-add-to-menubar "TAGS")
-  ;; (global-ede-mode t)
-  (global-srecode-minor-mode 1)
-
-  ;; (global-semanticdb-minor-mode 1)
-  (global-semantic-highlight-func-mode 1)
-  (global-semantic-show-unmatched-syntax-mode -1)
-  (global-semantic-tag-folding-mode -1)
-  (global-semantic-idle-scheduler-mode -1)
-  )
-
-(defun my-semantic-key-hook ()
-  "key bindings for semantic modes"
-  (local-set-key "\C-c=" 'semantic-decoration-include-visit)
-  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
-  (local-set-key "\C-c\C-r" 'semantic-symref)
-
-  (local-set-key "\C-c/" 'semantic-ia-complete-symbol)
-  (local-set-key "\C-cj" 'semantic-ia-fast-jump)
-  (local-set-key "\C-cd" 'semantic-ia-show-doc)
-  (local-set-key "\C-cs" 'semantic-ia-show-summary)
-
-  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
-  (local-set-key "\C-ct" 'eassist-switch-h-cpp)
-  (local-set-key "\C-cl" 'eassist-list-methods)
-  )
-
-(defun my-semanticdb-hook ()
-  "semanticdb hook"
-  (setq semanticdb-default-save-directory "/home/vmlinz/.emacs.d/semanticdb")
-  (setq semanticdb-search-system-databases t)
-
-  (setq-mode-local c-mode semanticdb-find-default-throttle
-		   '(project unloaded system recursive))
-  (setq-mode-local c++-mode semanticdb-find-default-throttle
-		   '(project unloaded system recursive))
-
-  (semantic-load-enable-primary-exuberent-ctags-support)
-  )
-
-(defun my-semantic-init()
-  "all in one semantic init function"
-  (progn
-    (add-hook 'semantic-init-hooks 'my-semantic-hook)
-    (add-hook 'semantic-init-hooks 'my-semanticdb-hook)
-    (add-hook 'semantic-init-hooks 'my-semantic-key-hook)
-    )
-  )
-;; ########## end ##########
 
 ;; ########## lisp settings ##########
 ;; byte compile emacs init file and load it
@@ -759,9 +779,6 @@
 		 :after (progn (my-git-init)))
 	  (:name yasnippet
 		 :after (progn (my-yasnippet-init)))
-	  (:name cedet
-		 :features cedet
-		 :after (progn (my-semantic-init)))
 	  (:name auto-complete
 		 :features auto-complete
 		 :after (progn (my-auto-complete-init)))
