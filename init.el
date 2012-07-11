@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-05-29 20:02:56 vmlinz>
+;; Time-stamp: <2012-07-11 09:04:48 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -31,6 +31,20 @@
 ;; ########## cedet ##########
 (add-to-list 'load-path "~/.emacs.d/site-start.d")
 (require 'my-cedet-init)
+;; ########## end ##########
+
+;; ########## local lisp ##########
+(add-to-list 'load-path "~/.emacs.d/site-lisp")
+
+;; gtags mode
+(autoload 'gtags-mode "gtags" "" t)
+(add-hook 'gtags-select-mode-hook
+   '(lambda ()
+      (setq hl-line-face 'underline)
+      (hl-line-mode 1)
+))
+;;
+
 ;; ########## end ##########
 
 ;; ########## localization ##########
@@ -403,7 +417,6 @@
   (setq c-basic-offset 4)
 
   (auto-fill-mode 1)
-  (gtags-mode 1)
   (hs-minor-mode 1)
   )
 
@@ -413,6 +426,11 @@
   (add-hook 'c-mode-common-hook 'my-cscope-init)
   (add-hook 'c-mode-common-hook 'my-c-mode-key-init)
   (add-hook 'c-mode-common-hook 'my-c-linux-style-init)
+  (add-hook 'c-mode-common-hook
+	    '(lambda ()
+	       (if (boundp 'gtags-mode)
+		   (gtags-mode 1)
+		 )))
 
   (add-hook 'c-mode-hook 'my-c-mode-init)
   (add-hook 'c++-mode-hook
@@ -577,21 +595,6 @@
   (define-key ac-mode-map "\M-/" 'ac-complete-semantic-raw)
   )
 
-(defun my-ac-clang-setup ()
-  "clang source configuration for auto-complete"
-  (require 'auto-complete-clang)
-  (add-hook 'c-mode-common-hook
-	    '(lambda ()
-	       (setq ac-sources
-		     (append '(ac-source-clang) ac-sources))
-	       (setq ac-clang-flags
-		     (split-string
-		      (shell-command-to-string "pkg-config --cflags gtk+-2.0")))
-	       (define-key ac-mode-map "\M-/" 'ac-complete-clang)
-	       )
-	    )
-  )
-
 (defun my-ac-py-setup ()
   (setq ac-sources (append '(ac-source-yasnippet) ac-sources))
   )
@@ -601,13 +604,7 @@
   )
 
 (defun my-ac-config ()
-  (defvar my-ac-use-semantic t
-    "make auto-complete to use semantic to complete")
-  (if my-ac-use-semantic
-      (add-hook 'c-mode-common-hook 'my-ac-semantic-setup)
-    (add-hook 'c-mode-common-hook 'my-ac-clang-setup)
-    )
-
+  (add-hook 'c-mode-common-hook 'my-ac-semantic-setup)
   ;; (ac-ropemacs-initialize)
   (add-hook 'python-mode-hook 'my-ac-py-setup)
   (add-hook 'html-mode-hook 'my-ac-sgml-setup)
