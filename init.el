@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-07-11 09:04:48 vmlinz>
+;; Time-stamp: <2012-07-11 09:13:57 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -35,16 +35,6 @@
 
 ;; ########## local lisp ##########
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
-
-;; gtags mode
-(autoload 'gtags-mode "gtags" "" t)
-(add-hook 'gtags-select-mode-hook
-   '(lambda ()
-      (setq hl-line-face 'underline)
-      (hl-line-mode 1)
-))
-;;
-
 ;; ########## end ##########
 
 ;; ########## localization ##########
@@ -675,6 +665,19 @@
 	)
     )
   )
+;; ########## end ##########
+
+;; ########## global ##########
+;; local global mode
+(defun my-gtags-init()
+  (autoload 'gtags-mode "gtags" "" t)
+  (add-hook 'gtags-select-mode-hook
+	    '(lambda ()
+	       (setq hl-line-face 'underline)
+	       (hl-line-mode 1)
+	       ))
+  )
+(my-gtags-init)
 ;; ########## end ##########
 
 ;; ########## el-get ##########
