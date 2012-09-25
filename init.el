@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-09-25 15:58:58 vmlinz>
+;; Time-stamp: <2012-09-25 16:14:26 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -679,6 +679,13 @@
   )
 ;; ########## end ##########
 
+;; ########## nxhtml mode ##########
+(defun my-nxhtml-init()
+  "nxhtml init function for el-get"
+  (autoload 'nxhtml-mode "autostart" nil t)
+  )
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -705,9 +712,13 @@
 	  (:name evil
 		 :after (progn (my-evil-init))
 		 :features nil)
+	  (:name nxhtml
+		 :after (progn (my-nxhtml-init))
+		 :load nil
+		 )
 	  ))
 
-  (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill nxhtml xcscope) (mapcar 'el-get-source-name el-get-sources)))
+  (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill xcscope) (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages)
   )
