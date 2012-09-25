@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-07-12 09:11:04 vmlinz>
+;; Time-stamp: <2012-09-25 11:59:57 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -674,12 +674,10 @@
 
 ;; ########## evil mode ##########
 (defun my-evil-init()
-  (if (boundp 'evil-mode)
-      (lambda ()
-	(evil-mode -1)
-	(global-set-key "\C-c\C-v" 'evil-mode)
-	)
-    )
+  "magit init function for el-get"
+  (evil-mode -1)
+  (autoload 'evil-mode "evil-core" nil t)
+  (global-set-key "\C-c\C-v" 'evil-mode)
   )
 ;; ########## end ##########
 
