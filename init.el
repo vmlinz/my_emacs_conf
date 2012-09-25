@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-07-11 09:13:57 vmlinz>
+;; Time-stamp: <2012-07-12 09:11:04 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -35,6 +35,23 @@
 
 ;; ########## local lisp ##########
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
+;; ########## end ##########
+
+;; ########## global ##########
+;; local global mode
+(defun my-gtags-init()
+  (require 'gtags)
+
+  (define-key gtags-mode-map "\M-." 'gtags-find-tag)
+  (define-key gtags-mode-map "\M-*" 'gtags-pop-stack)
+
+  (add-hook 'gtags-select-mode-hook
+	    '(lambda ()
+	       (setq hl-line-face 'underline)
+	       (hl-line-mode 1)
+	       ))
+  )
+(my-gtags-init)
 ;; ########## end ##########
 
 ;; ########## localization ##########
@@ -252,6 +269,7 @@
   (global-set-key "\C-x\C-b" 'ibuffer)
   ;; set mark
   (global-set-key "\M-m" 'set-mark-command)
+  (global-set-key "\C-c\M-m" 'pop-to-mark-command)
   ;; woman
   (global-set-key "\C-hj" 'woman)
   )
@@ -418,9 +436,7 @@
   (add-hook 'c-mode-common-hook 'my-c-linux-style-init)
   (add-hook 'c-mode-common-hook
 	    '(lambda ()
-	       (if (boundp 'gtags-mode)
-		   (gtags-mode 1)
-		 )))
+	       (gtags-mode 1)))
 
   (add-hook 'c-mode-hook 'my-c-mode-init)
   (add-hook 'c++-mode-hook
@@ -665,19 +681,6 @@
 	)
     )
   )
-;; ########## end ##########
-
-;; ########## global ##########
-;; local global mode
-(defun my-gtags-init()
-  (autoload 'gtags-mode "gtags" "" t)
-  (add-hook 'gtags-select-mode-hook
-	    '(lambda ()
-	       (setq hl-line-face 'underline)
-	       (hl-line-mode 1)
-	       ))
-  )
-(my-gtags-init)
 ;; ########## end ##########
 
 ;; ########## el-get ##########
