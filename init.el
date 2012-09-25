@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-09-25 11:59:57 vmlinz>
+;; Time-stamp: <2012-09-25 15:58:58 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -604,7 +604,6 @@
 (defun my-ac-py-setup ()
   (setq ac-sources (append '(ac-source-yasnippet) ac-sources))
   )
-
 (defun my-ac-sgml-setup ()
   (setq ac-sources (append '(ac-source-yasnippet) ac-sources))
   )
@@ -675,9 +674,8 @@
 ;; ########## evil mode ##########
 (defun my-evil-init()
   "magit init function for el-get"
-  (evil-mode -1)
-  (autoload 'evil-mode "evil-core" nil t)
-  (global-set-key "\C-c\C-v" 'evil-mode)
+  (autoload 'evil-local-mode "evil" nil t)
+  (global-set-key "\C-c\C-v" 'evil-local-mode)
   )
 ;; ########## end ##########
 
@@ -705,7 +703,8 @@
 		 :features auto-complete
 		 :after (progn (my-auto-complete-init)))
 	  (:name evil
-		 :after (progn (my-evil-init)))
+		 :after (progn (my-evil-init))
+		 :features nil)
 	  ))
 
   (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill nxhtml xcscope) (mapcar 'el-get-source-name el-get-sources)))
