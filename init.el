@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-09-25 16:14:26 vmlinz>
+;; Time-stamp: <2012-09-29 00:02:30 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -27,6 +27,9 @@
 ;; [done]3.Make it portable between computers
 ;; [todo]4.keep simplifying this configuration file
 ;; [todo]5.Make configuration of cedet really useful for programming
+;; [todo]6.Use gtags from el-get
+;; [todo]7.Consider using builtin cedet or replace it completely
+;; [todo]8.Reorganize this file into org file using babel to generate it
 
 ;; ########## cedet ##########
 (add-to-list 'load-path "~/.emacs.d/site-start.d")
@@ -714,8 +717,7 @@
 		 :features nil)
 	  (:name nxhtml
 		 :after (progn (my-nxhtml-init))
-		 :load nil
-		 )
+		 :load nil)
 	  ))
 
   (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill xcscope) (mapcar 'el-get-source-name el-get-sources)))
