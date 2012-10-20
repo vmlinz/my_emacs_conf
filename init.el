@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-09-29 00:02:30 vmlinz>
+;; Time-stamp: <2012-10-20 17:24:41 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -520,17 +520,6 @@
 		   )))
 ;; ########## end ##########
 
-;; ########## markdown ##########
-;; markdown-mode for translating Pro Git
-(defun my-markdown-mode-init()
-  (autoload 'markdown-mode "markdown-mode"
-    "Major mode for editing Markdown files" t)
-  (setq auto-mode-alist
-	(cons '("\\.markdown\\'" . markdown-mode) auto-mode-alist))
-  )
-(my-markdown-mode-init)
-;; ########## end ##########
-
 ;; ########## sh mode ##########
 ;; .zsh files to sh auto-mode-alist
 (defun my-sh-mode-init()
@@ -578,7 +567,7 @@
   "simple yasnippet mode init function"
   (require 'yasnippet)
   ;; set yasnippet default dirs
-  (setq yas/snippet-dirs (list
+  (setq yas-snippet-dirs (list
 			  (concat el-get-dir
 				  (file-name-as-directory "yasnippet")
 				  "snippets")
@@ -586,12 +575,12 @@
 				  (file-name-as-directory "yasnippet")
 				  (file-name-as-directory "extras")
 				  "imported")))
-  (setq yas/use-menu 'abbreviate)
-  (setq yas/prompt-functions
-	(cons 'yas/dropdown-prompt
-	      (remove 'yas/dropdown-prompt
-		      yas/prompt-functions)))
-  (yas/global-mode t)
+  (setq yas-use-menu 'abbreviate)
+  (setq yas-prompt-functions
+	(cons 'yas-dropdown-prompt
+	      (remove 'yas-dropdown-prompt
+		      yas-prompt-functions)))
+  (yas-global-mode t)
   )
 ;; ########## end ##########
 
@@ -676,7 +665,7 @@
 
 ;; ########## evil mode ##########
 (defun my-evil-init()
-  "magit init function for el-get"
+  "evil mode init function for el-get"
   (autoload 'evil-local-mode "evil" nil t)
   (global-set-key "\C-c\C-v" 'evil-local-mode)
   )
@@ -686,6 +675,14 @@
 (defun my-nxhtml-init()
   "nxhtml init function for el-get"
   (autoload 'nxhtml-mode "autostart" nil t)
+  )
+;; ########## end ##########
+
+;; ########## markdown ##########
+;; markdown-mode for translating Pro Git
+(defun my-markdown-mode-init()
+  (autoload 'markdown-mode "markdown-mode"
+    "Major mode for editing Markdown files" t)
   )
 ;; ########## end ##########
 
@@ -718,6 +715,8 @@
 	  (:name nxhtml
 		 :after (progn (my-nxhtml-init))
 		 :load nil)
+	  (:name markdown-mode
+		 :after (progn (my-markdown-mode-init)))
 	  ))
 
   (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill xcscope) (mapcar 'el-get-source-name el-get-sources)))
