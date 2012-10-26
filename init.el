@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-10-28 23:48:08 vmlinz>
+;; Time-stamp: <2012-10-29 09:48:19 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -65,8 +65,16 @@
   (set-frame-font "fontset-startup")
   (add-to-list 'default-frame-alist '(font . "fontset-startup"))
   )
-(if (window-system)
-    (add-hook 'after-make-frame-hook 'my-set-frame-font)
+
+(when (window-system)
+  (add-hook 'after-make-frame-hook 'my-set-frame-font)
+  (add-hook 'before-make-frame-hook
+	    #'(lambda ()
+		(add-to-list 'default-frame-alist '(left   . 0))
+		(add-to-list 'default-frame-alist '(top    . 0))
+		(add-to-list 'default-frame-alist '(height . 25))
+		(add-to-list 'default-frame-alist '(width  . 80))
+		))
   )
 
 ;; encodings and locales
@@ -560,6 +568,7 @@
 	(cons 'yas-dropdown-prompt
 	      (remove 'yas-dropdown-prompt
 		      yas-prompt-functions)))
+  (setq yas-verbosity 0)
   (yas-global-mode t)
   )
 ;; ########## end ##########
