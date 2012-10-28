@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-10-20 17:24:41 vmlinz>
+;; Time-stamp: <2012-10-28 18:28:23 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -27,7 +27,7 @@
 ;; [done]3.Make it portable between computers
 ;; [todo]4.keep simplifying this configuration file
 ;; [todo]5.Make configuration of cedet really useful for programming
-;; [todo]6.Use gtags from el-get
+;; [done]6.Use gtags from el-get
 ;; [todo]7.Consider using builtin cedet or replace it completely
 ;; [todo]8.Reorganize this file into org file using babel to generate it
 
@@ -37,24 +37,7 @@
 ;; ########## end ##########
 
 ;; ########## local lisp ##########
-(add-to-list 'load-path "~/.emacs.d/site-lisp")
-;; ########## end ##########
-
-;; ########## global ##########
-;; local global mode
-(defun my-gtags-init()
-  (require 'gtags)
-
-  (define-key gtags-mode-map "\M-." 'gtags-find-tag)
-  (define-key gtags-mode-map "\M-*" 'gtags-pop-stack)
-
-  (add-hook 'gtags-select-mode-hook
-	    '(lambda ()
-	       (setq hl-line-face 'underline)
-	       (hl-line-mode 1)
-	       ))
-  )
-(my-gtags-init)
+;; (add-to-list 'load-path "~/.emacs.d/site-lisp")
 ;; ########## end ##########
 
 ;; ########## localization ##########
@@ -437,9 +420,6 @@
   (add-hook 'c-mode-common-hook 'my-cscope-init)
   (add-hook 'c-mode-common-hook 'my-c-mode-key-init)
   (add-hook 'c-mode-common-hook 'my-c-linux-style-init)
-  (add-hook 'c-mode-common-hook
-	    '(lambda ()
-	       (gtags-mode 1)))
 
   (add-hook 'c-mode-hook 'my-c-mode-init)
   (add-hook 'c++-mode-hook
@@ -686,6 +666,25 @@
   )
 ;; ########## end ##########
 
+;; ########## global ##########
+;; local global mode
+(defun my-gtags-init()
+  "GNU Gloabal init function for el-get"
+  (define-key gtags-mode-map "\M-." 'gtags-find-tag)
+  (define-key gtags-mode-map "\M-*" 'gtags-pop-stack)
+
+  (add-hook 'gtags-select-mode-hook
+	    '(lambda ()
+	       (setq hl-line-face 'underline)
+	       (hl-line-mode 1)
+	       ))
+
+  (add-hook 'c-mode-common-hook
+	    '(lambda ()
+	       (gtags-mode 1)))
+  )
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -717,6 +716,8 @@
 		 :load nil)
 	  (:name markdown-mode
 		 :after (progn (my-markdown-mode-init)))
+	  (:name gtags
+		 :after (progn (my-gtags-init)))
 	  ))
 
   (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill xcscope) (mapcar 'el-get-source-name el-get-sources)))
