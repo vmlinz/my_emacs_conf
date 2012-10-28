@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-10-28 18:28:23 vmlinz>
+;; Time-stamp: <2012-10-28 23:48:08 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -671,6 +671,7 @@
 (defun my-gtags-init()
   "GNU Gloabal init function for el-get"
   (define-key gtags-mode-map "\M-." 'gtags-find-tag)
+  (define-key gtags-mode-map "\M-," 'gtags-find-rtag)
   (define-key gtags-mode-map "\M-*" 'gtags-pop-stack)
 
   (add-hook 'gtags-select-mode-hook
