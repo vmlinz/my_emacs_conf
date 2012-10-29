@@ -11,3 +11,4 @@
 /.org-id-locations
 srecode-map.el
 /url/*
+/*/*.elc
