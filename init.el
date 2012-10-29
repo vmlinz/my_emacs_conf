@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-10-29 11:01:58 vmlinz>
+;; Time-stamp: <2012-10-29 11:08:54 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -526,6 +526,7 @@
 		'(lambda()
 		   (interactive)
 		   (byte-compile-file "~/.emacs.d/init.el" t)
+		   (byte-compile-file custom-file t)
 		   ))
 ;; ########## end ##########
 
