@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-10-29 09:48:19 vmlinz>
+;; Time-stamp: <2012-10-29 10:15:15 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -536,7 +536,6 @@
       (lambda ()
 	(setq quack-global-menu-p nil)
 	(setq quack-default-program "guile")
-	(quack-install)
 
 	(add-hook 'scheme-mode-hook
 		  '(lambda ()
@@ -546,7 +545,6 @@
 	)
     )
   )
-(my-scheme-init)
 ;; ########## end ##########
 
 ;; ########## yasnippet ##########
@@ -715,6 +713,8 @@
 		 :after (progn (my-git-init)))
 	  (:name yasnippet
 		 :after (progn (my-yasnippet-init)))
+	  (:name quack
+		 :after (progn (my-scheme-init)))
 	  (:name auto-complete
 		 :features auto-complete
 		 :after (progn (my-auto-complete-init)))
