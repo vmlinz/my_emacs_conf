@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-10-29 11:08:54 vmlinz>
+;; Time-stamp: <2012-11-01 15:29:34 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -94,7 +94,7 @@
 ;; ########## end ##########
 
 ;; ########## custom ##########
-(setq custom-file "~/.emacs.d/site-start.d/custom.el")
+(setq custom-file "~/.emacs.d/site-start.d/my-custom.el")
 (load custom-file)
 ;; ########## end ##########
 

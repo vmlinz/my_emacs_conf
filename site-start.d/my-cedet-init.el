@@ -21,6 +21,10 @@
   (require 'semantic/ia)
   (require 'semantic/decorate/include)
   (require 'semantic/lex-spp)
+
+  (require 'semantic/db-javap)
+  (require 'cedet-java)
+
   (require 'eassist)
   )
 
@@ -46,8 +50,8 @@
 
   (global-srecode-minor-mode 1)
 
-  ;; (global-ede-mode 1)
-  ;; (ede-enable-generic-projects)
+  (global-ede-mode 1)
+  (ede-enable-generic-projects)
 )
 
 (defun my-semantic-init-hooks()
