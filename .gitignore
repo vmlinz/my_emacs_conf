@@ -12,3 +12,5 @@
 srecode-map.el
 /url/*
 /*/*.elc
+/eshell/history
+/eshell/lastdir
