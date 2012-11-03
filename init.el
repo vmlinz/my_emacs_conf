@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-11-03 23:35:38 vmlinz>
+;; Time-stamp: <2012-11-04 00:00:46 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -315,13 +315,13 @@
 	'(
 	  ("d" "Daily Notes" entry
 	   (file+datetree (concat org-directory "/dailylife.org"))
-	   "* TODO %^{Description} %^g\n  %?%U")
+	   "* TODO %^{Description} %^g\n%?")
 	  ("s" "Study Journal" entry
 	   (file+datetree (concat org-directory "/study.org"))
-	   "* TODO %^{Description} %^g\n  %?%U")
+	   "* TODO %^{Description} %^g\n%?")
 	  ("w" "Work Journal" entry
 	   (file+datetree (concat org-directory "/work.org"))
-	   "* TODO %^{Description} %^g\n  %?%U")
+	   "* TODO %^{Description} %^g\n%?")
 	  ("l" "Time Log" entry
 	   (file+datetree (concat org-directory "/timelog.org"))
 	   "* %U - %^{Activity} :TIME:")
