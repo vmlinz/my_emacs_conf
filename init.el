@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-11-01 15:29:34 vmlinz>
+;; Time-stamp: <2012-11-03 13:02:44 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -306,20 +306,16 @@
 
 ;; ########## org mode and remember ##########
 (defun my-org-mode-init()
-  (org-remember-insinuate)
   (setq org-directory "~/Documents/notes")
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   (setq org-log-done 'note)
-  (setq remember-annotation-functions '(org-remember-annotation))
-  (setq remember-handler-functions '(org-remember-handler))
   ;;custome commands for the use of GTD.
   (setq org-agenda-custom-commands
 	'(("w" todo "WAITING" nil)
 	  ("n" todo "NEXT" nil)
 	  ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
 	)
-  (add-hook 'remember-mode-hook 'org-remember-apply-template)
-  (global-set-key "\C-cr" 'org-remember)
+  (global-set-key "\C-cr" 'org-capture)
   (global-set-key "\C-cc" 'calendar)
   (global-set-key "\C-ca" 'org-agenda)
   )
