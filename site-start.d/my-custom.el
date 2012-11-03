@@ -9,9 +9,12 @@
  '(column-number-mode nil)
  '(diary-file "~/Documents/notes/diary.gpg")
  '(font-latex-fontify-sectioning (quote color))
- '(inhibit-startup-echo-area-message "vmlinz")
+ '(inhibit-startup-echo-area-message (user-login-name))
  '(inhibit-startup-screen t)
- '(org-agenda-files (quote ("~/Documents/notes/dailylife.org" "~/Documents/notes/study.org" "~/Documents/notes/work.org")))
+ '(org-agenda-files (quote
+		     ("~/Documents/notes/dailylife.org"
+		      "~/Documents/notes/study.org"
+		      "~/Documents/notes/work.org")))
  '(show-paren-mode t)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(vc-handled-backends (quote (GIT SVN Hg Bzr CVS))))

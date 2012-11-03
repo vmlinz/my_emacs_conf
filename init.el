@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-11-03 13:02:44 vmlinz>
+;; Time-stamp: <2012-11-03 23:35:38 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -309,12 +309,38 @@
   (setq org-directory "~/Documents/notes")
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   (setq org-log-done 'note)
-  ;;custome commands for the use of GTD.
+
+  ;; custom capture-templates
+  (setq org-capture-templates
+	'(
+	  ("d" "Daily Notes" entry
+	   (file+datetree (concat org-directory "/dailylife.org"))
+	   "* TODO %^{Description} %^g\n  %?%U")
+	  ("s" "Study Journal" entry
+	   (file+datetree (concat org-directory "/study.org"))
+	   "* TODO %^{Description} %^g\n  %?%U")
+	  ("w" "Work Journal" entry
+	   (file+datetree (concat org-directory "/work.org"))
+	   "* TODO %^{Description} %^g\n  %?%U")
+	  ("l" "Time Log" entry
+	   (file+datetree (concat org-directory "/timelog.org"))
+	   "* %U - %^{Activity} :TIME:")
+	  ("n" "Ramdom Notes" entry
+	   (file+datetree (concat org-directory "/notes.org"))
+	   "* %^{Description} %^g\n  %i\n  %a\n  %?%U")
+	  ("x" "Clipboard Notes" entry
+	   (file+datetree (concat org-directory "/notes.org"))
+	   "* %^{Description} %^g\n  %x\n  %?%U")
+	  ))
+
+  ;;custom commands for the use of GTD.
   (setq org-agenda-custom-commands
-	'(("w" todo "WAITING" nil)
+	'(
+	  ("w" todo "WAITING" nil)
 	  ("n" todo "NEXT" nil)
-	  ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
-	)
+	  ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))
+	  ))
+
   (global-set-key "\C-cr" 'org-capture)
   (global-set-key "\C-cc" 'calendar)
   (global-set-key "\C-ca" 'org-agenda)
