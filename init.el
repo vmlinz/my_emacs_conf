@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-11-01 15:29:34 vmlinz>
+;; Time-stamp: <2012-11-02 14:07:22 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -728,7 +728,7 @@
 		 :after (progn (my-gtags-init)))
 	  ))
 
-  (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill xcscope) (mapcar 'el-get-source-name el-get-sources)))
+  (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill xcscope sicp) (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages)
   )
