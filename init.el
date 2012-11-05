@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-11-04 00:00:46 vmlinz>
+;; Time-stamp: <2012-11-05 15:36:26 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -436,9 +436,7 @@
 
   (c-set-style "linux-tabs-only")
 
-  (setq tab-width 4)
   (setq indent-tabs-mode t)
-  (setq c-basic-offset 4)
 
   (auto-fill-mode 1)
   (hs-minor-mode 1)
