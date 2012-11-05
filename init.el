@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-11-02 14:07:22 vmlinz>
+;; Time-stamp: <2012-11-04 00:00:46 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -306,20 +306,42 @@
 
 ;; ########## org mode and remember ##########
 (defun my-org-mode-init()
-  (org-remember-insinuate)
   (setq org-directory "~/Documents/notes")
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   (setq org-log-done 'note)
-  (setq remember-annotation-functions '(org-remember-annotation))
-  (setq remember-handler-functions '(org-remember-handler))
-  ;;custome commands for the use of GTD.
+
+  ;; custom capture-templates
+  (setq org-capture-templates
+	'(
+	  ("d" "Daily Notes" entry
+	   (file+datetree (concat org-directory "/dailylife.org"))
+	   "* TODO %^{Description} %^g\n%?")
+	  ("s" "Study Journal" entry
+	   (file+datetree (concat org-directory "/study.org"))
+	   "* TODO %^{Description} %^g\n%?")
+	  ("w" "Work Journal" entry
+	   (file+datetree (concat org-directory "/work.org"))
+	   "* TODO %^{Description} %^g\n%?")
+	  ("l" "Time Log" entry
+	   (file+datetree (concat org-directory "/timelog.org"))
+	   "* %U - %^{Activity} :TIME:")
+	  ("n" "Ramdom Notes" entry
+	   (file+datetree (concat org-directory "/notes.org"))
+	   "* %^{Description} %^g\n  %i\n  %a\n  %?%U")
+	  ("x" "Clipboard Notes" entry
+	   (file+datetree (concat org-directory "/notes.org"))
+	   "* %^{Description} %^g\n  %x\n  %?%U")
+	  ))
+
+  ;;custom commands for the use of GTD.
   (setq org-agenda-custom-commands
-	'(("w" todo "WAITING" nil)
+	'(
+	  ("w" todo "WAITING" nil)
 	  ("n" todo "NEXT" nil)
-	  ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT"))))
-	)
-  (add-hook 'remember-mode-hook 'org-remember-apply-template)
-  (global-set-key "\C-cr" 'org-remember)
+	  ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))
+	  ))
+
+  (global-set-key "\C-cr" 'org-capture)
   (global-set-key "\C-cc" 'calendar)
   (global-set-key "\C-ca" 'org-agenda)
   )
