@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-11-04 00:00:46 vmlinz>
+;; Time-stamp: <2012-11-17 16:07:39 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -30,7 +30,7 @@
 ;; [done]6.Use gtags from el-get
 ;; [todo]7.Consider using builtin cedet or replace it completely
 ;; [todo]8.Reorganize this file into org file using babel to generate it
-
+;; [next]9.conform to lisp coding style
 ;; ########## cedet ##########
 (add-to-list 'load-path "~/.emacs.d/site-start.d")
 (require 'my-cedet-init)
@@ -63,8 +63,7 @@
 		    'prepend)
   (set-face-font 'tooltip "fontset-startup")
   (set-frame-font "fontset-startup")
-  (add-to-list 'default-frame-alist '(font . "fontset-startup"))
-  )
+  (add-to-list 'default-frame-alist '(font . "fontset-startup")))
 
 (when (window-system)
   (add-hook 'after-make-frame-hook 'my-set-frame-font)
@@ -73,9 +72,7 @@
 		(add-to-list 'default-frame-alist '(left   . 0))
 		(add-to-list 'default-frame-alist '(top    . 0))
 		(add-to-list 'default-frame-alist '(height . 25))
-		(add-to-list 'default-frame-alist '(width  . 80))
-		))
-  )
+		(add-to-list 'default-frame-alist '(width  . 80)))))
 
 ;; encodings and locales
 (defun my-coding-system-init()
@@ -88,8 +85,7 @@
   (set-buffer-file-coding-system 'utf-8 'utf-8)
   '(set-buffer-process-coding-system 'utf-8 'utf-8)
   (modify-coding-system-alist 'process "*" 'utf-8)
-  (setq default-process-coding-system '(utf-8 . utf-8))
-  )
+  (setq default-process-coding-system '(utf-8 . utf-8)))
 (my-coding-system-init)
 ;; ########## end ##########
 
@@ -190,8 +186,7 @@
   (setq frame-title-format '("" "%b - Emacs " emacs-version))
   ;; ########## end ##########
 
-  (setq warning-suppress-types ())
-  )
+  (setq warning-suppress-types ()))
 (my-misc-custom-init)
 ;; ########## end ##########
 
@@ -218,8 +213,8 @@
     (if server-buffer-clients
 	(server-edit)
       (delete-frame)))
-  (global-set-key (kbd "C-c C-q") 'my-server-kill-client)
-  )
+
+  (global-set-key (kbd "C-c C-q") 'my-server-kill-client))
 (my-server-init)
 ;; ########## end ##########
 
@@ -240,8 +235,7 @@
 	  try-complete-lisp-symbol
 	  try-complete-lisp-symbol-partially
 	  try-expand-whole-kill))
-  (global-set-key (kbd "M-;") 'hippie-expand)
-  )
+  (global-set-key (kbd "M-;") 'hippie-expand))
 (my-hippie-expand-init)
 ;;########## end ##########
 
@@ -265,8 +259,7 @@
   (global-set-key "\M-m" 'set-mark-command)
   (global-set-key "\C-c\M-m" 'pop-to-mark-command)
   ;; woman
-  (global-set-key "\C-hj" 'woman)
-  )
+  (global-set-key "\C-hj" 'woman))
 (my-key-init)
 ;; ########## end ##########
 
@@ -278,8 +271,7 @@
   (setq kept-new-versions 10)
   (setq delete-old-versions t)
   (setq backup-by-copying t)
-  (setq version-control t)
-  )
+  (setq version-control t))
 (my-backup-init)
 ;; ########## end ##########
 
@@ -300,8 +292,7 @@
 ;;function gtd
 (defun my-gtd ()
   (interactive)
-  (find-file "~/Documents/notes/dailylife.org")
-  )
+  (find-file "~/Documents/notes/dailylife.org"))
 ;; ########## end ##########
 
 ;; ########## org mode and remember ##########
@@ -330,21 +321,18 @@
 	   "* %^{Description} %^g\n  %i\n  %a\n  %?%U")
 	  ("x" "Clipboard Notes" entry
 	   (file+datetree (concat org-directory "/notes.org"))
-	   "* %^{Description} %^g\n  %x\n  %?%U")
-	  ))
+	   "* %^{Description} %^g\n  %x\n  %?%U")))
 
   ;;custom commands for the use of GTD.
   (setq org-agenda-custom-commands
 	'(
 	  ("w" todo "WAITING" nil)
 	  ("n" todo "NEXT" nil)
-	  ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))
-	  ))
+	  ("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))))
 
   (global-set-key "\C-cr" 'org-capture)
   (global-set-key "\C-cc" 'calendar)
-  (global-set-key "\C-ca" 'org-agenda)
-  )
+  (global-set-key "\C-ca" 'org-agenda))
 (my-org-mode-init)
 ;; ########## end ##########
 
@@ -353,8 +341,7 @@
 (add-hook 'after-init-hook
 	  '(lambda()
 	     (setq woman-use-own-frame nil)
-	     (setq woman-fill-column 80)
-	     ))
+	     (setq woman-fill-column 80)))
 ;; ########## end ##########
 
 ;; ########## emms ##########
@@ -372,12 +359,9 @@
 		 ;;no errors, make the compilation window go away in a few seconds
 		 (run-at-time "2 sec" nil 'delete-windows-on
 			      (get-buffer-create "*compilation*"))
-		 (message "No Compilation Errors!")
-		 )
-	       ))
+		 (message "No Compilation Errors!"))))
   (setq compilation-window-height 16)
-  (setq compilation-scroll-output t)
-  )
+  (setq compilation-scroll-output t))
 
 (defun my-gud-init ()
   "gud mode init function"
@@ -385,9 +369,7 @@
 	    '(lambda()
 	       (setq gdb-show-main t)
 	       (setq gdb-many-windows -1)
-	       (define-key gud-mode-map [(f8)] 'gdb-many-windows)
-	       ))
-  )
+	       (define-key gud-mode-map [(f8)] 'gdb-many-windows))))
 
 (defun my-cscope-init ()
   "cscope emacs mode init function"
@@ -396,8 +378,7 @@
     `(progn
        (setq cscope-do-not-update-database t)
        (setq cscope-display-cscope-buffer nil)
-       (setq cscope-edit-single-match nil)))
-  )
+       (setq cscope-edit-single-match nil))))
 
 (defun my-c-mode-key-init ()
   "c mode key bindings"
@@ -405,8 +386,7 @@
   (define-key c-mode-base-map [(return)] 'newline-and-indent)
   (define-key c-mode-base-map [(f7)] 'compile)
   (define-key c-mode-base-map [(f8)] 'gdb)
-  (define-key c-mode-base-map [(meta \')] 'c-indent-command)
-  )
+  (define-key c-mode-base-map [(meta \')] 'c-indent-command))
 
 (defun c-lineup-arglist-tabs-only (ignored)
   "Line up argument lists by tabs, not spaces"
@@ -425,8 +405,7 @@
      (c-offsets-alist
       (arglist-cont-nonempty
        c-lineup-gcc-asm-reg
-       c-lineup-arglist-tabs-only))))
-  )
+       c-lineup-arglist-tabs-only)))))
 
 (defun my-c-mode-init ()
   (setq c-macro-shrink-window-flag t)
@@ -436,13 +415,10 @@
 
   (c-set-style "linux-tabs-only")
 
-  (setq tab-width 4)
   (setq indent-tabs-mode t)
-  (setq c-basic-offset 4)
 
   (auto-fill-mode 1)
-  (hs-minor-mode 1)
-  )
+  (hs-minor-mode 1))
 
 (defun my-cc-mode-init()
   (add-hook 'c-mode-common-hook 'my-compile-init)
@@ -458,9 +434,7 @@
 
 	       (setq indent-tabs-mode nil)
 	       (setq tab-width 4)
-	       (setq c-basic-offset 4)
-	       )
-	    )
+	       (setq c-basic-offset 4)))
   (add-hook 'java-mode-hook
 	    '(lambda ()
 	       (c-set-offset 'arglist-cont-nonempty '+)
@@ -468,10 +442,7 @@
 
 	       (setq indent-tabs-mode nil)
 	       (setq tab-width 4)
-	       (setq c-basic-offset 4)
-	       )
-	    )
-  )
+	       (setq c-basic-offset 4))))
 (my-cc-mode-init)
 ;; ########## end ##########
 
@@ -485,16 +456,13 @@
 	       (setq TeX-command-default "XeLaTeX")
 	       (setq TeX-save-query nil)
 	       (setq TeX-show-compilation t)
-	       (setq Tex-master nil)
-	       )
-	    )
+	       (setq Tex-master nil)))
 
   (eval-after-load "tex"
     '(progn
        (TeX-global-PDF-mode t)
        (setq TeX-output-view-style
-	     (cons '("^pdf$" "." "acroread %o") TeX-output-view-style)
-	     )))
+	     (cons '("^pdf$" "." "acroread %o") TeX-output-view-style))))
 
   (add-hook 'TeX-mode-hook
 	    '(lambda ()
@@ -513,9 +481,7 @@
 	       (turn-on-reftex)
 	       (auto-fill-mode)
 	       (outline-minor-mode)
-	       (flyspell-mode)
-	       ))
-  )
+	       (flyspell-mode))))
 (my-auctex-init)
 ;; ########## end ##########
 
@@ -526,18 +492,20 @@
 	     (require 'erc-join)
 	     (erc-autojoin-mode 1)
 	     (setq erc-autojoin-channels-alist
-		   '(("freenode.net" "#emacs" "#ubuntu" "#ubuntu-cn" "#kernel"))
-		   )))
+		   '(("freenode.net"
+		      "#emacs"
+		      "#ubuntu"
+		      "#ubuntu-cn"
+		      "#kernel")))))
 ;; ########## end ##########
 
 ;; ########## sh mode ##########
 ;; .zsh files to sh auto-mode-alist
 (defun my-sh-mode-init()
   (autoload 'sh-mode "sh-script"
-    "Major mode for editing shell files" t)
+    "Majf)or mode for editing shell files" t)
   (setq auto-mode-alist
-	(cons '("\\.zsh\\'" . sh-mode) auto-mode-alist))
-  )
+	(cons '("\\.zsh\\'" . sh-mode) auto-mode-alist)))
 (my-sh-mode-init)
 ;; ########## end ##########
 
@@ -548,8 +516,7 @@
 		'(lambda()
 		   (interactive)
 		   (byte-compile-file "~/.emacs.d/init.el" t)
-		   (byte-compile-file custom-file t)
-		   ))
+		   (byte-compile-file custom-file t)))
 ;; ########## end ##########
 
 ;; ########## scheme mode ##########
@@ -562,9 +529,7 @@
 
   (add-hook 'scheme-mode-hook
 	    '(lambda ()
-	       (setq scheme-program-name "guile")
-	       ))
-  )
+	       (setq scheme-program-name "guile"))))
 ;; ########## end ##########
 
 ;; ########## yasnippet ##########
@@ -587,8 +552,7 @@
 	      (remove 'yas-dropdown-prompt
 		      yas-prompt-functions)))
   (setq yas-verbosity 0)
-  (yas-global-mode t)
-  )
+  (yas-global-mode t))
 ;; ########## end ##########
 
 ;; ########## auto-complete ##########
@@ -597,22 +561,18 @@
   "semantic source configuration for auto-complete"
   (setq ac-sources
 	(append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
-  (define-key ac-mode-map "\M-/" 'ac-complete-semantic-raw)
-  )
+  (define-key ac-mode-map "\M-/" 'ac-complete-semantic-raw))
 
 (defun my-ac-py-setup ()
-  (setq ac-sources (append '(ac-source-yasnippet) ac-sources))
-  )
+  (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
 (defun my-ac-sgml-setup ()
-  (setq ac-sources (append '(ac-source-yasnippet) ac-sources))
-  )
+  (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
 
 (defun my-ac-config ()
   (add-hook 'c-mode-common-hook 'my-ac-semantic-setup)
   ;; (ac-ropemacs-initialize)
   (add-hook 'python-mode-hook 'my-ac-py-setup)
-  (add-hook 'html-mode-hook 'my-ac-sgml-setup)
-  )
+  (add-hook 'html-mode-hook 'my-ac-sgml-setup))
 
 (defun my-auto-complete-init()
   "auto-complete init function"
@@ -634,8 +594,7 @@
   (define-key ac-menu-map "\C-p" 'ac-previous)
   (define-key ac-menu-map "\M-p" 'ac-previous)
   (define-key ac-menu-map "\C-f" 'ac-stop)
-  (define-key ac-menu-map "\M-f" 'ac-stop)
-  )
+  (define-key ac-menu-map "\M-f" 'ac-stop))
 ;; ########## end ##########
 
 ;; ########## git ##########
@@ -647,8 +606,7 @@
   (eval-after-load 'magit
     '(progn
        (set-face-foreground 'magit-diff-add "green3")
-       (set-face-foreground 'magit-diff-del "red3")))
-  )
+       (set-face-foreground 'magit-diff-del "red3"))))
 ;; ########## end #########
 
 ;; ########## python mode ##########
@@ -659,38 +617,33 @@
 	       (setq indent-tabs-mode nil)
 	       (setq python-indent 4)
 	       (setq python-python-command "python3") ;default to python3
-	       ))
-  )
+	       )))
 (my-py-init)
 ;; ########## end ##########
 
 ;; ########## sgml and html mode ##########
 (defun my-sgml-init()
-  (add-hook 'sgml-mode-hook 'zencoding-mode)
-  )
+  (add-hook 'sgml-mode-hook 'zencoding-mode))
 ;; ########## end ##########
 
 ;; ########## evil mode ##########
 (defun my-evil-init()
   "evil mode init function for el-get"
   (autoload 'evil-local-mode "evil" nil t)
-  (global-set-key "\C-c\C-v" 'evil-local-mode)
-  )
+  (global-set-key "\C-c\C-v" 'evil-local-mode))
 ;; ########## end ##########
 
 ;; ########## nxhtml mode ##########
 (defun my-nxhtml-init()
   "nxhtml init function for el-get"
-  (autoload 'nxhtml-mode "autostart" nil t)
-  )
+  (autoload 'nxhtml-mode "autostart" nil t))
 ;; ########## end ##########
 
 ;; ########## markdown ##########
 ;; markdown-mode for translating Pro Git
 (defun my-markdown-mode-init()
   (autoload 'markdown-mode "markdown-mode"
-    "Major mode for editing Markdown files" t)
-  )
+    "Major mode for editing Markdown files" t))
 ;; ########## end ##########
 
 ;; ########## global ##########
@@ -704,13 +657,11 @@
   (add-hook 'gtags-select-mode-hook
 	    '(lambda ()
 	       (setq hl-line-face 'underline)
-	       (hl-line-mode 1)
-	       ))
+	       (hl-line-mode 1)))
 
   (add-hook 'c-mode-common-hook
 	    '(lambda ()
-	       (gtags-mode 1)))
-  )
+	       (gtags-mode 1))))
 ;; ########## end ##########
 
 ;; ########## el-get ##########
@@ -723,8 +674,7 @@
      (lambda (s)
        (let (el-get-master-branch)
 	 (goto-char (point-max))
-	 (eval-print-last-sexp))
-       )))
+	 (eval-print-last-sexp)))))
 
   (setq el-get-sources
 	'((:name zencoding-mode
@@ -747,13 +697,11 @@
 	  (:name markdown-mode
 		 :after (progn (my-markdown-mode-init)))
 	  (:name gtags
-		 :after (progn (my-gtags-init)))
-	  ))
+		 :after (progn (my-gtags-init)))))
 
   (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill xcscope sicp) (mapcar 'el-get-source-name el-get-sources)))
 
-  (el-get 'sync my-packages)
-  )
+  (el-get 'sync my-packages))
 (my-el-get-init)
 ;; ########## end ##########
 

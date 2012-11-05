@@ -14,3 +14,4 @@ srecode-map.el
 /*/*.elc
 /eshell/history
 /eshell/lastdir
+/.*session.*
