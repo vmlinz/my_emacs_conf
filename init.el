@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-11-17 16:14:02 vmlinz>
+;; Time-stamp: <2012-11-17 16:26:33 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -532,6 +532,16 @@
 	       (setq scheme-program-name "guile"))))
 ;; ########## end ##########
 
+;; ########## paredit mode ##########
+(defun my-paredit-init()
+  (autoload 'paredit-mode "paredit"
+  "Minor mode for pseudo-structurally editing Lisp code." t)
+  (add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
+  (add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
+  (add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
+  (add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1))))
+;; ########## end ##########
+
 ;; ########## yasnippet ##########
 ;; yasnippet is now managed by _el-get_
 (defun my-yasnippet-init()
@@ -685,6 +695,8 @@
 		 :after (progn (my-yasnippet-init)))
 	  (:name quack
 		 :after (progn (my-scheme-init)))
+	  (:name paredit
+		 :after (progn (my-paredit-init)))
 	  (:name auto-complete
 		 :features auto-complete
 		 :after (progn (my-auto-complete-init)))
@@ -699,7 +711,10 @@
 	  (:name gtags
 		 :after (progn (my-gtags-init)))))
 
-  (setq my-packages (append '(el-get package pos-tip cssh switch-window vkill xcscope sicp) (mapcar 'el-get-source-name el-get-sources)))
+  (setq my-packages
+	(append
+	 '(el-get package pos-tip cssh switch-window vkill xcscope sicp)
+	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
 (my-el-get-init)
