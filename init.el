@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-11-17 16:26:33 vmlinz>
+;; Time-stamp: <2012-12-03 22:56:51 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -318,7 +318,7 @@
 	   "* %U - %^{Activity} :TIME:")
 	  ("n" "Ramdom Notes" entry
 	   (file+datetree (concat org-directory "/notes.org"))
-	   "* %^{Description} %^g\n  %i\n  %a\n  %?%U")
+	   "* %^{Description} %^g\n  %i\n  %?%U")
 	  ("x" "Clipboard Notes" entry
 	   (file+datetree (concat org-directory "/notes.org"))
 	   "* %^{Description} %^g\n  %x\n  %?%U")))
