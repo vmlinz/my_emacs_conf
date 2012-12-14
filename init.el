@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-12-03 22:56:51 vmlinz>
+;; Time-stamp: <2012-12-14 15:26:17 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -31,10 +31,6 @@
 ;; [todo]7.Consider using builtin cedet or replace it completely
 ;; [todo]8.Reorganize this file into org file using babel to generate it
 ;; [next]9.conform to lisp coding style
-;; ########## cedet ##########
-(add-to-list 'load-path "~/.emacs.d/site-start.d")
-(require 'my-cedet-init)
-;; ########## end ##########
 
 ;; ########## local lisp ##########
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp")
@@ -348,6 +344,12 @@
 ;; now just ignore it, for programming and daily use come first
 ;; ########## end ##########
 
+;; ########## cedet ##########
+(add-to-list 'load-path "~/.emacs.d/site-start.d")
+(require 'my-cedet-init)
+(my-cedet-setup)
+;; ########## end ##########
+
 ;; ########## cc-mode ##########
 ;; c mode common hook
 (defun my-compile-init ()
@@ -503,7 +505,7 @@
 ;; .zsh files to sh auto-mode-alist
 (defun my-sh-mode-init()
   (autoload 'sh-mode "sh-script"
-    "Majf)or mode for editing shell files" t)
+    "Major mode for editing shell files" t)
   (setq auto-mode-alist
 	(cons '("\\.zsh\\'" . sh-mode) auto-mode-alist)))
 (my-sh-mode-init)
@@ -516,7 +518,9 @@
 		'(lambda()
 		   (interactive)
 		   (byte-compile-file "~/.emacs.d/init.el" t)
-		   (byte-compile-file custom-file t)))
+		   (byte-compile-file custom-file t)
+		   (byte-compile-file
+		    "~/.emacs.d/site-start.d/my-cedet-init.el" t)))
 ;; ########## end ##########
 
 ;; ########## scheme mode ##########
@@ -546,7 +550,6 @@
 ;; yasnippet is now managed by _el-get_
 (defun my-yasnippet-init()
   "simple yasnippet mode init function"
-  (require 'yasnippet)
   ;; set yasnippet default dirs
   (setq yas-snippet-dirs (list
 			  (concat el-get-dir
@@ -575,12 +578,16 @@
 
 (defun my-ac-py-setup ()
   (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
+
 (defun my-ac-sgml-setup ()
   (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
 
+(defun my-ac-gtags-setup ()
+  (add-to-list 'ac-sources 'ac-source-gtags))
+
 (defun my-ac-config ()
   (add-hook 'c-mode-common-hook 'my-ac-semantic-setup)
-  ;; (ac-ropemacs-initialize)
+  (add-hook 'c-mode-common-hook 'my-ac-gtags-setup)
   (add-hook 'python-mode-hook 'my-ac-py-setup)
   (add-hook 'html-mode-hook 'my-ac-sgml-setup))
 
@@ -713,7 +720,7 @@
 
   (setq my-packages
 	(append
-	 '(el-get package pos-tip cssh switch-window vkill xcscope sicp)
+	 '(el-get package pos-tip cssh switch-window vkill xcscope)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
