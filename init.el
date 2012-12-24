@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-12-14 16:10:23 vmlinz>
+;; Time-stamp: <2012-12-24 16:40:00 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -681,6 +681,12 @@
 	       (gtags-mode 1))))
 ;; ########## end ##########
 
+;; ########## package ##########
+(defun my-package-init ()
+  (add-to-list 'package-archives
+	       '("melpa" . "http://melpa.milkbox.net/packages/") t))
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -716,11 +722,13 @@
 	  (:name markdown-mode
 		 :after (progn (my-markdown-mode-init)))
 	  (:name gtags
-		 :after (progn (my-gtags-init)))))
+		 :after (progn (my-gtags-init)))
+	  (:name package
+		 :after (progn (my-package-init)))))
 
   (setq my-packages
 	(append
-	 '(el-get package pos-tip cssh switch-window vkill xcscope)
+	 '(el-get pos-tip cssh switch-window vkill xcscope)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
