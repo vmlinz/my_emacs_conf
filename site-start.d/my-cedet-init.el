@@ -33,7 +33,7 @@
   (semantic-default-scheme-setup))
 
 (defun my-cedet-hooks-setup ()
-  (add-hook 'semantic-init-hooks 'my-cedet-semantic-key-hook)
+  (add-hook 'semantic-init-hook 'my-cedet-semantic-key-hook)
   (add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
   (add-hook 'scheme-mode-hook 'my-scheme-mode-cedet-hook))
 

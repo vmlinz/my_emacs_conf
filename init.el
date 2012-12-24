@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-12-14 15:26:17 vmlinz>
+;; Time-stamp: <2012-12-14 16:10:23 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -26,11 +26,11 @@
 ;; [next]2.Get to know more about elisp programming
 ;; [done]3.Make it portable between computers
 ;; [todo]4.keep simplifying this configuration file
-;; [todo]5.Make configuration of cedet really useful for programming
+;; [done]5.Make configuration of cedet really useful for programming
 ;; [done]6.Use gtags from el-get
-;; [todo]7.Consider using builtin cedet or replace it completely
+;; [done]7.Consider using builtin cedet or replace it completely
 ;; [todo]8.Reorganize this file into org file using babel to generate it
-;; [next]9.conform to lisp coding style
+;; [done]9.conform to lisp coding style
 
 ;; ########## local lisp ##########
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp")
