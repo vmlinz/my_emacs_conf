@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-12-24 16:40:00 vmlinz>
+;; Time-stamp: <2012-12-27 20:13:55 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -728,7 +728,7 @@
 
   (setq my-packages
 	(append
-	 '(el-get pos-tip cssh switch-window vkill xcscope)
+	 '(el-get pos-tip cssh switch-window vkill xcscope notify)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
