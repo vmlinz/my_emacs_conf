@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2012-12-27 20:13:55 vmlinz>
+;; Time-stamp: <2013-01-21 11:10:24 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -123,6 +123,8 @@
   (setq x-select-enable-clipboard t)
   (add-hook 'before-save-hook 'time-stamp)
   ;; delete trailing whitespaces before save
+  (require `whitespace)
+  (setq whitespace-style (remove `indentation whitespace-style))
   (add-hook 'before-save-hook 'whitespace-cleanup)
   ;; check last line to be a newline
   (setq require-final-newline t)
@@ -510,7 +512,6 @@
 	(cons '("\\.zsh\\'" . sh-mode) auto-mode-alist)))
 (my-sh-mode-init)
 ;; ########## end ##########
-
 
 ;; ########## lisp settings ##########
 ;; byte compile emacs init file and load it
