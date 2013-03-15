@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-01-21 11:10:24 vmlinz>
+;; Time-stamp: <2013-03-15 23:08:08 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -519,9 +519,7 @@
 		'(lambda()
 		   (interactive)
 		   (byte-compile-file "~/.emacs.d/init.el" t)
-		   (byte-compile-file custom-file t)
-		   (byte-compile-file
-		    "~/.emacs.d/site-start.d/my-cedet-init.el" t)))
+		   (byte-recompile-directory "~/.emacs.d/site-start.d/" 0)))
 ;; ########## end ##########
 
 ;; ########## scheme mode ##########
@@ -688,6 +686,15 @@
 	       '("melpa" . "http://melpa.milkbox.net/packages/") t))
 ;; ########## end ##########
 
+;; ########## multiple-cursors ##########
+(defun my-multiple-cursors-init ()
+  (global-set-key (kbd "M-[") 'mc/edit-lines)
+  (global-set-key (kbd "M-n") 'mc/mark-next-like-this)
+  (global-set-key (kbd "M-p") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "M-]") 'mc/mark-all-like-this)
+  )
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -725,11 +732,13 @@
 	  (:name gtags
 		 :after (progn (my-gtags-init)))
 	  (:name package
-		 :after (progn (my-package-init)))))
+		 :after (progn (my-package-init)))
+	  (:name multiple-cursors
+		 :after (progn (my-multiple-cursors-init)))))
 
   (setq my-packages
 	(append
-	 '(el-get pos-tip cssh switch-window vkill xcscope notify)
+	 '(el-get pos-tip cssh switch-window vkill xcscope notify undo-tree)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
