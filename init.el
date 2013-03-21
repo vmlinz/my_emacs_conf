@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-15 23:08:08 vmlinz>
+;; Time-stamp: <2013-03-22 01:17:28 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -40,35 +40,26 @@
 ;; needs further checking and practicing, read more on x resource and fonts
 (defun my-set-frame-font ()
   (interactive)
-  ;; default ansi code font
-  (set-frame-font "Inconsolata-16")
-  ;; font for other scripts
-  (set-fontset-font t
-		    nil '("Inconsolata-16" . "unicode-bmp"))
-  (set-fontset-font "fontset-startup"
-		    'han '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-		    'prepend)
-  (set-fontset-font "fontset-startup"
-		    'cjk-misc '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-		    'prepend)
-  (set-fontset-font "fontset-startup"
-		    'kana '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-		    'prepend)
-  (set-fontset-font "fontset-startup"
-		    'symbol '("WenQuanYi Micro Hei Mono-16" . "unicode-bmp") nil
-		    'prepend)
-  (set-face-font 'tooltip "fontset-startup")
-  (set-frame-font "fontset-startup")
-  (add-to-list 'default-frame-alist '(font . "fontset-startup")))
-
-(when (window-system)
-  (add-hook 'after-make-frame-hook 'my-set-frame-font)
-  (add-hook 'before-make-frame-hook
-	    #'(lambda ()
-		(add-to-list 'default-frame-alist '(left   . 0))
-		(add-to-list 'default-frame-alist '(top    . 0))
-		(add-to-list 'default-frame-alist '(height . 25))
-		(add-to-list 'default-frame-alist '(width  . 80)))))
+  (set-fontset-font t nil
+		    (font-spec :name "Inconsolata" :size 18))
+  (set-fontset-font t 'han
+		    (font-spec :name "WenQuanYi Micro Hei Mono" :size 18))
+  (set-fontset-font t 'cjk-misc
+		    (font-spec :name "WenQuanYi Micro Hei Mono" :size 18))
+  (set-fontset-font t 'kana
+		    (font-spec :name "WenQuanYi Micro Hei Mono" :size 18))
+  (set-fontset-font t 'symbol
+		    (font-spec :name "WenQuanYi Micro Hei Mono" :size 18))
+  (modify-all-frames-parameters '((width . 80)
+				  (height . 25)
+				  (vertical-scroll-bars . nil)
+				  (menu-bar-lines . 0)
+				  (tool-bar-lines . 0)
+				  (left-fringe . 0)
+				  (right-fringe . 0))))
+(my-set-frame-font)
+(add-hook 'before-make-frame-hook 'my-set-frame-font)
+(add-hook 'after-make-frame-hook 'my-set-frame-font)
 
 ;; encodings and locales
 (defun my-coding-system-init()
@@ -538,7 +529,7 @@
 ;; ########## paredit mode ##########
 (defun my-paredit-init()
   (autoload 'paredit-mode "paredit"
-  "Minor mode for pseudo-structurally editing Lisp code." t)
+    "Minor mode for pseudo-structurally editing Lisp code." t)
   (add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
   (add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
   (add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
