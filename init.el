@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-23 17:12:33 vmlinz>
+;; Time-stamp: <2013-03-24 02:02:43 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -250,8 +250,11 @@
   (global-set-key "\C-ck" 'browse-kill-ring)
   ;; recentf
   (global-set-key "\C-cf" 'recentf-open-files)
-  ;; backward delete
-  (global-set-key (kbd "C-;") 'backward-delete-char))
+  ;; backward char delete
+  (global-set-key (kbd "C-;") 'backward-delete-char)
+  ;; backward word delete
+  (global-set-key (kbd "C-M-;") 'backward-kill-word)
+  )
 (my-key-init)
 ;; ########## end ##########
 
@@ -741,7 +744,9 @@
 	   vkill
 	   xcscope
 	   notify
-	   undo-tree)
+	   undo-tree
+	   helm
+	   color-theme-zenburn)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
