@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-22 01:17:28 vmlinz>
+;; Time-stamp: <2013-03-23 15:33:28 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -31,6 +31,7 @@
 ;; [done]7.Consider using builtin cedet or replace it completely
 ;; [todo]8.Reorganize this file into org file using babel to generate it
 ;; [done]9.conform to lisp coding style
+;; [todo]10. Configure org mode of babel programming and Chinese exporting
 
 ;; ########## local lisp ##########
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp")
@@ -40,16 +41,17 @@
 ;; needs further checking and practicing, read more on x resource and fonts
 (defun my-set-frame-font ()
   (interactive)
+  (set-face-attribute 'default nil :family "Inconsolata")
   (set-fontset-font t nil
 		    (font-spec :name "Inconsolata" :size 18))
   (set-fontset-font t 'han
-		    (font-spec :name "WenQuanYi Micro Hei Mono" :size 18))
+		    (font-spec :name "WenQuanYi Micro Hei Mono"))
   (set-fontset-font t 'cjk-misc
-		    (font-spec :name "WenQuanYi Micro Hei Mono" :size 18))
+		    (font-spec :name "WenQuanYi Micro Hei Mono"))
   (set-fontset-font t 'kana
-		    (font-spec :name "WenQuanYi Micro Hei Mono" :size 18))
+		    (font-spec :name "WenQuanYi Micro Hei Mono"))
   (set-fontset-font t 'symbol
-		    (font-spec :name "WenQuanYi Micro Hei Mono" :size 18))
+		    (font-spec :name "WenQuanYi Micro Hei Mono"))
   (modify-all-frames-parameters '((width . 80)
 				  (height . 25)
 				  (vertical-scroll-bars . nil)
@@ -278,13 +280,11 @@
 ;; ########## end ##########
 
 ;; ########## org ##########
-;;function gtd
+;; GTD
 (defun my-gtd ()
   (interactive)
   (find-file "~/Documents/notes/dailylife.org"))
-;; ########## end ##########
 
-;; ########## org mode and remember ##########
 (defun my-org-mode-init()
   (setq org-directory "~/Documents/notes")
   (setq org-default-notes-file (concat org-directory "/notes.org"))
@@ -682,8 +682,12 @@
   (global-set-key (kbd "M-[") 'mc/edit-lines)
   (global-set-key (kbd "M-n") 'mc/mark-next-like-this)
   (global-set-key (kbd "M-p") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "M-]") 'mc/mark-all-like-this)
-  )
+  (global-set-key (kbd "M-]") 'mc/mark-all-like-this))
+;; ########## end ##########
+
+;; ########## expand region ##########
+(defun my-expand-region-init ()
+  (global-set-key (kbd "C-;") 'er/expand-region))
 ;; ########## end ##########
 
 ;; ########## el-get ##########
@@ -725,11 +729,18 @@
 	  (:name package
 		 :after (progn (my-package-init)))
 	  (:name multiple-cursors
-		 :after (progn (my-multiple-cursors-init)))))
+		 :after (progn (my-multiple-cursors-init)))
+	  (:name expand-region
+		 :after (progn (my-expand-region-init)))))
 
   (setq my-packages
 	(append
-	 '(el-get pos-tip cssh switch-window vkill xcscope notify undo-tree)
+	 '(el-get
+	   pos-tip
+	   vkill
+	   xcscope
+	   notify
+	   undo-tree)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
