@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-23 15:33:28 vmlinz>
+;; Time-stamp: <2013-03-23 17:12:33 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -39,19 +39,15 @@
 
 ;; ########## localization ##########
 ;; needs further checking and practicing, read more on x resource and fonts
-(defun my-set-frame-font ()
-  (interactive)
-  (set-face-attribute 'default nil :family "Inconsolata")
+(defun my-set-frame-parameters ()
+  ;; set default font
   (set-fontset-font t nil
 		    (font-spec :name "Inconsolata" :size 18))
-  (set-fontset-font t 'han
-		    (font-spec :name "WenQuanYi Micro Hei Mono"))
-  (set-fontset-font t 'cjk-misc
-		    (font-spec :name "WenQuanYi Micro Hei Mono"))
-  (set-fontset-font t 'kana
-		    (font-spec :name "WenQuanYi Micro Hei Mono"))
-  (set-fontset-font t 'symbol
-		    (font-spec :name "WenQuanYi Micro Hei Mono"))
+  ;; set Chinese font
+  (dolist (charset '(kana han symbol cjk-misc bopomofo))
+    (set-fontset-font t charset
+		      (font-spec :name "WenQuanYi Micro Hei Mono")))
+  ;; set frame layout
   (modify-all-frames-parameters '((width . 80)
 				  (height . 25)
 				  (vertical-scroll-bars . nil)
@@ -59,9 +55,12 @@
 				  (tool-bar-lines . 0)
 				  (left-fringe . 0)
 				  (right-fringe . 0))))
-(my-set-frame-font)
-(add-hook 'before-make-frame-hook 'my-set-frame-font)
-(add-hook 'after-make-frame-hook 'my-set-frame-font)
+(if (and (fboundp 'daemonp) (daemonp))
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (with-selected-frame frame
+                  (my-set-frame-parameters))))
+  (my-set-frame-parameters))
 
 ;; encodings and locales
 (defun my-coding-system-init()
@@ -233,11 +232,6 @@
 ;;########## key bindings ##########
 ;; some keybindings here are specifical to Lenovo Thinkpad
 (defun my-key-init()
-  ;; skeleton pairs
-  (setq skeleton-pair t)
-  (global-set-key "(" 'skeleton-pair-insert-maybe)
-  (global-set-key "{" 'skeleton-pair-insert-maybe)
-  (global-set-key "[" 'skeleton-pair-insert-maybe)
   ;; buffer switching keys
   (global-set-key (kbd "C-<") 'previous-buffer)
   (global-set-key [(XF86Back)] 'previous-buffer)
@@ -250,7 +244,14 @@
   (global-set-key "\M-m" 'set-mark-command)
   (global-set-key "\C-c\M-m" 'pop-to-mark-command)
   ;; woman
-  (global-set-key "\C-hj" 'woman))
+  (global-set-key "\C-hj" 'woman)
+  ;; kill
+  (global-set-key "\C-xk" 'kill-this-buffer)
+  (global-set-key "\C-ck" 'browse-kill-ring)
+  ;; recentf
+  (global-set-key "\C-cf" 'recentf-open-files)
+  ;; backward delete
+  (global-set-key (kbd "C-;") 'backward-delete-char))
 (my-key-init)
 ;; ########## end ##########
 
@@ -687,7 +688,7 @@
 
 ;; ########## expand region ##########
 (defun my-expand-region-init ()
-  (global-set-key (kbd "C-;") 'er/expand-region))
+  (global-set-key (kbd "C-'") 'er/expand-region))
 ;; ########## end ##########
 
 ;; ########## el-get ##########
