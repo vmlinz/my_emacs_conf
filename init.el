@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-24 20:42:19 vmlinz>
+;; Time-stamp: <2013-03-24 20:59:46 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -88,6 +88,8 @@
   (setq echo-keystrokes 0.1)
   ;; Easily navigate sillycased words
   (global-subword-mode 1)
+  ;; high light current line
+  (global-hl-line-mode 1)
   ;; emacs shell color encoding
   (ansi-color-for-comint-mode-on)
   ;; set inferior shell prompt read-only
