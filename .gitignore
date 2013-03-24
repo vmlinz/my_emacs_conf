@@ -17,3 +17,4 @@ srecode-map.el
 /.*session.*
 .mc-lists.el
 recentf
+ede-projects.el
