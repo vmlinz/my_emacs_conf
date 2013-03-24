@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-24 02:02:43 vmlinz>
+;; Time-stamp: <2013-03-24 20:30:40 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -84,10 +84,10 @@
 
 ;; ########## misc settings ##########
 (defun my-misc-custom-init()
-  (display-time)
-  ;; time format
-  (setq display-time-24hr-format t)
-  ;; (setq display-time-day-and-date t)
+  ;; echo keystrokes
+  (setq echo-keystrokes 0.1)
+  ;; Easily navigate sillycased words
+  (global-subword-mode 1)
   ;; emacs shell color encoding
   (ansi-color-for-comint-mode-on)
   ;; set inferior shell prompt read-only
