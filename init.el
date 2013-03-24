@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-24 20:30:40 vmlinz>
+;; Time-stamp: <2013-03-24 20:42:19 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -694,6 +694,16 @@
   (global-set-key (kbd "C-'") 'er/expand-region))
 ;; ########## end ##########
 
+;; ########## theme ##########
+(defun my-theme-init ()
+  (load-theme 'zenburn))
+;; ########## end ##########
+
+;; ########## undo-tree ##########
+(defun my-undo-tree-init ()
+  (global-undo-tree-mode 1))
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -735,7 +745,11 @@
 	  (:name multiple-cursors
 		 :after (progn (my-multiple-cursors-init)))
 	  (:name expand-region
-		 :after (progn (my-expand-region-init)))))
+		 :after (progn (my-expand-region-init)))
+	  (:name color-theme-zenburn
+		 :after (progn (my-theme-init)))
+	  (:name undo-tree
+		 :after (progn (my-undo-tree-init)))))
 
   (setq my-packages
 	(append
@@ -744,9 +758,7 @@
 	   vkill
 	   xcscope
 	   notify
-	   undo-tree
-	   helm
-	   color-theme-zenburn)
+	   helm)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
