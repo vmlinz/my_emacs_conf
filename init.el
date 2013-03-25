@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-24 20:59:46 vmlinz>
+;; Time-stamp: <2013-03-25 23:44:31 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -706,6 +706,11 @@
   (global-undo-tree-mode 1))
 ;; ########## end ##########
 
+;; ########## geiser ##########
+(defun my-geiser-init ()
+  (setq geiser-impl-installed-implementations '(guile racket)))
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -725,6 +730,8 @@
 		 :after (progn (my-git-init)))
 	  (:name yasnippet
 		 :after (progn (my-yasnippet-init)))
+	  (:name geiser
+		 :after (progn (my-geiser-init)))
 	  (:name quack
 		 :after (progn (my-scheme-init)))
 	  (:name paredit
