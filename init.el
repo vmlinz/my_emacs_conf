@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-25 23:44:31 vmlinz>
+;; Time-stamp: <2013-03-26 23:32:28 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -539,7 +539,28 @@
   (add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
   (add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
   (add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
-  (add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1))))
+  (add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1)))
+  (add-hook 'clojure-mode-hook          (lambda () (paredit-mode +1)))
+  (eval-after-load 'paredit
+    '(progn
+       ;; These are handy everywhere, not just in lisp modes
+       (global-set-key (kbd "M-(") 'paredit-wrap-round)
+       (global-set-key (kbd "M-[") 'paredit-wrap-square)
+       (global-set-key (kbd "M-{") 'paredit-wrap-curly)
+
+       (global-set-key (kbd "M-)") 'paredit-close-round-and-newline)
+       (global-set-key (kbd "M-]") 'paredit-close-square-and-newline)
+       (global-set-key (kbd "M-}") 'paredit-close-curly-and-newline)
+
+       (dolist (binding (list (kbd "C-<left>") (kbd "C-<right>")
+			      (kbd "C-M-<left>") (kbd "C-M-<right>")))
+	 (define-key paredit-mode-map binding nil))
+
+       ;; Disable kill-sentence, which is easily confused with the kill-sexp
+       ;; binding, but doesn't preserve sexp structure
+       (define-key paredit-mode-map [remap kill-sentence] nil)
+       (define-key paredit-mode-map [remap backward-kill-sentence] nil)))
+  )
 ;; ########## end ##########
 
 ;; ########## yasnippet ##########
@@ -595,11 +616,13 @@
   (my-ac-config)
 
   (setq ac-dwim t)
-  (setq ac-auto-start nil)
+  (setq ac-auto-start 2)
   (ac-set-trigger-key "TAB")
   (setq ac-delay 0.1)
   (setq ac-use-quick-help nil)
+  (setq ac-auto-show-menu t)
   (setq ac-menu-height 5)
+  (setq ac-show-menu-immediately-on-auto-complete t)
 
   (setq ac-use-menu-map t)
   (define-key ac-menu-map "\C-n" 'ac-next)
@@ -685,10 +708,10 @@
 
 ;; ########## multiple-cursors ##########
 (defun my-multiple-cursors-init ()
-  (global-set-key (kbd "M-[") 'mc/edit-lines)
+  (global-set-key (kbd "C-M-{") 'mc/edit-lines)
   (global-set-key (kbd "M-n") 'mc/mark-next-like-this)
   (global-set-key (kbd "M-p") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "M-]") 'mc/mark-all-like-this))
+  (global-set-key (kbd "C-M-}") 'mc/mark-all-like-this))
 ;; ########## end ##########
 
 ;; ########## expand region ##########
@@ -711,6 +734,33 @@
   (setq geiser-impl-installed-implementations '(guile racket)))
 ;; ########## end ##########
 
+;; ########## rainbown delimiters ##########
+(defun my-rainbow-delimiters-init ()
+  (autoload 'rainbow-delimiters-mode "rainbow-delimiters"
+    "rainbow delimiters" nil t)
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+;; ########## end ##########
+
+;; ########## clojure ##########
+(defun my-clojure-mode-init ()
+  (setq nrepl-popup-stacktraces nil)
+  (autoload 'ac-nrepl-setup "ac-nrepl"
+    "auto complete setup for nrepl mode" nil t)
+  (add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
+  (add-hook 'nrepl-interaction-mode-hook 'ac-nrepl-setup)
+  (eval-after-load "auto-complete"
+    '(add-to-list 'ac-modes 'nrepl-mode))
+  (add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
+  (add-hook 'nrepl-mode-hook 'subword-mode)
+  (add-hook 'nrepl-mode-hook 'paredit-mode)
+  (eval-after-load 'nrepl
+    '(define-key nrepl-interaction-mode-map (kbd "C-c C-d")
+       'ac-nrepl-popup-doc))
+  (add-hook 'clojure-mode-hook 'subword-mode)
+  (setq auto-mode-alist
+	(cons '("\\.cljs\\'" . clojure-mode) auto-mode-alist)))
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -724,41 +774,45 @@
 	 (eval-print-last-sexp)))))
 
   (setq el-get-sources
-	'((:name zencoding-mode
-		 :after (progn (my-sgml-init)))
-	  (:name magit
+	'((:name magit
 		 :after (progn (my-git-init)))
-	  (:name yasnippet
-		 :after (progn (my-yasnippet-init)))
-	  (:name geiser
-		 :after (progn (my-geiser-init)))
-	  (:name quack
-		 :after (progn (my-scheme-init)))
-	  (:name paredit
-		 :after (progn (my-paredit-init)))
-	  (:name auto-complete
-		 :features auto-complete
-		 :after (progn (my-auto-complete-init)))
-	  (:name evil
-		 :after (progn (my-evil-init))
-		 :features nil)
-	  (:name nxhtml
-		 :after (progn (my-nxhtml-init))
-		 :load nil)
-	  (:name markdown-mode
-		 :after (progn (my-markdown-mode-init)))
-	  (:name gtags
-		 :after (progn (my-gtags-init)))
 	  (:name package
 		 :after (progn (my-package-init)))
 	  (:name multiple-cursors
 		 :after (progn (my-multiple-cursors-init)))
 	  (:name expand-region
 		 :after (progn (my-expand-region-init)))
-	  (:name color-theme-zenburn
-		 :after (progn (my-theme-init)))
+	  (:name paredit
+		 :after (progn (my-paredit-init)))
+	  (:name rainbow-delimiters
+		 :after (progn (my-rainbow-delimiters-init)))
+	  (:name evil
+		 :after (progn (my-evil-init))
+		 :features nil)
+	  (:name gtags
+		 :after (progn (my-gtags-init)))
 	  (:name undo-tree
-		 :after (progn (my-undo-tree-init)))))
+		 :after (progn (my-undo-tree-init)))
+	  (:name geiser
+		 :after (progn (my-geiser-init)))
+	  (:name quack
+		 :after (progn (my-scheme-init)))
+	  (:name zencoding-mode
+		 :after (progn (my-sgml-init)))
+	  (:name nxhtml
+		 :after (progn (my-nxhtml-init))
+		 :load nil)
+	  (:name markdown-mode
+		 :after (progn (my-markdown-mode-init)))
+	  (:name clojure-mode
+		 :after (progn (my-clojure-mode-init)))
+	  (:name yasnippet
+		 :after (progn (my-yasnippet-init)))
+	  (:name auto-complete
+		 :features auto-complete
+		 :after (progn (my-auto-complete-init)))
+	  (:name color-theme-zenburn
+		 :after (progn (my-theme-init)))))
 
   (setq my-packages
 	(append
@@ -767,7 +821,10 @@
 	   vkill
 	   xcscope
 	   notify
-	   helm)
+	   helm
+	   nrepl
+	   ac-nrepl
+	   elein)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
