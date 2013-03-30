@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-26 23:32:28 vmlinz>
+;; Time-stamp: <2013-03-28 21:19:50 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -731,7 +731,8 @@
 
 ;; ########## geiser ##########
 (defun my-geiser-init ()
-  (setq geiser-impl-installed-implementations '(guile racket)))
+  (setq geiser-impl-installed-implementations '(guile racket))
+  (add-hook 'geiser-repl-mode-hook (lambda () (paredit-mode +1))))
 ;; ########## end ##########
 
 ;; ########## rainbown delimiters ##########
