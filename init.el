@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-03-28 21:19:50 vmlinz>
+;; Time-stamp: <2013-04-09 21:46:05 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -117,8 +117,10 @@
   (setq x-select-enable-clipboard t)
   (add-hook 'before-save-hook 'time-stamp)
   ;; delete trailing whitespaces before save
-  (require `whitespace)
-  (setq whitespace-style (remove `indentation whitespace-style))
+  (require 'whitespace)
+  (eval-after-load 'whitespace
+    '(progn
+       (setq whitespace-style (remove `indentation whitespace-style))))
   (add-hook 'before-save-hook 'whitespace-cleanup)
   ;; check last line to be a newline
   (setq require-final-newline t)
@@ -375,8 +377,8 @@
 (defun my-cscope-init ()
   "cscope emacs mode init function"
   (require 'xcscope)
-  (eval-after-load `xcscope
-    `(progn
+  (eval-after-load 'xcscope
+    '(progn
        (setq cscope-do-not-update-database t)
        (setq cscope-display-cscope-buffer nil)
        (setq cscope-edit-single-match nil))))
@@ -732,6 +734,7 @@
 ;; ########## geiser ##########
 (defun my-geiser-init ()
   (setq geiser-impl-installed-implementations '(guile racket))
+  (setq geiser-scheme-implementation 'guile)
   (add-hook 'geiser-repl-mode-hook (lambda () (paredit-mode +1))))
 ;; ########## end ##########
 
