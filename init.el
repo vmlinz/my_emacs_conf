@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-04-09 21:46:05 vmlinz>
+;; Time-stamp: <2013-05-04 00:34:25 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -580,8 +580,8 @@
 				  "imported")))
   (setq yas-use-menu 'abbreviate)
   (setq yas-prompt-functions
-	(cons 'yas-dropdown-prompt
-	      (remove 'yas-dropdown-prompt
+	(cons 'yas-ido-prompt
+	      (remove 'yas-ido-prompt
 		      yas-prompt-functions)))
   (setq yas-verbosity 0)
   (yas-global-mode t))
@@ -598,6 +598,9 @@
 (defun my-ac-py-setup ()
   (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
 
+(defun my-ac-ruby-setup ()
+  (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
+
 (defun my-ac-sgml-setup ()
   (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
 
@@ -608,6 +611,7 @@
   (add-hook 'c-mode-common-hook 'my-ac-semantic-setup)
   (add-hook 'c-mode-common-hook 'my-ac-gtags-setup)
   (add-hook 'python-mode-hook 'my-ac-py-setup)
+  (add-hook 'ruby-mode-hook 'my-ac-ruby-setup)
   (add-hook 'html-mode-hook 'my-ac-sgml-setup))
 
 (defun my-auto-complete-init()
@@ -654,8 +658,7 @@
 	    '(lambda ()
 	       (setq indent-tabs-mode nil)
 	       (setq python-indent 4)
-	       (setq python-python-command "python3") ;default to python3
-	       )))
+	       (setq python-python-command "python3"))))
 (my-py-init)
 ;; ########## end ##########
 
@@ -674,6 +677,9 @@
 ;; ########## nxhtml mode ##########
 (defun my-nxhtml-init()
   "nxhtml init function for el-get"
+  (eval-after-load "mumamo"
+    '(setq mumamo-per-buffer-local-vars
+	   (delq 'buffer-file-name mumamo-per-buffer-local-vars)))
   (autoload 'nxhtml-mode "autostart" nil t))
 ;; ########## end ##########
 
@@ -763,6 +769,20 @@
   (add-hook 'clojure-mode-hook 'subword-mode)
   (setq auto-mode-alist
 	(cons '("\\.cljs\\'" . clojure-mode) auto-mode-alist)))
+;; ########## end ##########
+
+;; ########## ruby mode ##########
+(defun my-ruby-init ()
+  (add-hook
+   'ruby-mode-hook
+   '(lambda ()
+      (add-to-list 'auto-mode-alist '("Capfile" . ruby-mode))
+      (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
+      (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
+      (add-to-list 'auto-mode-alist '("\\.rake\\'" . ruby-mode))
+      (add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
+      (add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode)))))
+(my-ruby-init)
 ;; ########## end ##########
 
 ;; ########## el-get ##########
