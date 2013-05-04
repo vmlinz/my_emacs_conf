@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-05-04 00:41:38 vmlinz>
+;; Time-stamp: <2013-05-04 14:25:05 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -785,6 +785,34 @@
 (my-ruby-init)
 ;; ########## end ##########
 
+;; ########## helm ##########
+(defun my-helm-gtagsa-init ()
+  ;; Enable helm-gtags-mode
+  (add-hook 'c-mode-hook 'helm-gtags-mode)
+  (add-hook 'c++-mode-hook 'helm-gtags-mode)
+  (add-hook 'asm-mode-hook 'helm-gtags-mode)
+  ;; customize
+  (setq helm-gtags-path-style 'relative)
+  (setq helm-gtags-ignore-case t)
+  (setq helm-gtags-read-only t)
+  ;; key bindings
+  (add-hook 'helm-gtags-mode-hook
+	    '(lambda ()
+	       (local-set-key (kbd "M-t") 'helm-gtags-find-tag)
+	       (local-set-key (kbd "M-r") 'helm-gtags-find-rtag)
+	       (local-set-key (kbd "M-s") 'helm-gtags-find-symbol)
+	       (local-set-key (kbd "C-t") 'helm-gtags-pop-stack))))
+;; ########## end ##########
+
+;; ########## tagedit ##########
+(defun my-tagedit-init ()
+  (eval-after-load "sgml-mode"
+    '(progn
+       (require 'tagedit)
+       (tagedit-add-paredit-like-keybindings)
+       (add-hook 'html-mode-hook (lambda () (tagedit-mode 1))))))
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -836,7 +864,17 @@
 		 :features auto-complete
 		 :after (progn (my-auto-complete-init)))
 	  (:name color-theme-zenburn
-		 :after (progn (my-theme-init)))))
+		 :after (progn (my-theme-init)))
+	  (:name helm-gtags
+		 :type github
+		 :pkgname "syohex/emacs-helm-gtags"
+		 :depends (helm)
+		 :features helm-gtags
+		 :after (progn (my-helm-gtagsa-init)))
+	  (:name disaster
+		 :type elpa)
+	  (:name tagedit
+		 :after (progn (my-tagedit-init)))))
 
   (setq my-packages
 	(append
