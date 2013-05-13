@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-05-04 14:25:05 vmlinz>
+;; Time-stamp: <2013-05-09 23:19:43 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -874,7 +874,9 @@
 	  (:name disaster
 		 :type elpa)
 	  (:name tagedit
-		 :after (progn (my-tagedit-init)))))
+		 :after (progn (my-tagedit-init)))
+	  (:name scss-mode
+		 :after (progn (setq scss-compile-at-save nil)))))
 
   (setq my-packages
 	(append
@@ -886,7 +888,8 @@
 	   helm
 	   nrepl
 	   ac-nrepl
-	   elein)
+	   elein
+	   rhtml-mode)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
