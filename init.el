@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-05-09 23:19:43 vmlinz>
+;; Time-stamp: <2013-05-15 21:05:59 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -773,20 +773,18 @@
 
 ;; ########## ruby mode ##########
 (defun my-ruby-init ()
-  (add-hook
-   'ruby-mode-hook
-   '(lambda ()
-      (add-to-list 'auto-mode-alist '("Capfile" . ruby-mode))
-      (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
-      (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
-      (add-to-list 'auto-mode-alist '("\\.rake\\'" . ruby-mode))
-      (add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
-      (add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode)))))
+  (add-to-list 'auto-mode-alist '("Capfile" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.rake\\'" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode)))
 (my-ruby-init)
 ;; ########## end ##########
 
 ;; ########## helm ##########
-(defun my-helm-gtagsa-init ()
+(defun my-helm-gtags-init ()
   ;; Enable helm-gtags-mode
   (add-hook 'c-mode-hook 'helm-gtags-mode)
   (add-hook 'c++-mode-hook 'helm-gtags-mode)
@@ -870,7 +868,7 @@
 		 :pkgname "syohex/emacs-helm-gtags"
 		 :depends (helm)
 		 :features helm-gtags
-		 :after (progn (my-helm-gtagsa-init)))
+		 :after (progn (my-helm-gtags-init)))
 	  (:name disaster
 		 :type elpa)
 	  (:name tagedit
