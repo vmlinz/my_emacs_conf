@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-05-15 21:05:59 vmlinz>
+;; Time-stamp: <2013-08-23 00:43:45 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -832,8 +832,6 @@
 		 :after (progn (my-multiple-cursors-init)))
 	  (:name expand-region
 		 :after (progn (my-expand-region-init)))
-	  (:name paredit
-		 :after (progn (my-paredit-init)))
 	  (:name rainbow-delimiters
 		 :after (progn (my-rainbow-delimiters-init)))
 	  (:name evil
@@ -856,6 +854,8 @@
 		 :after (progn (my-markdown-mode-init)))
 	  (:name clojure-mode
 		 :after (progn (my-clojure-mode-init)))
+	  (:name paredit
+		 :after (progn (my-paredit-init)))
 	  (:name yasnippet
 		 :after (progn (my-yasnippet-init)))
 	  (:name auto-complete
@@ -874,7 +874,10 @@
 	  (:name tagedit
 		 :after (progn (my-tagedit-init)))
 	  (:name scss-mode
-		 :after (progn (setq scss-compile-at-save nil)))))
+		 :after (progn (setq scss-compile-at-save nil)))
+	  (:name nrepl)
+	  (:name ac-nrepl)
+	  (:name elein)))
 
   (setq my-packages
 	(append
@@ -884,9 +887,6 @@
 	   xcscope
 	   notify
 	   helm
-	   nrepl
-	   ac-nrepl
-	   elein
 	   rhtml-mode)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
