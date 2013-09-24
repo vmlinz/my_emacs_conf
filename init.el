@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-09-24 17:11:51 vmlinz>
+;; Time-stamp: <2013-09-24 17:28:31 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -711,9 +711,9 @@
 
 ;; ########## package ##########
 (defun my-package-init ()
-  (package-initialize)
   (add-to-list 'package-archives
-	       '("melpa" . "http://melpa.milkbox.net/packages/") t))
+	       '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (package-initialize))
 ;; ########## end ##########
 
 ;; ########## multiple-cursors ##########
