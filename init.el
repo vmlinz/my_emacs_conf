@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-05-15 21:05:59 vmlinz>
+;; Time-stamp: <2013-09-24 17:11:51 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -89,7 +89,7 @@
   ;; Easily navigate sillycased words
   (global-subword-mode 1)
   ;; high light current line
-  (global-hl-line-mode 1)
+  (global-hl-line-mode 0)
   ;; emacs shell color encoding
   (ansi-color-for-comint-mode-on)
   ;; set inferior shell prompt read-only
@@ -663,8 +663,9 @@
 ;; ########## end ##########
 
 ;; ########## sgml and html mode ##########
-(defun my-sgml-init()
-  (add-hook 'sgml-mode-hook 'zencoding-mode))
+(defun my-emmet-mode-init()
+  (add-hook 'sgml-mode-hook 'emmet-mode)
+  (add-hook 'css-mode-hook 'emmet-mode))
 ;; ########## end ##########
 
 ;; ########## evil mode ##########
@@ -710,6 +711,7 @@
 
 ;; ########## package ##########
 (defun my-package-init ()
+  (package-initialize)
   (add-to-list 'package-archives
 	       '("melpa" . "http://melpa.milkbox.net/packages/") t))
 ;; ########## end ##########
@@ -727,9 +729,6 @@
   (global-set-key (kbd "C-'") 'er/expand-region))
 ;; ########## end ##########
 
-;; ########## theme ##########
-(defun my-theme-init ()
-  (load-theme 'zenburn))
 ;; ########## end ##########
 
 ;; ########## undo-tree ##########
@@ -836,19 +835,24 @@
 		 :after (progn (my-paredit-init)))
 	  (:name rainbow-delimiters
 		 :after (progn (my-rainbow-delimiters-init)))
-	  (:name evil
-		 :after (progn (my-evil-init))
-		 :features nil)
-	  (:name gtags
-		 :after (progn (my-gtags-init)))
 	  (:name undo-tree
 		 :after (progn (my-undo-tree-init)))
+	  (:name evil
+		 :features nil
+		 :after (progn (my-evil-init))
+		 :build (("make" "all"))
+		 :info nil)
+	  (:name gtags
+		 :features gtags
+		 :after (progn (my-gtags-init)))
 	  (:name geiser
 		 :after (progn (my-geiser-init)))
 	  (:name quack
 		 :after (progn (my-scheme-init)))
-	  (:name zencoding-mode
-		 :after (progn (my-sgml-init)))
+	  (:name emmet-mode
+		 :type github
+		 :pkgname "smihica/emmet-mode"
+		 :after (progn (my-emmet-mode-init)))
 	  (:name nxhtml
 		 :after (progn (my-nxhtml-init))
 		 :load nil)
@@ -861,13 +865,14 @@
 	  (:name auto-complete
 		 :features auto-complete
 		 :after (progn (my-auto-complete-init)))
-	  (:name color-theme-zenburn
-		 :after (progn (my-theme-init)))
+	  (:name zenburn-emacs
+		 :type github
+		 :pkgname "bbatsov/zenburn-emacs")
 	  (:name helm-gtags
+		 :features helm-gtags
 		 :type github
 		 :pkgname "syohex/emacs-helm-gtags"
 		 :depends (helm)
-		 :features helm-gtags
 		 :after (progn (my-helm-gtags-init)))
 	  (:name disaster
 		 :type elpa)
