@@ -18,3 +18,5 @@ srecode-map.el
 .mc-lists.el
 recentf
 ede-projects.el
+ido.last
+places
