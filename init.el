@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-09-24 17:28:31 vmlinz>
+;; Time-stamp: <2013-09-25 01:24:00 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -810,6 +810,11 @@
        (add-hook 'html-mode-hook (lambda () (tagedit-mode 1))))))
 ;; ########## end ##########
 
+;; ########## theme ##########
+(defun my-theme-init ()
+  (load-theme 'zenburn t))
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -865,9 +870,8 @@
 	  (:name auto-complete
 		 :features auto-complete
 		 :after (progn (my-auto-complete-init)))
-	  (:name zenburn-emacs
-		 :type github
-		 :pkgname "bbatsov/zenburn-emacs")
+	  (:name color-theme-zenburn
+		 :after (progn (my-theme-init)))
 	  (:name helm-gtags
 		 :features helm-gtags
 		 :type github
