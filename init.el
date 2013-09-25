@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-09-24 17:28:31 vmlinz>
+;; Time-stamp: <2013-09-25 18:03:27 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -743,7 +743,7 @@
   (add-hook 'geiser-repl-mode-hook (lambda () (paredit-mode +1))))
 ;; ########## end ##########
 
-;; ########## rainbown delimiters ##########
+;; ########## rainbow delimiters ##########
 (defun my-rainbow-delimiters-init ()
   (autoload 'rainbow-delimiters-mode "rainbow-delimiters"
     "rainbow delimiters" nil t)
@@ -810,6 +810,11 @@
        (add-hook 'html-mode-hook (lambda () (tagedit-mode 1))))))
 ;; ########## end ##########
 
+;; ########## theme ##########
+(defun my-theme-init()
+  (load-theme 'zenburn t))
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -834,6 +839,7 @@
 	  (:name rainbow-delimiters
 		 :after (progn (my-rainbow-delimiters-init)))
 	  (:name undo-tree
+		 :features undo-tree
 		 :after (progn (my-undo-tree-init)))
 	  (:name evil
 		 :features nil
@@ -867,7 +873,10 @@
 		 :after (progn (my-auto-complete-init)))
 	  (:name zenburn-emacs
 		 :type github
-		 :pkgname "bbatsov/zenburn-emacs")
+		 :pkgname "bbatsov/zenburn-emacs"
+		 :prepare (progn (add-to-list 'custom-theme-load-path
+					default-directory))
+		 :after (progn (my-theme-init)))
 	  (:name helm-gtags
 		 :features helm-gtags
 		 :type github
