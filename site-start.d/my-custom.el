@@ -7,9 +7,6 @@
  '(calendar-chinese-all-holidays-flag t)
  '(calendar-view-diary-initially-flag nil)
  '(column-number-mode nil)
- '(custom-safe-themes
-   (quote
-    ("eb8701083acffcb4ae592fb78f236b3d5f62cdc841e2b83cefbbfdd4126f205c" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "33ecc663f13d5f322e1efdbff244f64a558cfd3c4e45f8cf975d89dc85251033" "f5e56ac232ff858afb08294fc3a519652ce8a165272e3c65165c42d6fe0262a0" default)))
  '(diary-file "~/Documents/notes/diary.gpg")
  '(font-latex-fontify-sectioning (quote color))
  '(inhibit-startup-echo-area-message (user-login-name))

@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-09-25 18:16:17 vmlinz>
+;; Time-stamp: <2013-09-25 21:51:07 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -636,7 +636,8 @@
   (define-key ac-menu-map "\C-p" 'ac-previous)
   (define-key ac-menu-map "\M-p" 'ac-previous)
   (define-key ac-menu-map "\C-f" 'ac-stop)
-  (define-key ac-menu-map "\M-f" 'ac-stop))
+  (define-key ac-menu-map "\M-f" 'ac-stop)
+  (define-key ac-menu-map "\C-j" 'ac-complete))
 ;; ########## end ##########
 
 ;; ########## git ##########
