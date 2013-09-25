@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-09-25 18:03:27 vmlinz>
+;; Time-stamp: <2013-09-25 18:16:17 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -811,7 +811,7 @@
 ;; ########## end ##########
 
 ;; ########## theme ##########
-(defun my-theme-init()
+(defun my-theme-init ()
   (load-theme 'zenburn t))
 ;; ########## end ##########
 
@@ -875,7 +875,7 @@
 		 :type github
 		 :pkgname "bbatsov/zenburn-emacs"
 		 :prepare (progn (add-to-list 'custom-theme-load-path
-					default-directory))
+					      default-directory))
 		 :after (progn (my-theme-init)))
 	  (:name helm-gtags
 		 :features helm-gtags
