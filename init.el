@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-09-25 21:51:07 vmlinz>
+;; Time-stamp: <2013-10-08 23:55:42 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -899,7 +899,6 @@
 	 '(el-get
 	   pos-tip
 	   vkill
-	   xcscope
 	   notify
 	   helm
 	   rhtml-mode)
