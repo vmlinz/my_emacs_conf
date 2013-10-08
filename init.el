@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-10-08 23:55:42 vmlinz>
+;; Time-stamp: <2013-10-09 00:01:19 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -850,6 +850,9 @@
 	  (:name gtags
 		 :features gtags
 		 :after (progn (my-gtags-init)))
+	  (:name ggtags
+		 :type github
+		 :pkgname "leoliu/ggtags")
 	  (:name geiser
 		 :after (progn (my-geiser-init)))
 	  (:name quack
