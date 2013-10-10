@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-10-09 00:01:19 vmlinz>
+;; Time-stamp: <2013-10-09 21:51:39 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -374,15 +374,6 @@
 	       (setq gdb-many-windows -1)
 	       (define-key gud-mode-map [(f8)] 'gdb-many-windows))))
 
-(defun my-cscope-init ()
-  "cscope emacs mode init function"
-  (require 'xcscope)
-  (eval-after-load 'xcscope
-    '(progn
-       (setq cscope-do-not-update-database t)
-       (setq cscope-display-cscope-buffer nil)
-       (setq cscope-edit-single-match nil))))
-
 (defun my-c-mode-key-init ()
   "c mode key bindings"
   (local-set-key "\C-c\C-c" 'comment-dwim)
@@ -426,7 +417,6 @@
 (defun my-cc-mode-init()
   (add-hook 'c-mode-common-hook 'my-compile-init)
   (add-hook 'c-mode-common-hook 'my-gud-init)
-  (add-hook 'c-mode-common-hook 'my-cscope-init)
   (add-hook 'c-mode-common-hook 'my-c-mode-key-init)
   (add-hook 'c-mode-common-hook 'my-c-linux-style-init)
 
