@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-11-13 21:56:44 vmlinz>
+;; Time-stamp: <2013-11-13 23:15:39 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -568,7 +568,8 @@
 				  (file-name-as-directory "yasnippet")
 				  (file-name-as-directory "extras")
 				  "imported")
-			  "~/.emacs.d/snippets"))
+			  (concat el-get-dir
+				  "yasnippet-extras")))
   (setq yas-use-menu 'abbreviate)
   (setq yas-prompt-functions
 	(cons 'yas-ido-prompt
@@ -863,6 +864,10 @@
 		 :after (progn (my-paredit-init)))
 	  (:name yasnippet
 		 :after (progn (my-yasnippet-init)))
+	  (:name yasnippet-extras
+		 :type github
+		 :pkgname "vmlinz/yasnippet-extras"
+		 :depends (yasnippet))
 	  (:name auto-complete
 		 :features auto-complete
 		 :after (progn (my-auto-complete-init)))
