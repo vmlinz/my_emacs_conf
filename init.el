@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-11-13 23:15:39 vmlinz>
+;; Time-stamp: <2013-11-14 00:00:24 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -435,7 +435,10 @@
 
 	       (setq indent-tabs-mode nil)
 	       (setq tab-width 4)
-	       (setq c-basic-offset 4))))
+	       (setq c-basic-offset 4)))
+
+  (add-to-list 'auto-mode-alist '("\\.aidl\\'" . java-mode)))
+
 (my-cc-mode-init)
 ;; ########## end ##########
 
