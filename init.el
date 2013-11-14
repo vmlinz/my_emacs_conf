@@ -1,5 +1,4 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-09-24 17:42:01 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -121,7 +120,7 @@
   (eval-after-load 'whitespace
     '(progn
        (setq whitespace-style (remove `indentation whitespace-style))))
-  (add-hook 'before-save-hook 'whitespace-cleanup)
+  ;; (add-hook 'before-save-hook 'whitespace-cleanup)
   ;; check last line to be a newline
   (setq require-final-newline t)
   ;; set insert parenthese without space
@@ -374,15 +373,6 @@
 	       (setq gdb-many-windows -1)
 	       (define-key gud-mode-map [(f8)] 'gdb-many-windows))))
 
-(defun my-cscope-init ()
-  "cscope emacs mode init function"
-  (require 'xcscope)
-  (eval-after-load 'xcscope
-    '(progn
-       (setq cscope-do-not-update-database t)
-       (setq cscope-display-cscope-buffer nil)
-       (setq cscope-edit-single-match nil))))
-
 (defun my-c-mode-key-init ()
   "c mode key bindings"
   (local-set-key "\C-c\C-c" 'comment-dwim)
@@ -426,7 +416,6 @@
 (defun my-cc-mode-init()
   (add-hook 'c-mode-common-hook 'my-compile-init)
   (add-hook 'c-mode-common-hook 'my-gud-init)
-  (add-hook 'c-mode-common-hook 'my-cscope-init)
   (add-hook 'c-mode-common-hook 'my-c-mode-key-init)
   (add-hook 'c-mode-common-hook 'my-c-linux-style-init)
 
@@ -445,7 +434,10 @@
 
 	       (setq indent-tabs-mode nil)
 	       (setq tab-width 4)
-	       (setq c-basic-offset 4))))
+	       (setq c-basic-offset 4)))
+
+  (add-to-list 'auto-mode-alist '("\\.aidl\\'" . java-mode)))
+
 (my-cc-mode-init)
 ;; ########## end ##########
 
@@ -577,7 +569,9 @@
 			  (concat el-get-dir
 				  (file-name-as-directory "yasnippet")
 				  (file-name-as-directory "extras")
-				  "imported")))
+				  "imported")
+			  (concat el-get-dir
+				  "yasnippet-extras")))
   (setq yas-use-menu 'abbreviate)
   (setq yas-prompt-functions
 	(cons 'yas-ido-prompt
@@ -636,7 +630,8 @@
   (define-key ac-menu-map "\C-p" 'ac-previous)
   (define-key ac-menu-map "\M-p" 'ac-previous)
   (define-key ac-menu-map "\C-f" 'ac-stop)
-  (define-key ac-menu-map "\M-f" 'ac-stop))
+  (define-key ac-menu-map "\M-f" 'ac-stop)
+  (define-key ac-menu-map "\C-j" 'ac-complete))
 ;; ########## end ##########
 
 ;; ########## git ##########
@@ -810,6 +805,11 @@
        (add-hook 'html-mode-hook (lambda () (tagedit-mode 1))))))
 ;; ########## end ##########
 
+;; ########## theme ##########
+(defun my-theme-init ()
+  (load-theme 'zenburn t))
+;; ########## end ##########
+
 ;; ########## el-get ##########
 ;; the great package management tool el-get
 (defun my-el-get-init()
@@ -844,6 +844,9 @@
 	  (:name gtags
 		 :features gtags
 		 :after (progn (my-gtags-init)))
+	  (:name ggtags
+		 :type github
+		 :pkgname "leoliu/ggtags")
 	  (:name geiser
 		 :after (progn (my-geiser-init)))
 	  (:name quack
@@ -863,12 +866,19 @@
 		 :after (progn (my-paredit-init)))
 	  (:name yasnippet
 		 :after (progn (my-yasnippet-init)))
+	  (:name yasnippet-extras
+		 :type github
+		 :pkgname "vmlinz/yasnippet-extras"
+		 :depends (yasnippet))
 	  (:name auto-complete
 		 :features auto-complete
 		 :after (progn (my-auto-complete-init)))
 	  (:name zenburn-emacs
 		 :type github
-		 :pkgname "bbatsov/zenburn-emacs")
+		 :pkgname "bbatsov/zenburn-emacs"
+		 :prepare (progn (add-to-list 'custom-theme-load-path
+					      default-directory))
+		 :after (progn (my-theme-init)))
 	  (:name helm-gtags
 		 :features helm-gtags
 		 :type github
@@ -890,7 +900,6 @@
 	 '(el-get
 	   pos-tip
 	   vkill
-	   xcscope
 	   notify
 	   helm
 	   rhtml-mode)
