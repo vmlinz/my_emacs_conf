@@ -1,5 +1,5 @@
 ;; This file is not part of gnu emacs
-;; Time-stamp: <2013-09-24 17:28:31 vmlinz>
+;; Time-stamp: <2013-09-24 17:42:01 vmlinz>
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -743,7 +743,7 @@
   (add-hook 'geiser-repl-mode-hook (lambda () (paredit-mode +1))))
 ;; ########## end ##########
 
-;; ########## rainbown delimiters ##########
+;; ########## rainbow delimiters ##########
 (defun my-rainbow-delimiters-init ()
   (autoload 'rainbow-delimiters-mode "rainbow-delimiters"
     "rainbow delimiters" nil t)
@@ -834,6 +834,7 @@
 	  (:name rainbow-delimiters
 		 :after (progn (my-rainbow-delimiters-init)))
 	  (:name undo-tree
+		 :features undo-tree
 		 :after (progn (my-undo-tree-init)))
 	  (:name evil
 		 :features nil
