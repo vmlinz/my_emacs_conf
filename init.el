@@ -747,18 +747,18 @@
 
 ;; ########## clojure ##########
 (defun my-clojure-mode-init ()
-  (setq nrepl-popup-stacktraces nil)
+  (setq cider-popup-stacktraces nil)
   (autoload 'ac-nrepl-setup "ac-nrepl"
-    "auto complete setup for nrepl mode" nil t)
-  (add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
-  (add-hook 'nrepl-interaction-mode-hook 'ac-nrepl-setup)
+    "auto complete setup for cider mode" nil t)
+  (add-hook 'cider-mode-hook 'ac-nrepl-setup)
+  (add-hook 'cider-interaction-mode-hook 'ac-nrepl-setup)
   (eval-after-load "auto-complete"
-    '(add-to-list 'ac-modes 'nrepl-mode))
-  (add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
-  (add-hook 'nrepl-mode-hook 'subword-mode)
-  (add-hook 'nrepl-mode-hook 'paredit-mode)
-  (eval-after-load 'nrepl
-    '(define-key nrepl-interaction-mode-map (kbd "C-c C-d")
+    '(add-to-list 'ac-modes 'cider-mode))
+  (add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode)
+  (add-hook 'cider-mode-hook 'subword-mode)
+  (add-hook 'cider-mode-hook 'paredit-mode)
+  (eval-after-load 'cider
+    '(define-key cider-interaction-mode-map (kbd "C-c C-d")
        'ac-nrepl-popup-doc))
   (add-hook 'clojure-mode-hook 'subword-mode)
   (setq auto-mode-alist
@@ -821,6 +821,7 @@
        (let (el-get-master-branch)
 	 (goto-char (point-max))
 	 (eval-print-last-sexp)))))
+  (setq el-get-github-default-url-type 'https)
 
   (setq el-get-sources
 	'((:name magit
@@ -891,7 +892,7 @@
 		 :after (progn (my-tagedit-init)))
 	  (:name scss-mode
 		 :after (progn (setq scss-compile-at-save nil)))
-	  (:name nrepl)
+	  (:name cider)
 	  (:name ac-nrepl)
 	  (:name elein)))
 
