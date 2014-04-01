@@ -31,6 +31,7 @@
 ;; [todo]8.Reorganize this file into org file using babel to generate it
 ;; [done]9.conform to lisp coding style
 ;; [todo]10. Configure org mode of babel programming and Chinese exporting
+;; [todo]11. Add nodejs support
 
 ;; ########## local lisp ##########
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp")
