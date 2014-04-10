@@ -806,6 +806,11 @@
        (add-hook 'html-mode-hook (lambda () (tagedit-mode 1))))))
 ;; ########## end ##########
 
+;; ########## js2-mode ##########
+(defun my-js2-mode-init ()
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+;; ########## end ##########
+
 ;; ########## theme ##########
 (defun my-theme-init ()
   (load-theme 'zenburn t))
@@ -893,6 +898,8 @@
 		 :after (progn (my-tagedit-init)))
 	  (:name scss-mode
 		 :after (progn (setq scss-compile-at-save nil)))
+	  (:name js2-mode
+		 :after (progn (my-js2-mode-init)))
 	  (:name cider)
 	  (:name ac-nrepl)
 	  (:name elein)))
