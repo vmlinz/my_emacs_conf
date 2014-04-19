@@ -584,37 +584,32 @@
 
 ;; ########## auto-complete ##########
 ;; this package is good to use and easy to config
-(defun my-ac-semantic-setup ()
+(defun my-ac-source-semantic-setup ()
   "semantic source configuration for auto-complete"
   (setq ac-sources
 	(append '(ac-source-semantic ac-source-semantic-raw) ac-sources))
   (define-key ac-mode-map "\M-/" 'ac-complete-semantic-raw))
 
-(defun my-ac-py-setup ()
+(defun my-ac-source-yasnippet-setup ()
   (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
 
-(defun my-ac-ruby-setup ()
-  (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
-
-(defun my-ac-sgml-setup ()
-  (setq ac-sources (append '(ac-source-yasnippet) ac-sources)))
-
-(defun my-ac-gtags-setup ()
+(defun my-ac-source-gtags-setup ()
   (add-to-list 'ac-sources 'ac-source-gtags))
 
-(defun my-ac-config ()
-  (add-hook 'c-mode-common-hook 'my-ac-semantic-setup)
-  (add-hook 'c-mode-common-hook 'my-ac-gtags-setup)
-  (add-hook 'python-mode-hook 'my-ac-py-setup)
-  (add-hook 'ruby-mode-hook 'my-ac-ruby-setup)
-  (add-hook 'html-mode-hook 'my-ac-sgml-setup))
+(defun my-ac-source-config ()
+  (add-hook 'c-mode-common-hook 'my-ac-source-semantic-setup)
+  (add-hook 'c-mode-common-hook 'my-ac-source-gtags-setup)
+  (add-hook 'python-mode-hook 'my-ac-source-yasnippet-setup)
+  (add-hook 'ruby-mode-hook 'my-ac-source-yasnippet-setup)
+  (add-hook 'html-mode-hook 'my-ac-source-yasnippet-setup)
+  (add-hook 'js2-mode-hook 'my-ac-source-yasnippet-setup))
 
 (defun my-auto-complete-init()
   "auto-complete init function"
   (require 'auto-complete-config)
   (ac-config-default)
 
-  (my-ac-config)
+  (my-ac-source-config)
 
   (setq ac-dwim t)
   (setq ac-auto-start nil)
