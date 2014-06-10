@@ -121,7 +121,7 @@
   (eval-after-load 'whitespace
     '(progn
        (setq whitespace-style (remove `indentation whitespace-style))))
-  ;; (add-hook 'before-save-hook 'whitespace-cleanup)
+  (add-hook 'before-save-hook 'whitespace-cleanup)
   ;; check last line to be a newline
   (setq require-final-newline t)
   ;; set insert parenthese without space
@@ -662,6 +662,7 @@
 ;; ########## evil mode ##########
 (defun my-evil-init()
   "evil mode init function for el-get"
+  (evil-mode)
   (autoload 'evil-local-mode "evil" nil t)
   (global-set-key "\C-c\C-v" 'evil-local-mode))
 ;; ########## end ##########
@@ -839,7 +840,6 @@
 		 :features undo-tree
 		 :after (progn (my-undo-tree-init)))
 	  (:name evil
-		 :features nil
 		 :after (progn (my-evil-init))
 		 :build (("make" "all"))
 		 :info nil)
