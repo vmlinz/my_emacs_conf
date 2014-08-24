@@ -905,8 +905,7 @@
 	   pos-tip
 	   vkill
 	   notify
-	   helm
-	   rhtml-mode)
+	   helm)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
