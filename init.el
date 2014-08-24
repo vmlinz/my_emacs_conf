@@ -564,14 +564,14 @@
   "simple yasnippet mode init function"
   ;; set yasnippet default dirs
   (setq yas-snippet-dirs (list
-			  (concat el-get-dir
+			  (concat (file-name-as-directory el-get-dir)
 				  (file-name-as-directory "yasnippet")
 				  "snippets")
-			  (concat el-get-dir
+			  (concat (file-name-as-directory el-get-dir)
 				  (file-name-as-directory "yasnippet")
 				  (file-name-as-directory "extras")
 				  "imported")
-			  (concat el-get-dir
+			  (concat (file-name-as-directory el-get-dir)
 				  "yasnippet-extras")))
   (setq yas-use-menu 'abbreviate)
   (setq yas-prompt-functions
