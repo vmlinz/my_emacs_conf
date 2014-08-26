@@ -514,19 +514,6 @@
 		   (byte-recompile-directory "~/.emacs.d/site-start.d/" 0)))
 ;; ########## end ##########
 
-;; ########## scheme mode ##########
-;; scheme mode setup
-(defun my-scheme-init()
-  (setq quack-global-menu-p nil)
-  (setq quack-default-program "guile")
-  (setq quack-fontify-style 'emacs)
-  (setq quack-run-scheme-always-prompts-p nil)
-
-  (add-hook 'scheme-mode-hook
-	    '(lambda ()
-	       (setq scheme-program-name "guile"))))
-;; ########## end ##########
-
 ;; ########## paredit mode ##########
 (defun my-paredit-init()
   (autoload 'paredit-mode "paredit"
@@ -612,15 +599,15 @@
   (my-ac-source-config)
 
   (setq ac-dwim t)
-  (setq ac-auto-start nil)
+  ;; (setq ac-auto-start nil)
   (ac-set-trigger-key "TAB")
   (setq ac-delay 0.1)
   (setq ac-use-quick-help nil)
   (setq ac-auto-show-menu t)
   (setq ac-menu-height 5)
   (setq ac-show-menu-immediately-on-auto-complete t)
-
   (setq ac-use-menu-map t)
+
   (define-key ac-menu-map "\C-n" 'ac-next)
   (define-key ac-menu-map "\M-n" 'ac-next)
   (define-key ac-menu-map "\C-p" 'ac-previous)
@@ -742,21 +729,36 @@
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 ;; ########## end ##########
 
-;; ########## clojure ##########
-(defun my-clojure-mode-init ()
+;; ########## diminish ##########
+(defun my-diminish-init ()
+  (eval-after-load "abbrev"
+    '(diminish 'abbrev-mode "AB"))
+  (eval-after-load "undo-tree"
+    '(diminish 'undo-tree-mode ""))
+  (eval-after-load "yasnippet"
+    '(diminish 'yas-minor-mode "YS"))
+  (eval-after-load "paredit"
+    '(diminish 'paredit-mode "PE")))
+;; ########## end ##########
+
+;; ########## ac-cider ##########
+(defun my-ac-cider-init ()
   (setq cider-popup-stacktraces nil)
-  (autoload 'ac-nrepl-setup "ac-nrepl"
-    "auto complete setup for cider mode" nil t)
-  (add-hook 'cider-mode-hook 'ac-nrepl-setup)
-  (add-hook 'cider-interaction-mode-hook 'ac-nrepl-setup)
-  (eval-after-load "auto-complete"
-    '(add-to-list 'ac-modes 'cider-mode))
-  (add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode)
+  (add-hook 'cider-mode-hook 'ac-cider-setup)
+  (add-hook 'cider-mode-hook 'ac-flyspell-workaround)
   (add-hook 'cider-mode-hook 'subword-mode)
   (add-hook 'cider-mode-hook 'paredit-mode)
+  (add-hook 'cider-interaction-mode-hook 'ac-cider-setup)
+  (add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode)
+  (eval-after-load "auto-complete"
+    '(add-to-list 'ac-modes 'cider-mode))
   (eval-after-load 'cider
     '(define-key cider-interaction-mode-map (kbd "C-c C-d")
-       'ac-nrepl-popup-doc))
+       'ac-cider-popup-doc)))
+;; ########## end ##########
+
+;; ########## clojure ##########
+(defun my-clojure-mode-init ()
   (add-hook 'clojure-mode-hook 'subword-mode)
   (setq auto-mode-alist
 	(cons '("\\.cljs\\'" . clojure-mode) auto-mode-alist)))
@@ -836,6 +838,10 @@
 		 :after (progn (my-expand-region-init)))
 	  (:name rainbow-delimiters
 		 :after (progn (my-rainbow-delimiters-init)))
+	  (:name diminish
+		 :after (progn (my-diminish-init)))
+	  (:name powerline
+		 :after (progn (powerline-vim-theme)))
 	  (:name undo-tree
 		 :features undo-tree
 		 :after (progn (my-undo-tree-init)))
@@ -851,8 +857,6 @@
 		 :pkgname "leoliu/ggtags")
 	  (:name geiser
 		 :after (progn (my-geiser-init)))
-	  (:name quack
-		 :after (progn (my-scheme-init)))
 	  (:name emmet-mode
 		 :type github
 		 :pkgname "smihica/emmet-mode"
@@ -895,9 +899,11 @@
 		 :after (progn (setq scss-compile-at-save nil)))
 	  (:name js2-mode
 		 :after (progn (my-js2-mode-init)))
-	  (:name cider)
-	  (:name ac-nrepl)
-	  (:name elein)))
+	  (:name ac-cider-compliment
+		 :after (progn (my-ac-cider-init)))
+	  (:name scala-mode2)
+	  (:name sbt-mode)
+	  (:name ensime)))
 
   (setq my-packages
 	(append
