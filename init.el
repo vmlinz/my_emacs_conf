@@ -732,13 +732,15 @@
 ;; ########## diminish ##########
 (defun my-diminish-init ()
   (eval-after-load "abbrev"
-    '(diminish 'abbrev-mode "AB"))
+    '(diminish 'abbrev-mode ""))
+  (eval-after-load "projectile"
+    '(diminish 'projectile-mode ""))
   (eval-after-load "undo-tree"
     '(diminish 'undo-tree-mode ""))
   (eval-after-load "yasnippet"
-    '(diminish 'yas-minor-mode "YS"))
+    '(diminish 'yas-minor-mode ""))
   (eval-after-load "paredit"
-    '(diminish 'paredit-mode "PE")))
+    '(diminish 'paredit-mode "")))
 ;; ########## end ##########
 
 ;; ########## ac-cider ##########
@@ -841,7 +843,7 @@
 	  (:name diminish
 		 :after (progn (my-diminish-init)))
 	  (:name powerline
-		 :after (progn (powerline-vim-theme)))
+		 :after (progn (powerline-center-evil-theme)))
 	  (:name undo-tree
 		 :features undo-tree
 		 :after (progn (my-undo-tree-init)))
@@ -903,7 +905,14 @@
 		 :after (progn (my-ac-cider-init)))
 	  (:name scala-mode2)
 	  (:name sbt-mode)
-	  (:name ensime)))
+	  (:name ensime)
+	  (:name go-mode)
+	  (:name go-autocomplete)
+	  (:name go-flymake)
+	  (:name go-imports)
+	  (:name go-lint)
+	  (:name go-oracle)
+	  (:name go-projectile)))
 
   (setq my-packages
 	(append
@@ -911,6 +920,7 @@
 	   pos-tip
 	   vkill
 	   notify
+	   projectile
 	   helm)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
