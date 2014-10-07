@@ -917,7 +917,8 @@
 	   vkill
 	   notify
 	   projectile
-	   helm)
+	   helm
+	   smartparens)
 	 (mapcar 'el-get-source-name el-get-sources)))
 
   (el-get 'sync my-packages))
