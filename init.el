@@ -584,12 +584,8 @@
   (add-to-list 'ac-sources 'ac-source-gtags))
 
 (defun my-ac-source-config ()
-  (add-hook 'c-mode-common-hook 'my-ac-source-semantic-setup)
   (add-hook 'c-mode-common-hook 'my-ac-source-gtags-setup)
-  (add-hook 'python-mode-hook 'my-ac-source-yasnippet-setup)
-  (add-hook 'ruby-mode-hook 'my-ac-source-yasnippet-setup)
-  (add-hook 'html-mode-hook 'my-ac-source-yasnippet-setup)
-  (add-hook 'js2-mode-hook 'my-ac-source-yasnippet-setup))
+  (add-hook 'prog-mode-hook 'my-ac-source-yasnippet-setup))
 
 (defun my-auto-complete-init()
   "auto-complete init function"
