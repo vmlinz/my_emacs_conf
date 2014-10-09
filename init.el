@@ -180,6 +180,9 @@
   (setq frame-title-format '("" "%b - Emacs " emacs-version))
   ;; ########## end ##########
 
+  ;; ########## prefer newer init file ##########
+  ;; ########## end ##########
+  (setq load-prefer-newer t)
   (setq warning-suppress-types ()))
 (my-misc-custom-init)
 ;; ########## end ##########
@@ -899,6 +902,10 @@
 		 :after (progn (my-js2-mode-init)))
 	  (:name ac-cider-compliment
 		 :after (progn (my-ac-cider-init)))
+	  (:name projectile
+		 :after (progn (projectile-global-mode)))
+	  (:name exec-path-from-shell
+		 :after (progn (exec-path-from-shell-initialize)))
 	  (:name scala-mode2)
 	  (:name sbt-mode)
 	  (:name ensime)
@@ -916,7 +923,6 @@
 	   pos-tip
 	   vkill
 	   notify
-	   projectile
 	   helm
 	   smartparens)
 	 (mapcar 'el-get-source-name el-get-sources)))
