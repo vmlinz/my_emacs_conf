@@ -914,6 +914,7 @@
 	  (:name go-flymake)
 	  (:name go-imports)
 	  (:name go-lint)
+	  (:name go-test)
 	  (:name go-oracle)
 	  (:name go-projectile)))
 
